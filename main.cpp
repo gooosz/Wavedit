@@ -1,21 +1,22 @@
 #include <QApplication>
 #include <QMainWindow>
+#include <QPushButton>
 
+#include "MyWindow.h"
 #include "ui_mainwindow.h"
-
-
 
 
 int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
 
-    QMainWindow w;
-    Ui::MainWindow main;
-    main.setupUi(&w);
-    w.setObjectName("QMainWindow");
-    w.setStyleSheet("background-color: snow");
+    // MyWindow w;
+    MyWindow w;
+    // Ui::MainWindow main;
+    // main.setupUi(&w);
+    // w.setStyleSheet("background-color: snow");
     w.show();
+
 
     return app.exec();
 }

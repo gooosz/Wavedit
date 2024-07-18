@@ -1,12 +1,19 @@
 TEMPLATE = app
 
-QT += widgets
+QT += core gui
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 FORMS += mainwindow.ui
-SOURCES += main.cpp
-
-MOC_DIR = build
-OBJECTS_DIR = build
 UI_DIR = build
+MOC_DIR = build
 
+CONFIG += link_pkgconfig
+PKGCONFIG += python3
+
+HEADERS += PlotWidget.h MyWindow.h
+SOURCES += PlotWidget.cpp MyWindow.cpp main.cpp
+
+OBJECTS_DIR = build
 DESTDIR = build
+
+
