@@ -14,8 +14,8 @@ CONFIG += link_pkgconfig
 PKGCONFIG += python3
 
 VPATH += ./src
-HEADERS += qcustomplot.h PlotWidget.h MyWindow.h
-SOURCES += qcustomplot.cpp PlotWidget.cpp MyWindow.cpp main.cpp
+HEADERS += WavFourier.h qcustomplot.h PlotWidget.h MyWindow.h
+SOURCES += WavFourier.cpp qcustomplot.cpp PlotWidget.cpp MyWindow.cpp main.cpp
 
 OBJECTS_DIR = build
 DESTDIR = build

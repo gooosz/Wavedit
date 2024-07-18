@@ -7,9 +7,12 @@
 #include <QGroupBox>
 #include <QLayout>
 #include <QPushButton>
+#include <QFileDialog>
 #include <QTextEdit>
+#include <QList>
 
 #include "PlotWidget.h"
+#include "WavFourier.h"
 // #include "ui_mainwindow.h"
 
 /*
@@ -26,9 +29,13 @@ private:
 	QGroupBox *plotBox;
 
 	/* Components of Layout */
-	QPushButton *button1;
+	QString wav_filename;
+	QPushButton *openFileDialogButton;
 	QTextEdit *text;
 	PlotWidget *plot;
+
+	// Calculate Fourier stuff of WAV file
+	WavFourier wavfourier;
 
 	// every QGroupBox gets it's own layout in these functions
 	void createFileChooserBox();
@@ -41,6 +48,7 @@ public:
 
 signals:
 public slots:
+	void getFourierTransform(QList<double> fourier);
 };
 
 

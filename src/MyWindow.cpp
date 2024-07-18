@@ -29,8 +29,10 @@ void MyWindow::createFileChooserBox()
 	fileChooserBox = new QGroupBox(QString("Choose a .wav file"));
 	QVBoxLayout *layout = new QVBoxLayout;
 
-	button1 = new QPushButton(QString("Button1"), fileChooserBox);
-	layout->addWidget(button1);
+	openFileDialogButton = new QPushButton(QString("Open file"), fileChooserBox);
+	// connect button signal to slot that handles opening a file dialog on button click release
+	connect(openFileDialogButton, &QPushButton::released, &wavfourier, &WavFourier::handleOpenFileDialogButton);
+	layout->addWidget(openFileDialogButton);
 
 	fileChooserBox->setLayout(layout);
 }
@@ -38,7 +40,7 @@ void MyWindow::createFileChooserBox()
 // creates layout box on the right 2/3 of window to plot Fourier Transforms
 void MyWindow::createPlotBox()
 {
-	plotBox = new QGroupBox(QString("Plot"));
+	plotBox = new QGroupBox("Plot");
 	QGridLayout *layout = new QGridLayout;
 
 	// text = new QTextEdit("This is a QTextEdit");
@@ -50,3 +52,4 @@ void MyWindow::createPlotBox()
 
 	plotBox->setLayout(layout);
 }
+
