@@ -6,7 +6,7 @@
 
 
 /* A widget containing QCustomPlot */
-class PlotWidget : QWidget {
+class PlotWidget : public QWidget {
 
 };
 

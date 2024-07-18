@@ -3,10 +3,14 @@
 
 #include <QApplication>
 #include <QWidget>
-#include <QPushButton>
-#include <QLayout>
-// #include "ui_mainwindow.h"
 
+#include <QGroupBox>
+#include <QLayout>
+#include <QPushButton>
+#include <QTextEdit>
+
+#include "PlotWidget.h"
+// #include "ui_mainwindow.h"
 
 /*
  * Customize QMainWindow to my liking regarding size, content, etc.
@@ -17,11 +21,18 @@ class MyWindow : public QWidget {
 
 private:
 	/* Layouts */
-	QBoxLayout *mainLayout;
+	QGridLayout *mainLayout;
+	QGroupBox *fileChooserBox;
+	QGroupBox *plotBox;
 
-	/* Components of Layouts */
-	QWidget *widgetButton1;
-	QPushButton button1;
+	/* Components of Layout */
+	QPushButton *button1;
+	QTextEdit *text;
+	PlotWidget *plot;
+
+	// every QGroupBox gets it's own layout in these functions
+	void createFileChooserBox();
+	void createPlotBox();
 
 	void setDefaultLayout();
 
