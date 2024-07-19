@@ -7,14 +7,15 @@
 
 
 // populates data QList from WAV file
-void WavFourier::populateData(QString wav_filename)
+/* returns true on success */
+bool WavFourier::populateData(QString wav_filename)
 {
 	bool loadWAVSuccess = wavfile.load(wav_filename.toStdString());
 	if (!loadWAVSuccess) {
 		QMessageBox errorMsg;
 		errorMsg.critical(0, "Error", "Could not open file");
 		errorMsg.setFixedSize(500,200);
-		return;
+		return false;
 	}
 
 	// wavfile contains all needed infos about WAV file, so get the data from file
@@ -38,14 +39,13 @@ void WavFourier::populateData(QString wav_filename)
 		  << "SubChunk2ID: "	<< '-' << '\n'
 		  << "SubChunk2Size: "	<< '-' << '\n';
 	std::cout << "Length in secs: " << wavfile.getLengthInSeconds() << '\n';
+	return true;
 }
 
 // returns data as QList from WAV file
 /*
- * Populate the wav structure
  * if startTime==0 && endTime==0 (default constructed)
  * then set endTime to endTime of file, so analyze the whole WAV file
- *
 */
 QList<double> WavFourier::getData(QString wav_filename, QTime startTime, QTime endTime)
 {
@@ -55,6 +55,9 @@ QList<double> WavFourier::getData(QString wav_filename, QTime startTime, QTime e
 void WavFourier::handleOpenFileDialogButton()
 {
 	wav_filename = QFileDialog::getOpenFileName(nullptr, "Open WAV File", "/home", "(*.wav)");
-	populateData(wav_filename);
-	QList<double> data = getData(wav_filename);
+	bool populateSuccess = populateData(wav_filename);
+	// only signal that the data is all read if it was successfull
+	if (populateSuccess) {
+		emit gotData();
+	}
 }

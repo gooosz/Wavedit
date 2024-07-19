@@ -32,9 +32,9 @@ void MyWindow::createFileChooserBox()
 	openFileDialogButton = new QPushButton(QString("Open file"), fileChooserBox);
 	// connect button signal to slot that handles opening a file dialog on button click release
 	connect(openFileDialogButton, &QPushButton::released, wavfourier, &WavFourier::handleOpenFileDialogButton);
-	// handleOpenFileDialogButton read all samples in wav file and meta data,
-	// so plot the data/fourier transform on button click as well
-	connect(openFileDialogButton, &QPushButton::released, this, &MyWindow::plotFourierTransform);
+	// when handleOpenFileDialogButton read all samples in wav file and meta data (signal gotData emitted)
+	// then plot the data/fourier transform on button click as well
+	connect(wavfourier, &WavFourier::gotData, this, &MyWindow::plotFourierTransform);
 	layout->addWidget(openFileDialogButton);
 
 	fileChooserBox->setLayout(layout);
@@ -46,9 +46,6 @@ void MyWindow::createPlotBox()
 	plotBox = new QGroupBox("Plot");
 	QGridLayout *layout = new QGridLayout;
 
-	// text = new QTextEdit("This is a QTextEdit");
-	// layout->addWidget(text);
-
 	plot = new PlotWidget(plotBox);
 	plot->setMinimumSize(layout->maximumSize());
 	layout->addWidget(plot);
@@ -58,5 +55,7 @@ void MyWindow::createPlotBox()
 
 void MyWindow::plotFourierTransform()
 {
-
+	QVector<double> x(101);
+	std::iota(std::begin(x), std::end(x), 0);
+	plot->makePlot(x, exp);
 }

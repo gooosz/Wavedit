@@ -5,6 +5,8 @@
 #include <QWidget>
 #include <QLayout>
 
+#include <functional>
+
 #include "qcustomplot.h"
 
 /* A widget containing QCustomPlot */
@@ -14,7 +16,7 @@ private:
 	QCustomPlot *plot;
 public:
 	PlotWidget(QWidget *parent = 0);
-	void makePlot();
+	void makePlot(QVector<double> x, std::function<double(double)> f);
 
 };
 

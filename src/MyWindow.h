@@ -46,7 +46,6 @@ private:
 public:
 	explicit MyWindow(QWidget *parent = 0);
 
-signals:
 public slots:
 	void plotFourierTransform();	// gets the data from WavFourier::getData(...)
 };

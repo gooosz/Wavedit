@@ -51,7 +51,7 @@ private:
 	QList<quint16> data;	// QList of samples (1 sample has size byteRate, so 2 Bytes)
 
 	// returns data as QList from WAV file
-	void populateData(QString wav_filename);
+	bool populateData(QString wav_filename);
 
 public:
 	WavFourier() = default;
@@ -62,6 +62,7 @@ public:
 
 
 signals:
+	void gotData();	// data read from wav file
 public slots:
 	void handleOpenFileDialogButton();
 };

@@ -8,15 +8,18 @@ PlotWidget::PlotWidget(QWidget *parent)
 	layout->setSizeConstraint(QLayout::SetMaximumSize);
 	plot->setMinimumSize(size());
 
-	makePlot();
+	QVector<double> x(101);
+	std::iota(std::begin(x), std::end(x), 0);
+	// makePlot(x, [&](double x1){ return x1*x1; });
+	makePlot(x, sin);
 }
 
-void PlotWidget::makePlot()
+/* Plot f(x) */
+void PlotWidget::makePlot(QVector<double> x, std::function<double(double)> f)
 {
-	QVector<double> x(101), y(101);
+	QVector<double> y(x.size());
 	for (int i=0; i<x.size(); i++) {
-		x[i] = i/(double)x.size()*10;
-		y[i] = qSin(x[i]);
+		y[i] = f(x[i]);
 	}
 	plot->addGraph();
 	plot->graph(0)->setData(x,y);
