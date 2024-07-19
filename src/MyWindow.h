@@ -35,7 +35,7 @@ private:
 	PlotWidget *plot;
 
 	// Calculate Fourier stuff of WAV file
-	WavFourier wavfourier;
+	WavFourier *wavfourier;
 
 	// every QGroupBox gets it's own layout in these functions
 	void createFileChooserBox();
@@ -48,7 +48,7 @@ public:
 
 signals:
 public slots:
-	void getFourierTransform(QList<double> fourier);
+	void plotFourierTransform();	// gets the data from WavFourier::getData(...)
 };
 
 

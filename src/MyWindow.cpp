@@ -1,7 +1,7 @@
 #include "MyWindow.h"
 
 MyWindow::MyWindow(QWidget *parent)
-	: QWidget(parent)
+	: QWidget(parent), wavfourier(new WavFourier)
 {
 	setParent(parent);
 	setWindowTitle(QString("Wavedit"));
@@ -20,7 +20,7 @@ void MyWindow::setDefaultLayout()
 	mainLayout->addWidget(plotBox, 0, 2, 1, 2); // plotBox on the right side, taking up 2/3 of mainLayout
 	setLayout(mainLayout);
 
-	resize(1000,600);
+	resize(1100,600);
 }
 
 // creates layout box on the left 1/3 of window to choose a file
@@ -31,7 +31,10 @@ void MyWindow::createFileChooserBox()
 
 	openFileDialogButton = new QPushButton(QString("Open file"), fileChooserBox);
 	// connect button signal to slot that handles opening a file dialog on button click release
-	connect(openFileDialogButton, &QPushButton::released, &wavfourier, &WavFourier::handleOpenFileDialogButton);
+	connect(openFileDialogButton, &QPushButton::released, wavfourier, &WavFourier::handleOpenFileDialogButton);
+	// handleOpenFileDialogButton read all samples in wav file and meta data,
+	// so plot the data/fourier transform on button click as well
+	connect(openFileDialogButton, &QPushButton::released, this, &MyWindow::plotFourierTransform);
 	layout->addWidget(openFileDialogButton);
 
 	fileChooserBox->setLayout(layout);
@@ -53,3 +56,7 @@ void MyWindow::createPlotBox()
 	plotBox->setLayout(layout);
 }
 
+void MyWindow::plotFourierTransform()
+{
+
+}

@@ -15,7 +15,7 @@ void PlotWidget::makePlot()
 {
 	QVector<double> x(101), y(101);
 	for (int i=0; i<x.size(); i++) {
-		x[i] = i/(double)x.size()*8;
+		x[i] = i/(double)x.size()*10;
 		y[i] = qSin(x[i]);
 	}
 	plot->addGraph();
