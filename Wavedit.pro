@@ -3,8 +3,8 @@ TEMPLATE = app
 QT += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
-greaterThan(QT_MAJOR_VERSION, 4): CONFIG += c++11
-greaterThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++11
+greaterThan(QT_MAJOR_VERSION, 4): CONFIG += c++17
+greaterThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++17
 
 # FORMS += mainwindow.ui
 # UI_DIR = build
