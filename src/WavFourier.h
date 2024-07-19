@@ -6,48 +6,35 @@
 #include <QFileDialog>
 #include <QString>
 #include <QTime>
+#include <QMessageBox>
+
+#include "AudioFile.h"
 
 /* Class takes in a WAV File, analyzes it's Bytes
  * and then returns values of the Fourier Transform of the file (or between 2 Timestampts)
  *
- * Structure of WAV file (taken from http://soundfile.sapp.org/doc/WaveFormat/):
+ * Structure of WAV file (taken from http://soundfile.sapp.org/doc/WaveFormat/)
+ * everything is little-endian unless otherwise specified:
  * Offset	Size	Name
- *   0		 4	ChunkID
- *   4		 4	ChunkSize
- *   8		 4	Format
- *
- *  12		 4	Subchunk1ID
- *  16		 4	Subchunk1Size
- *  20		 2	AudioFormat
- *  22		 2	NumChannels
- *  24		 4	SampleRate
- *  28		 4	ByteRate
- *  32		 2	BlockAlign
- *  34		 2	BitsPerSample
+ *  --------- RIFF Chunk -----------
+ *   0		 4	ChunkID		// "RIFF" in big-endian
+ *   4		 4	ChunkSize	// 36 + SubChunk2Size
+ *   8		 4	Format		// "WAVE" in big-endian
+ *  --------- FMT Chunk -----------
+ *  12		 4	Subchunk1ID	// "fmt " in big-endian
+ *  16		 4	Subchunk1Size	// 16 for PCM, size of rest of fmt chunk following this number
+ *  20		 2	AudioFormat	// PCM = 1, else some form of compression
+ *  22		 2	NumChannels	// Mono = 1, Stereo = 2
+ *  24		 4	SampleRate	// 8000, 44100, etc.
+ *  28		 4	ByteRate	// = sampleRate * numChannels * BitsPerSample/8
+ *  32		 2	BlockAlign	// = NumChannels * BitsPerSample/8
+ *  34		 2	BitsPerSample	// 8, 16
  *	evtl. extra parameters
- *  36		 4	SubChunk2ID
- *  40		 4	SubChunk2Size
+ *  --------- Data Chunk -----------
+ *  36		 4	SubChunk2ID	// "data" in big-endian
+ *  40		 4	SubChunk2Size	// number of bytes in actual data
  *  44		 *	actual data
 */
-
-struct WAV_Header {
-	/* -- RIFF Chunk -- */
-	qint32 chunkID;
-	qint32 chunkSize;
-	qint32 format;
-	/* -- FMT Subchunk -- */
-	qint32 subchunk1ID;
-	qint32 subchunk1Size;
-	qint16 audioFormat;	// PCM = 1, else some form of compression
-	qint16 numChannels;	// Mono = 1, Stereo = 2
-	qint32 sampleRate;
-	qint32 byteRate;	// = sampleRate * numChannels * BitsPerSample/8
-	qint16 blockAlign;
-	/* -- Data Subchunk -- */
-	qint32 subchunk2ID;
-	qint32 subchunk2Size;
-	qint16 *data;		// array of samples (1 sample has size byteRate, so 2 Bytes)
-};
 
 
 class WavFourier : public QObject {
@@ -55,16 +42,22 @@ class WavFourier : public QObject {
 
 private:
 	QString wav_filename;
-	struct WAV wav;
+	AudioFile<qint16> wavfile;
 
 	/* Timerange startTime-endTime to analyze in WAV file */
 	QTime startTime;
 	QTime endTime;
 
+	QList<quint16> data;	// QList of samples (1 sample has size byteRate, so 2 Bytes)
+
+	// returns data as QList from WAV file
+	void populateData(QString wav_filename);
 
 public:
-	WavFourier(QString wav_filename, QTime startTime=QTime(), QTime endTime=QTime());
+	WavFourier() = default;
+	// WavFourier(QString wav_filename, QTime startTime=QTime(), QTime endTime=QTime());
 
+	QList<double> getData(QString wav_filename, QTime startTime=QTime(), QTime endTime=QTime());
 	QList<double> getFourierTransform();	// calculates fourier transform of given WAV file
 
 
