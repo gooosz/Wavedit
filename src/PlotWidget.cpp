@@ -10,7 +10,6 @@ PlotWidget::PlotWidget(QWidget *parent)
 
 	QVector<double> x(101);
 	std::iota(std::begin(x), std::end(x), 0);
-	// makePlot(x, [&](double x1){ return x1*x1; });
 	makePlot(x, sin);
 }
 
@@ -24,6 +23,7 @@ void PlotWidget::makePlot(QVector<double> x, std::function<double(double)> f)
 	plot->addGraph();
 	plot->graph(0)->setData(x,y);
 
+	plot->graph(0)->setPen(QPen(Qt::green));
 	plot->setBackground(QBrush(Qt::NoBrush));
 	plot->xAxis->setLabel("x");
 	// plot->xAxis->setRange(-1, 1);
