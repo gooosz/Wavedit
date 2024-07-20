@@ -55,7 +55,21 @@ void MyWindow::createPlotBox()
 
 void MyWindow::plotFourierTransform()
 {
-	QVector<double> x(501);
+	QVector<double> x(wavfourier->getDataSize());
 	std::iota(std::begin(x), std::end(x), 0);
-	plot->makePlot(x, [&](double x1){ return exp(-x1/1001*3); }, 1, false);
+
+	// create QVector<double> out of QList<quint16> to plot
+	QList<quint16> &y_samples = wavfourier->getData();
+	QVector<double> y;
+	for (int i=0; i<y_samples.size(); i++) {
+		double dlistel = static_cast<double>(y_samples[i]);
+		y.push_back(dlistel);
+	}
+	std::reverse(y.begin(), y.end());
+	std::cout << y_samples.size() << " samples in QList\n";
+	std::cout << y.size() << " samples in QVector\n";
+	plot->makePlot(x, y, 0, true, Qt::white);
+	/*QVector<double> x2(10e6);
+	std::iota(std::begin(x2), std::end(x2), 0);
+	plot->makePlot(x2, [&](double x1){ return 0.5; }, 1, false, Qt::red);*/
 }

@@ -33,13 +33,14 @@ bool WavFourier::populateData(QString wav_filename)
 		  << "AudioFormat: "	<< '-' << '\n'
 		  << "NumChannels: "	<< wavfile.getNumChannels() << '\n'
 		  << "SampleRate: "	<< wavfile.getSampleRate() << '\n'
-		  << "ByteRate: "	<< wavfile.getBitDepth() << '\n'
+		  << "ByteRate: "	<< wavfile.getBitDepth()/8 << '\n'
 		  << "BlockAlign: "	<< '-' << '\n'
 		  << "BitsPerSample: "	<< '-' << '\n'
 		  << "SubChunk2ID: "	<< '-' << '\n'
 		  << "SubChunk2Size: "	<< '-' << '\n';
 	std::cout << "Length in secs: " << wavfile.getLengthInSeconds() << '\n';
 	std::cout << "Date size in bytes: " << getDataSize() << '\n';
+	std::cout << "getNumSamplesPerChannel(): " << wavfile.getNumSamplesPerChannel() << '\n';
 
 	return true;
 }
@@ -55,7 +56,7 @@ qint64 WavFourier::getDataSize()
  * if startTime==0 && endTime==0 (default constructed)
  * then set endTime to endTime of file, so analyze the whole WAV file
 */
-QList<quint16> WavFourier::getData(QString wav_filename, QTime startTime, QTime endTime)
+QList<quint16>& WavFourier::getData(QTime startTime, QTime endTime)
 {
 	return data;
 }
@@ -69,3 +70,10 @@ void WavFourier::handleOpenFileDialogButton()
 		emit gotData();
 	}
 }
+
+// Fast-Fourier-Transform on data
+QList<double> WavFourier::FFT()
+{
+
+}
+

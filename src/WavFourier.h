@@ -50,6 +50,9 @@ private:
 
 	QList<quint16> data;	// QList of samples (1 sample has size byteRate, so 2 Bytes)
 
+	QList<double> FFT();	// Fast-Fourier-Transform on data
+	QList<double> IFFT();	// Inverse Fast-Fourier-Transform on data
+
 	// returns data as QList from WAV file
 	bool populateData(QString wav_filename);
 
@@ -58,8 +61,8 @@ public:
 	// WavFourier(QString wav_filename, QTime startTime=QTime(), QTime endTime=QTime());
 
 	qint64 getDataSize();	// size of data in bytes
-	QList<quint16> getData(QString wav_filename, QTime startTime=QTime(), QTime endTime=QTime());
-	QList<double> getFourierTransform();	// calculates fourier transform of given WAV file
+	QList<quint16>& getData(QTime startTime=QTime(), QTime endTime=QTime());
+	QList<double>& getFourierTransform();	// calculates fourier transform of given WAV file
 
 
 signals:

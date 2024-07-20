@@ -16,9 +16,9 @@ private:
 	QCustomPlot *plot;
 public:
 	PlotWidget(QWidget *parent = 0);
-	void makePlot(QVector<double> x, std::function<double(double)> f, int graphNr=0, bool rescale=true, QColor color=Qt::green);
-	void makePlot(QVector<double> x, QVector<double> y, int graphNr=0, bool rescale=true, QColor color=Qt::green);
 
+	void makePlot(const QVector<double> &x, std::function<double(double)> f, int graphNr=0, bool rescale=true, QColor color=Qt::green);
+	void makePlot(const QVector<double> &x, const QVector<double> &y, int graphNr=0, bool rescale=true, QColor color=Qt::green);
 };
 
 #endif // PLOTWIDGET_H
