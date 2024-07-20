@@ -57,7 +57,8 @@ public:
 	WavFourier() = default;
 	// WavFourier(QString wav_filename, QTime startTime=QTime(), QTime endTime=QTime());
 
-	QList<double> getData(QString wav_filename, QTime startTime=QTime(), QTime endTime=QTime());
+	qint64 getDataSize();	// size of data in bytes
+	QList<quint16> getData(QString wav_filename, QTime startTime=QTime(), QTime endTime=QTime());
 	QList<double> getFourierTransform();	// calculates fourier transform of given WAV file
 
 

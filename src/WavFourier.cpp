@@ -33,13 +33,21 @@ bool WavFourier::populateData(QString wav_filename)
 		  << "AudioFormat: "	<< '-' << '\n'
 		  << "NumChannels: "	<< wavfile.getNumChannels() << '\n'
 		  << "SampleRate: "	<< wavfile.getSampleRate() << '\n'
-		  << "ByteRate: "	<< '-' << '\n'
+		  << "ByteRate: "	<< wavfile.getBitDepth() << '\n'
 		  << "BlockAlign: "	<< '-' << '\n'
 		  << "BitsPerSample: "	<< '-' << '\n'
 		  << "SubChunk2ID: "	<< '-' << '\n'
 		  << "SubChunk2Size: "	<< '-' << '\n';
 	std::cout << "Length in secs: " << wavfile.getLengthInSeconds() << '\n';
+	std::cout << "Date size in bytes: " << getDataSize() << '\n';
+
 	return true;
+}
+
+/* returns size of data in bytes */
+qint64 WavFourier::getDataSize()
+{
+	return wavfile.getBitDepth()/8 * wavfile.getNumSamplesPerChannel() * wavfile.getNumChannels();
 }
 
 // returns data as QList from WAV file
@@ -47,9 +55,9 @@ bool WavFourier::populateData(QString wav_filename)
  * if startTime==0 && endTime==0 (default constructed)
  * then set endTime to endTime of file, so analyze the whole WAV file
 */
-QList<double> WavFourier::getData(QString wav_filename, QTime startTime, QTime endTime)
+QList<quint16> WavFourier::getData(QString wav_filename, QTime startTime, QTime endTime)
 {
-	return QList<double>();
+	return data;
 }
 
 void WavFourier::handleOpenFileDialogButton()
