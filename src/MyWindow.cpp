@@ -55,7 +55,7 @@ void MyWindow::createPlotBox()
 
 void MyWindow::plotFourierTransform()
 {
-	QVector<double> x(101);
+	QVector<double> x(501);
 	std::iota(std::begin(x), std::end(x), 0);
-	plot->makePlot(x, exp);
+	plot->makePlot(x, [&](double x1){ return exp(-x1/x.size()*3); }, 1, true);
 }

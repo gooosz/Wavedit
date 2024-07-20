@@ -16,7 +16,8 @@ private:
 	QCustomPlot *plot;
 public:
 	PlotWidget(QWidget *parent = 0);
-	void makePlot(QVector<double> x, std::function<double(double)> f);
+	void makePlot(QVector<double> x, std::function<double(double)> f, int graphNr=0, bool rescale=true);
+	void makePlot(QVector<double> x, QVector<double> y, int graphNr=0, bool rescale=true);
 
 };
 
