@@ -1,5 +1,22 @@
 #include "PlotWidget.h"
 
+/* used to specify step size and min value used for std::iota()
+ * see https://stackoverflow.com/questions/39162938/easiest-way-to-fill-stdvectordouble-with-equidistant-values
+*/
+struct double_iota {
+	// TODO: change inc to how many points should be in interval
+	double_iota(double inc, double init_value=0.0) : _value(init_value), _inc(inc) {}
+	operator double() const { return _value; }
+	double_iota& operator++() { _value += _inc; return *this; }
+	double _value;
+	double _inc;
+};
+
+// get minimum, maximum element in vector
+#define MIN_ELEMENT_VEC(vec) (*std::min_element(vec.begin(), vec.end()))
+#define MAX_ELEMENT_VEC(vec) (*std::max_element(vec.begin(), vec.end()))
+
+
 PlotWidget::PlotWidget(QWidget *parent)
 	: layout(new QHBoxLayout), plot(new QCustomPlot(this))
 {
@@ -8,11 +25,11 @@ PlotWidget::PlotWidget(QWidget *parent)
 	layout->setSizeConstraint(QLayout::SetMaximumSize);
 	plot->setMinimumSize(size());
 
-	QVector<double> x(10e6);
-	std::iota(std::begin(x), std::end(x), 0);
+	QVector<double> x(100);
+	std::iota(std::begin(x), std::end(x), double_iota(.01));
 	// makePlot(x, [&](double x1){ return exp(-x1/x.size()*3)*cos(x1/x.size()*20); });
-	// Frequencies: 50
-	makePlot(x, [&](double x1){ return sin(50*2*M_PI*x1); });
+	// Frequencies: 10 Hz
+	makePlot(x, [&](double x1){ return sin(10*2*M_PI*x1); }, 0, true);
 }
 
 /*
@@ -45,8 +62,14 @@ void PlotWidget::makePlot(const QVector<double> &x, const QVector<double> &y, in
 	plot->setBackground(QBrush(Qt::NoBrush));
 	plot->xAxis->setLabel("x");
 	plot->yAxis->setLabel("y");
-	if (rescale) plot->graph(graphNr)->rescaleAxes();
-	/*plot->xAxis->setRange(2000,4000);
-	plot->yAxis->setRange(0,66000);*/
+	if (rescale) {
+		//plot->graph(graphNr)->rescaleAxes();
+		double minx = MIN_ELEMENT_VEC(x);
+		double maxx = MAX_ELEMENT_VEC(x);
+		double miny = MIN_ELEMENT_VEC(y);
+		double maxy = MAX_ELEMENT_VEC(y);
+		plot->xAxis->setRange(minx-0.1*abs(minx), maxx+0.1*abs(maxx)); // 0.1 times bigger on each side of [minx, maxx]
+		plot->yAxis->setRange(miny-0.1*abs(miny), maxy+0.1*abs(maxy)); // 0.1 times bigger on each side of [miny, maxy]
+	}
 	plot->replot();
 }

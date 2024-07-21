@@ -56,6 +56,10 @@ void MyWindow::createPlotBox()
 void MyWindow::plotFourierTransform()
 {
 	QVector<double> x(wavfourier->getDataSize());
+	// the x values in x = [0, getDataSize) are ok
+	// because the y values are of importance are they oscillate, so
+	// just use 1 as distance between every sample point
+	// but in real life the distance between sample points is 1/sampleRate
 	std::iota(std::begin(x), std::end(x), 0);
 
 	// create QVector<double> out of QList<quint16> to plot

@@ -6,6 +6,7 @@
 #include <QLayout>
 
 #include <functional>
+#include <algorithm>
 // #include <cmath>
 
 #include "qcustomplot.h"
