@@ -10,7 +10,9 @@ PlotWidget::PlotWidget(QWidget *parent)
 
 	QVector<double> x(10e6);
 	std::iota(std::begin(x), std::end(x), 0);
-	makePlot(x, [&](double x1){ return exp(-x1/x.size()*3)*cos(x1/x.size()*20); });
+	// makePlot(x, [&](double x1){ return exp(-x1/x.size()*3)*cos(x1/x.size()*20); });
+	// Frequencies: 50
+	makePlot(x, [&](double x1){ return sin(50*2*M_PI*x1); });
 }
 
 /*
@@ -18,26 +20,28 @@ PlotWidget::PlotWidget(QWidget *parent)
  * graphNr is which graph to draw (if it already exists as graph => overwrite)
  * rescale sets if the graph's axes are to be rescaled to dimensions of the now drawn graph
 */
-void PlotWidget::makePlot(const QVector<double> &x, std::function<double(double)> f, int graphNr, bool rescale, QColor color)
+void PlotWidget::makePlot(const QVector<double> &x, std::function<double(double)> f, int graphNr, bool rescale, PlotType plotType, QColor color)
 {
 	QVector<double> y(x.size());
 	for (int i=0; i<x.size(); i++) {
 		y[i] = f(x[i]);
 	}
-	makePlot(x, y, graphNr, rescale, color);
+	makePlot(x, y, graphNr, rescale, plotType, color);
 }
 
 /*
  * Plot (x,y)
 */
-void PlotWidget::makePlot(const QVector<double> &x, const QVector<double> &y, int graphNr, bool rescale, QColor color)
+void PlotWidget::makePlot(const QVector<double> &x, const QVector<double> &y, int graphNr, bool rescale, PlotType plotType, QColor color)
 {
 	plot->addGraph();
 	plot->graph(graphNr)->setData(x, y);
 
 	plot->graph(graphNr)->setPen(QPen(color));
-	plot->graph(graphNr)->setLineStyle(QCPGraph::lsNone);
-	plot->graph(graphNr)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, color, color, 1));
+	if (plotType == SCATTER) {
+		plot->graph(graphNr)->setLineStyle(QCPGraph::lsNone);
+		plot->graph(graphNr)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, color, color, 1));
+	}
 	plot->setBackground(QBrush(Qt::NoBrush));
 	plot->xAxis->setLabel("x");
 	plot->yAxis->setLabel("y");

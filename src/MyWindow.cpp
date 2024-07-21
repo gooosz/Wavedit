@@ -68,7 +68,7 @@ void MyWindow::plotFourierTransform()
 	std::reverse(y.begin(), y.end());
 	std::cout << y_samples.size() << " samples in QList\n";
 	std::cout << y.size() << " samples in QVector\n";
-	plot->makePlot(x, y, 0, true, Qt::white);
+	plot->makePlot(x, y, 0, true, SCATTER, Qt::white);
 	/*QVector<double> x2(10e6);
 	std::iota(std::begin(x2), std::end(x2), 0);
 	plot->makePlot(x2, [&](double x1){ return 0.5; }, 1, false, Qt::red);*/

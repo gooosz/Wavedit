@@ -71,8 +71,8 @@ void WavFourier::handleOpenFileDialogButton()
 	}
 }
 
-// Fast-Fourier-Transform on data
-QList<double> WavFourier::FFT()
+// Discrete-Fourier-Transform on data
+QList<double> WavFourier::DFT()
 {
 
 }

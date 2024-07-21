@@ -8,6 +8,8 @@
 #include <QTime>
 #include <QMessageBox>
 
+#include <complex>
+
 #include "AudioFile.h"
 
 /* Class takes in a WAV File, analyzes it's Bytes
@@ -50,8 +52,8 @@ private:
 
 	QList<quint16> data;	// QList of samples (1 sample has size byteRate, so 2 Bytes)
 
-	QList<double> FFT();	// Fast-Fourier-Transform on data
-	QList<double> IFFT();	// Inverse Fast-Fourier-Transform on data
+	QList<double> DFT();	// Discrete-Fourier-Transform on data
+	QList<double> IDFT();	// Inverse Discrete-Fourier-Transform on data
 
 	// returns data as QList from WAV file
 	bool populateData(QString wav_filename);
