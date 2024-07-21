@@ -26,7 +26,7 @@ PlotWidget::PlotWidget(QWidget *parent)
 	plot->setMinimumSize(size());
 
 	QVector<double> x(100);
-	std::iota(std::begin(x), std::end(x), double_iota(.01));
+	std::iota(std::begin(x), std::end(x), double_iota(0.1/x.size()));
 	// makePlot(x, [&](double x1){ return exp(-x1/x.size()*3)*cos(x1/x.size()*20); });
 	// Frequencies: 10 Hz
 	makePlot(x, [&](double x1){ return sin(10*2*M_PI*x1); }, 0, true);
@@ -63,13 +63,7 @@ void PlotWidget::makePlot(const QVector<double> &x, const QVector<double> &y, in
 	plot->xAxis->setLabel("x");
 	plot->yAxis->setLabel("y");
 	if (rescale) {
-		//plot->graph(graphNr)->rescaleAxes();
-		double minx = MIN_ELEMENT_VEC(x);
-		double maxx = MAX_ELEMENT_VEC(x);
-		double miny = MIN_ELEMENT_VEC(y);
-		double maxy = MAX_ELEMENT_VEC(y);
-		plot->xAxis->setRange(minx-0.1*abs(minx), maxx+0.1*abs(maxx)); // 0.1 times bigger on each side of [minx, maxx]
-		plot->yAxis->setRange(miny-0.1*abs(miny), maxy+0.1*abs(maxy)); // 0.1 times bigger on each side of [miny, maxy]
+		plot->graph(graphNr)->rescaleAxes();
 	}
 	plot->replot();
 }
