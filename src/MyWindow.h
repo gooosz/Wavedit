@@ -11,6 +11,9 @@
 #include <QTextEdit>
 #include <QList>
 
+#include <iomanip>
+#include <cmath>
+
 #include "PlotWidget.h"
 #include "WavFourier.h"
 // #include "ui_mainwindow.h"

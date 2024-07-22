@@ -53,27 +53,44 @@ void MyWindow::createPlotBox()
 	plotBox->setLayout(layout);
 }
 
+// size of a vector that stores _n numbers with equal distance _step to the next one
+#define VECSIZE(_n, _step) (_n * _step)
+/*
+ * creates a QVector of type _type with name _name
+ * and fills it with _n numbers with equal distance _step to the next one
+*/
+#define CREATE_AND_FILL_QVEC(_name, _type, _n, _step) \
+				QVector<_type> _name(_n / _step); \
+				std::iota(std::begin(_name), std::end(_name), double_iota(_step))
+
+
 void MyWindow::plotFourierTransform()
 {
-	QVector<double> x(wavfourier->getDataSize());
+	//QVector<double> x(wavfourier->getDataSize());
 	// the x values in x = [0, getDataSize) are ok
 	// because the y values are of importance are they oscillate, so
 	// just use 1 as distance between every sample point
 	// but in real life the distance between sample points is 1/sampleRate
-	std::iota(std::begin(x), std::end(x), 0);
+	//std::iota(std::begin(x), std::end(x), 0);
 
-	// create QVector<double> out of QList<quint16> to plot
-	QList<quint16> &y_samples = wavfourier->getData();
-	QVector<double> y;
-	for (int i=0; i<y_samples.size(); i++) {
-		double dlistel = static_cast<double>(y_samples[i]);
-		y.push_back(dlistel);
+	//QVector<double> &y = wavfourier->getData();
+
+	//std::iota(std::begin(x), std::end(x), double_iota(.1));
+	CREATE_AND_FILL_QVEC(x, double, 10, 0.001);
+	QVector<double> y(x.size());
+	for (int i=0; i<y.size(); i++) {
+		y[i] = std::sin(1.0*2.0*M_PI*x[i]);
 	}
-	std::reverse(y.begin(), y.end());
-	std::cout << y_samples.size() << " samples in QList\n";
+	QVector<double> freq = wavfourier->Freq(y, 0.001);
+	std::cout << "freq.size(): " << freq.size() << '\n';
+	QVector<double> dft = wavfourier->DFT(y);
+	std::cout << "dft.size(): " << dft.size() << '\n';
+
+
+	// Frequencies: 10 Hz
+	//std::for_each(y.begin(), y.end(), [](double &x1){ return sin(10*2*M_PI*x1); });
+
 	std::cout << y.size() << " samples in QVector\n";
-	plot->makePlot(x, y, 0, true, SCATTER, Qt::white);
-	/*QVector<double> x2(10e6);
-	std::iota(std::begin(x2), std::end(x2), 0);
-	plot->makePlot(x2, [&](double x1){ return 0.5; }, 1, false, Qt::red);*/
+	//plot->makePlot(x, y, 0, true, SCATTER, Qt::white);
+	plot->makePlot(freq, dft, 0, true, PLOT, Qt::magenta);
 }

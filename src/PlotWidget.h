@@ -11,6 +11,18 @@
 
 #include "qcustomplot.h"
 
+/* used to specify step size and min value used for std::iota()
+ * see https://stackoverflow.com/questions/39162938/easiest-way-to-fill-stdvectordouble-with-equidistant-values
+*/
+struct double_iota {
+	// TODO: change inc to how many points should be in interval
+	double_iota(double inc, double init_value=0.0) : _value(init_value), _inc(inc) {}
+	operator double() const { return _value; }
+	double_iota& operator++() { _value += _inc; return *this; }
+	double _value;
+	double _inc;
+};
+
 enum PlotType {
 	PLOT,
 	SCATTER
