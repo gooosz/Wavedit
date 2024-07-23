@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QList>
-#include <QFileDialog>
 #include <QString>
 #include <QTime>
 
