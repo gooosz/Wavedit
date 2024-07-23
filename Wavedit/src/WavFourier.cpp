@@ -98,12 +98,10 @@ QVector<double> WavFourier::getStuetzstellen(const QVector<double>& vec)
 QVector<double> WavFourier::Freq(const QVector<double>& vec, double sample_spacing)
 {
 	QVector<double> freq;
-	// see https://numpy.org/doc/stable/reference/generated/numpy.fft.fftfreq.html
+	// see https://numpy.org/doc/stable/reference/generated/numpy.fft.fftfreq.html+
+	// only adds to vec.size()/2 because of nyquist-frequency (rest is symmetric)
 	for (int i=0; i<=vec.size()/2 - 1; i++) {
 		freq.push_back(i / (sample_spacing * vec.size()));
-	}
-	for (int i=vec.size()/2; i>=1; i--) {
-		freq.push_back(-i / (sample_spacing * vec.size()));
 	}
 	return freq;
 }
@@ -132,6 +130,7 @@ QVector<double> WavFourier::DFT(const QVector<double>& vec)
 	for (auto beta_j : beta) {
 		abs_beta.push_back(std::fabs(beta_j));
 	}
+	abs_beta.resize(abs_beta.size() / 2);	// maximum frequency <= 2 * sample rate, so only keep half the size (rest is symmetric)
 	return abs_beta;
 }
 

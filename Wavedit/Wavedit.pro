@@ -11,7 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 5): QMAKE_CXXFLAGS += -std=c++17
 MOC_DIR = build
 
 CONFIG += link_pkgconfig
-PKGCONFIG += python3
+#PKGCONFIG += python3
 
 VPATH += ./src
 HEADERS += WavFourier.h qcustomplot.h PlotWidget.h MyWindow.h
