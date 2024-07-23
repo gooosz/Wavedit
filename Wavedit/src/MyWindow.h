@@ -10,6 +10,7 @@
 #include <QFileDialog>
 #include <QTextEdit>
 #include <QList>
+#include <QString>
 
 #include <iomanip>
 #include <cmath>
@@ -44,12 +45,15 @@ private:
 	void createFileChooserBox();
 	void createPlotBox();
 
+	void showErrorDialogOpenFile();
+
 	void setDefaultLayout();
 
 public:
 	explicit MyWindow(QWidget *parent = 0);
 
 public slots:
+	void handleFileDialog();
 	void plotFourierTransform();	// gets the data from WavFourier::getData(...)
 };
 

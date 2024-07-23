@@ -11,10 +11,9 @@
 bool WavFourier::populateData(QString wav_filename)
 {
 	bool loadWAVSuccess = wavfile.load(wav_filename.toStdString());
+	// only signal that the data is all read if it was successfull
 	if (!loadWAVSuccess) {
-		QMessageBox errorMsg;
-		errorMsg.critical(0, "Error", "Could not open file");
-		errorMsg.setFixedSize(500,200);
+		emit failedToGetData();	// show error dialog in MyWindow
 		return false;
 	}
 
@@ -49,6 +48,7 @@ bool WavFourier::populateData(QString wav_filename)
 	std::cout << "Date size in bytes: " << getDataSize() << '\n';
 	std::cout << "getNumSamplesPerChannel(): " << wavfile.getNumSamplesPerChannel() << '\n';
 
+	emit gotData();	// success
 	return true;
 }
 
@@ -72,17 +72,6 @@ QVector<double>& WavFourier::getData(QTime startTime, QTime endTime)
 {
 	return data;
 }
-
-void WavFourier::handleOpenFileDialogButton()
-{
-	wav_filename = QFileDialog::getOpenFileName(nullptr, "Open WAV File", "/home", "(*.wav)");
-	bool populateSuccess = populateData(wav_filename);
-	// only signal that the data is all read if it was successfull
-	if (populateSuccess) {
-		emit gotData();
-	}
-}
-
 
 // returns stuetzstelle x_k of data point x using (2*M_PI*k)/n
 QVector<double> WavFourier::getStuetzstellen(const QVector<double>& vec)

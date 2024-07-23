@@ -31,12 +31,15 @@ void MyWindow::createFileChooserBox()
 
 	openFileDialogButton = new QPushButton(QString("Open file"), fileChooserBox);
 	// connect button signal to slot that handles opening a file dialog on button click release
-	connect(openFileDialogButton, &QPushButton::released, wavfourier, &WavFourier::handleOpenFileDialogButton);
+	connect(openFileDialogButton, &QPushButton::released, this, &MyWindow::handleFileDialog);
 	// when handleOpenFileDialogButton read all samples in wav file and meta data (signal gotData emitted)
 	// then plot the data/fourier transform on button click as well
 	connect(wavfourier, &WavFourier::gotData, this, &MyWindow::plotFourierTransform);
-	layout->addWidget(openFileDialogButton);
+	// show a error dialog when reading/opening data file failed
+	connect(wavfourier, &WavFourier::failedToGetData, this, &MyWindow::showErrorDialogOpenFile);
 
+	// add button to layout
+	layout->addWidget(openFileDialogButton);
 	fileChooserBox->setLayout(layout);
 }
 
@@ -52,6 +55,21 @@ void MyWindow::createPlotBox()
 
 	plotBox->setLayout(layout);
 }
+
+// open a error dialog for showing that opening data file failed
+void MyWindow::showErrorDialogOpenFile()
+{
+	QMessageBox errorMsg;
+	errorMsg.critical(0, "Error", "Could not open file");
+	errorMsg.setFixedSize(500,200);
+}
+
+void MyWindow::handleFileDialog()
+{
+	QString filename = QFileDialog::getOpenFileName(nullptr, "Open WAV File", "/home", "(*.wav)");
+	wavfourier->populateData(filename);
+}
+
 
 // size of a vector that stores _n numbers with equal distance _step to the next one
 #define VECSIZE(_n, _step) (_n * _step)

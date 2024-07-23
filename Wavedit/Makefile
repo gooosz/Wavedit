@@ -17,7 +17,7 @@ CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -flto -fno-fat-lto-objects -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -O2 -std=gnu++1z -flto -fno-fat-lto-objects -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -I/usr/include/python3.12 -I/usr/include/qt -I/usr/include/qt/QtPrintSupport -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -Ibuild -I/usr/lib/qt/mkspecs/linux-g++
+INCPATH       = -I. -I/usr/include/qt -I/usr/include/qt/QtPrintSupport -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -Ibuild -I/usr/lib/qt/mkspecs/linux-g++
 QMAKE         = /usr/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -861,12 +861,12 @@ build/moc_WavFourier.cpp: src/WavFourier.h \
 		src/AudioFile.h \
 		build/moc_predefs.h \
 		/usr/bin/moc
-	/usr/bin/moc $(DEFINES) --include /home/gooosz/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit/build/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/gooosz/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit -I/usr/include/python3.12 -I/usr/include/qt -I/usr/include/qt/QtPrintSupport -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/14.1.1 -I/usr/include/c++/14.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/14.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include-fixed -I/usr/include src/WavFourier.h -o build/moc_WavFourier.cpp
+	/usr/bin/moc $(DEFINES) --include /home/gooosz/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit/build/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/gooosz/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit -I/usr/include/qt -I/usr/include/qt/QtPrintSupport -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/14.1.1 -I/usr/include/c++/14.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/14.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include-fixed -I/usr/include src/WavFourier.h -o build/moc_WavFourier.cpp
 
 build/moc_qcustomplot.cpp: src/qcustomplot.h \
 		build/moc_predefs.h \
 		/usr/bin/moc
-	/usr/bin/moc $(DEFINES) --include /home/gooosz/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit/build/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/gooosz/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit -I/usr/include/python3.12 -I/usr/include/qt -I/usr/include/qt/QtPrintSupport -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/14.1.1 -I/usr/include/c++/14.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/14.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include-fixed -I/usr/include src/qcustomplot.h -o build/moc_qcustomplot.cpp
+	/usr/bin/moc $(DEFINES) --include /home/gooosz/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit/build/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/gooosz/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit -I/usr/include/qt -I/usr/include/qt/QtPrintSupport -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/14.1.1 -I/usr/include/c++/14.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/14.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include-fixed -I/usr/include src/qcustomplot.h -o build/moc_qcustomplot.cpp
 
 build/moc_MyWindow.cpp: src/MyWindow.h \
 		src/PlotWidget.h \
@@ -875,7 +875,7 @@ build/moc_MyWindow.cpp: src/MyWindow.h \
 		src/AudioFile.h \
 		build/moc_predefs.h \
 		/usr/bin/moc
-	/usr/bin/moc $(DEFINES) --include /home/gooosz/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit/build/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/gooosz/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit -I/usr/include/python3.12 -I/usr/include/qt -I/usr/include/qt/QtPrintSupport -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/14.1.1 -I/usr/include/c++/14.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/14.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include-fixed -I/usr/include src/MyWindow.h -o build/moc_MyWindow.cpp
+	/usr/bin/moc $(DEFINES) --include /home/gooosz/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit/build/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/gooosz/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit -I/usr/include/qt -I/usr/include/qt/QtPrintSupport -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/14.1.1 -I/usr/include/c++/14.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/14.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include-fixed -I/usr/include src/MyWindow.h -o build/moc_MyWindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:

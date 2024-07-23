@@ -6,7 +6,6 @@
 #include <QFileDialog>
 #include <QString>
 #include <QTime>
-#include <QMessageBox>
 
 #include <complex>
 #include <cmath>
@@ -44,7 +43,6 @@ class WavFourier : public QObject {
 	Q_OBJECT
 
 private:
-	QString wav_filename;
 	AudioFile<qint16> wavfile;
 
 	/* Timerange startTime-endTime to analyze in WAV file */
@@ -62,6 +60,8 @@ public:	QVector<double> getStuetzstellen(const QVector<double>& vec);	// returns
 	// returns data as QList from WAV file
 	bool populateData(QString wav_filename);
 
+	void setWavFilename(QString filename);
+
 public:
 	WavFourier() = default;
 	// WavFourier(QString wav_filename, QTime startTime=QTime(), QTime endTime=QTime());
@@ -71,11 +71,10 @@ public:
 	QVector<double>& getData(QTime startTime=QTime(), QTime endTime=QTime());
 	QList<double>& getFourierTransform();	// calculates fourier transform of given WAV file
 
-
 signals:
 	void gotData();	// data read from wav file
+	void failedToGetData();	// error when trying to read data
 public slots:
-	void handleOpenFileDialogButton();
 };
 
 
