@@ -18,6 +18,7 @@ private slots:
 	void testGetStuetzstellen_data();
 	void testGetStuetzstellen();
 
+	void testFreq_data();
 	void testFreq();
 
 	void testDFT();
@@ -51,15 +52,23 @@ void TestWavFourier::testGetStuetzstellen_data()
 	QTest::newRow("data.size() = 7") << QVector<double>(7) << QVector<double>(
 		{0, 2.0*M_PI/7.0, 4.0*M_PI/7.0, 6.0*M_PI/7.0, 8.0*M_PI/7.0, 10.0*M_PI/7.0, 12.0*M_PI/7.0}
 	);
-
-
 }
 
 void TestWavFourier::testGetStuetzstellen()
 {
 	QFETCH(QVector<double>, data);
 	QFETCH(QVector<double>, stuetzstellen);
-	QCOMPARE(wavfourier.getStuetzstellen(data), stuetzstellen);
+	QCOMPARE(wavfourier.getStuetzstellen(data.size()), stuetzstellen);
+}
+
+
+void TestWavFourier::testFreq_data()
+{
+	QTest::addColumn<QVector<double>>("data");
+	QTest::addColumn<QVector<double>>("sample_spacing");
+	QTest::addColumn<QVector<double>>("frequency bins");
+
+
 }
 
 void TestWavFourier::testFreq()

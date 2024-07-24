@@ -99,7 +99,7 @@ void MyWindow::plotFourierTransform()
 	for (int i=0; i<y.size(); i++) {
 		y[i] = std::sin(1.0*2.0*M_PI*x[i]);
 	}
-	QVector<double> freq = wavfourier->Freq(y, 0.001);
+	QVector<double> freq = wavfourier->Freq(y.size(), 0.001);
 	std::cout << "freq.size(): " << freq.size() << '\n';
 	QVector<double> dft = wavfourier->DFT(y);
 	std::cout << "dft.size(): " << dft.size() << '\n';

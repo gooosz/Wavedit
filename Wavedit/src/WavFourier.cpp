@@ -74,23 +74,23 @@ QVector<double>& WavFourier::getData(QTime startTime, QTime endTime)
 }
 
 // returns stuetzstelle x_k of data point x using (2*M_PI*k)/n
-QVector<double> WavFourier::getStuetzstellen(const QVector<double>& vec)
+QVector<double> WavFourier::getStuetzstellen(int size)
 {
-	QVector<double> x_k(vec.size());
+	QVector<double> x_k(size);
 	for (int k=0; k<x_k.size(); k++) {
-		x_k[k] = 2.0 * M_PI * k / vec.size();
+		x_k[k] = 2.0 * M_PI * k / size;
 	}
 	return x_k;
 }
 
 // returns the DFT sample frequency bin centers
-QVector<double> WavFourier::Freq(const QVector<double>& vec, double sample_spacing)
+QVector<double> WavFourier::Freq(int size, double sample_spacing)
 {
 	QVector<double> freq;
 	// see https://numpy.org/doc/stable/reference/generated/numpy.fft.fftfreq.html+
-	// only adds to vec.size()/2 because of nyquist-frequency (rest is symmetric)
-	for (int i=0; i<=vec.size()/2 - 1; i++) {
-		freq.push_back(i / (sample_spacing * vec.size()));
+	// only adds to size/2 because of nyquist-frequency (rest is symmetric)
+	for (int i=0; i<=size/2 - 1; i++) {
+		freq.push_back(i / (sample_spacing * size));
 	}
 	return freq;
 }
