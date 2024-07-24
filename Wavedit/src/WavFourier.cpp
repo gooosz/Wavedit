@@ -87,6 +87,7 @@ QVector<double> WavFourier::getStuetzstellen(int size)
 QVector<double> WavFourier::Freq(int size, double sample_rate)
 {
 	QVector<double> freq;
+	if (size == 0)	return freq;	// empty size means no frequency bins
 	// see https://numpy.org/doc/stable/reference/generated/numpy.fft.fftfreq.html+
 	// or https://stackoverflow.com/questions/4364823/how-to-get-frequency-from-fft-result/4371627#4371627
 	// only adds to size/2 because of nyquist-frequency (rest is symmetric) => small perfomance boost
