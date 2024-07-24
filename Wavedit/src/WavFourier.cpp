@@ -86,14 +86,14 @@ QVector<double> WavFourier::getStuetzstellen(int size)
 // returns the DFT sample frequency bin centers
 QVector<double> WavFourier::Freq(int size, double sample_rate)
 {
-	QVector<double> freq;
+	QVector<double> freq(size/2);
 	if (size == 0)	return freq;	// empty size means no frequency bins
 	// see https://numpy.org/doc/stable/reference/generated/numpy.fft.fftfreq.html+
 	// or https://stackoverflow.com/questions/4364823/how-to-get-frequency-from-fft-result/4371627#4371627
 	// only adds to < size/2 because of Nyquist-frequency (rest is symmetric) => small perfomance boost
 	// Nyquist frequency at size/2
-	for (int i=0; i<size/2; i++) {
-		freq.push_back(i * sample_rate / size);
+	for (int i=0; i<size/2; i++) {	// last index is size/2 - 1
+		freq[i] = i * sample_rate / size;
 	}
 	return freq;
 }
