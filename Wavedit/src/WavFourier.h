@@ -52,8 +52,8 @@ private:
 	QVector<double> data;
 
 public:	QVector<double> getStuetzstellen(int size);	// returns stuetzstelle x_k of data point x using (2*M_PI*k)/n
-	QVector<double> Freq(int size, double sample_spacing=1.0);	// returns the DFT sample frequency bin centers
-	QVector<double> DFT(const QVector<double>& vec);			// Discrete-Fourier-Transform on data
+	QVector<double> Freq(int size, double sample_rate=1.0);		// returns the DFT sample frequency bin centers
+	QVector<double> DFT(const QVector<double>& vec);		// Discrete-Fourier-Transform on data
 	QVector<double> IDFT(const QVector<double>& vec);		// Inverse Discrete-Fourier-Transform on data
 
 	// returns data as QList from WAV file
