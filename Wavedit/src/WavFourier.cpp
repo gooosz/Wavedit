@@ -5,6 +5,7 @@
 {
 }*/
 
+using complex = std::complex<double>;
 
 // populates data QList from WAV file
 /* returns true on success */
@@ -102,27 +103,21 @@ QVector<double> WavFourier::Freq(int size, double sample_rate)
 // @returns absolute values of fourier coefficients (beta_j)
 QVector<double> WavFourier::DFT(const QVector<double>& vec)
 {
-	QVector<std::complex<double>> omega(vec.size());
-	for (int k=0; k<omega.size(); k++) {
-		// e^(i * 2PI * k / n)
-		omega[k] = exp(std::complex<double>(0.0, 1.0) * 2.0 * M_PI * (double)k / (double)vec.size());
-	}
-
-	QVector<std::complex<double>> beta(vec.size());
-	for (int j=0; j<beta.size(); j++) {
-		// beta_j = sum(data * omega_k^-j)
-		beta[j] = 0.0;
-		for (int k=0; k<omega.size(); k++) {
-			beta[j] += vec[k] * pow(omega[k], -j);
+	QVector<complex> beta(vec.size());
+	for (int k=0; k<vec.size(); k++) {
+		complex sum = 0.0;
+		for (int j=0; j<vec.size(); j++) {
+			sum += vec[j] * std::exp(-2.0 * M_PI * complex(0.0, 1.0) * (double) j * (double) k / (double)vec.size());
 		}
+		beta[k] = sum;
 	}
 
 	// absolute values of beta
 	QVector<double> abs_beta(beta.size());
-	for (auto beta_j : beta) {
-		abs_beta.push_back(std::fabs(beta_j));
+	for (int j=0; j<beta.size(); j++) {
+		abs_beta[j] = std::abs(beta[j]);
 	}
-	abs_beta.resize(abs_beta.size() / 2);	// maximum frequency <= 2 * sample rate, so only keep half the size (rest is symmetric)
+	//abs_beta.resize(abs_beta.size() / 2);	// maximum frequency <= 2 * sample rate, so only keep half the size (rest is symmetric)
 	return abs_beta;
 }
 
