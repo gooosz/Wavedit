@@ -5,8 +5,6 @@
 {
 }*/
 
-using complex = std::complex<double>;
-
 // populates data QList from WAV file
 /* returns true on success */
 bool WavFourier::populateData(QString wav_filename)
@@ -100,8 +98,8 @@ QVector<double> WavFourier::Freq(int size, double sample_rate)
 }
 
 // calculates Discrete-Fourier-Transform of data
-// @returns absolute values of fourier coefficients (beta_j)
-QVector<double> WavFourier::DFT(const QVector<double>& vec)
+// @returns fourier coefficients (beta_j)
+QVector<complex> WavFourier::DFT(const QVector<double>& vec)
 {
 	QVector<complex> beta(vec.size());
 	for (int k=0; k<vec.size(); k++) {
@@ -112,12 +110,39 @@ QVector<double> WavFourier::DFT(const QVector<double>& vec)
 		beta[k] = sum;
 	}
 
-	// absolute values of beta
-	QVector<double> abs_beta(beta.size());
-	for (int j=0; j<beta.size(); j++) {
-		abs_beta[j] = std::abs(beta[j]);
+	//beta.resizebeta.size() / 2);	// maximum frequency <= 2 * sample rate, so only keep half the size (rest is symmetric)
+	return beta;
+}
+
+// absolute value of every element of vec
+QVector<double> WavFourier::abs(const QVector<complex>& vec)
+{
+	QVector<double> abs_beta(vec.size());
+	for (int j=0; j<vec.size(); j++) {
+		abs_beta[j] = std::abs(vec[j]);
 	}
-	//abs_beta.resize(abs_beta.size() / 2);	// maximum frequency <= 2 * sample rate, so only keep half the size (rest is symmetric)
 	return abs_beta;
 }
+
+
+// Inverse Discrete-Fourier-Transform on DFT(data)
+QVector<double> WavFourier::IDFT(const QVector<complex>& vec)
+{
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -101,9 +101,8 @@ void MyWindow::plotFourierTransform()
 	}
 	QVector<double> freq = wavfourier->Freq(y.size(), 0.001);
 	std::cout << "freq.size(): " << freq.size() << '\n';
-	QVector<double> dft = wavfourier->DFT(y);
+	QVector<double> dft = wavfourier->abs(wavfourier->DFT(y));
 	std::cout << "dft.size(): " << dft.size() << '\n';
-
 
 	// Frequencies: 10 Hz
 	//std::for_each(y.begin(), y.end(), [](double &x1){ return sin(10*2*M_PI*x1); });
