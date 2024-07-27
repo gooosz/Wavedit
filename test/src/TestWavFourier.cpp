@@ -76,24 +76,24 @@ void TestWavFourier::testFreq_data()
 {
 	QTest::addColumn<int>("data_size");
 	QTest::addColumn<double>("sample_rate");
-	QTest::addColumn<QVector<double>>("frequency_bins");
+	QTest::addColumn<QVector<double>>("frequency_bins");	// k * sample_rate / size
 
 	QTest::newRow("empty data, default sample_rate") << 0 << 1.0 << QVector<double>({});
 	QTest::newRow("empty data, sample_rate 10 Hz") << 0 << 10.0 << QVector<double>({});
 
 	QTest::newRow("data.size() = 4, default sample_rate") << 4 << 1.0 << QVector<double>(
-		{0, 1.0/4.0}
+		{0, 1.0/4.0, 2.0/4.0, 3.0/4.0}
 	);
 
 	QTest::newRow("data.size() = 4, , sample_rate 10 Hz") << 4 << 10.0 << QVector<double>(
-		{0, 5.0/2.0}
+		{0, 10.0/4.0, 20.0/4.0, 30.0/4.0}
 	);
 
 	QTest::newRow("data.size() = 7, default sample_rate") << 7 << 1.0 << QVector<double>(
-		{0, 1.0/7.0, 2.0/7.0}
+		{0, 1.0/7.0, 2.0/7.0, 3.0/7.0, 4.0/7.0, 5.0/7.0, 6.0/7.0}
 	);
 	QTest::newRow("data.size() = 7, sample_rate 10 Hz") << 7 << 10.0 << QVector<double>(
-		{0, 10.0/7.0, 20.0/7.0}
+		{0, 10.0/7.0, 20.0/7.0, 30.0/7.0, 40.0/7.0, 50.0/7.0, 60.0/7.0}
 	);
 }
 
