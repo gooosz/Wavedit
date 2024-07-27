@@ -30,6 +30,9 @@ private slots:
 
 	void testIDFT_data();
 	void testIDFT();
+
+	void testIDFT_real_data();
+	void testIDFT_real();
 };
 
 void TestWavFourier::helloWorld()
@@ -254,25 +257,6 @@ void TestWavFourier::testIDFT()
 	QFETCH(QVector<complex>, dft);
 	QFETCH(QVector<complex>, data);
 
-	/*std::cout << "fourier.size(): " << fourier.size() << '\n';
-	std::for_each(fourier.begin(), fourier.end(), [](complex d){ std::cout << std::setprecision(20) << d << '\n'; });
-	std::cout << "-----" << '\n';
-	std::cout << "dft.size(): " << dft.size() << '\n';
-	std::for_each(dft.begin(), dft.end(), [](complex d){ std::cout << std::setprecision(20) << d << '\n'; });
-	for (int i=0, j=0; i<fourier.size() || j<dft.size(); ) {
-		if (fourier[i] != dft[j]) {
-			std::cout << i << "," << j << ": " << std::setprecision(20) << fourier[i] << " != "<< dft[j] << '\t'
-				<< "|" << fourier[i] - dft[j] << "| = "
-				<< std::abs(fourier[i] - dft[j]) << " < "
-				<< qMin(qAbs(fourier[i].imag()), qAbs(dft[j].imag())) << " ? "
-				<< (std::abs(fourier[i] - dft[j]) < qMin(qAbs(fourier[i].imag()), qAbs(dft[j].imag())))
-				<< '\n';
-		} else {
-			std::cout << i << "," << j << ": " << fourier[i] << " == " << dft[j] << '\n';
-		}
-		i++; j++;
-	}*/
-
 	QVector<complex> idft = wavfourier.IDFT(dft);
 	QCOMPARE(idft.size(), data.size());
 	for (int i=0, j=0; i<idft.size() && j<data.size(); ) {
@@ -286,6 +270,45 @@ void TestWavFourier::testIDFT()
 		*/
 		QVERIFY(qFuzzyCompare(idft[i].real()+1, data[j].real()+1));
 		QVERIFY(qFuzzyCompare(idft[i].imag()+1, data[j].imag()+1));
+		i++; j++;
+	}
+}
+
+
+void TestWavFourier::testIDFT_real_data()
+{
+	QTest::addColumn<QVector<complex>>("dft");
+	QTest::addColumn<QVector<double>>("data");
+
+	QTest::newRow("empty data") << QVector<complex>({}) << QVector<double>({});
+
+	QTest::newRow("data.size() = 4") << QVector<complex>({	complex(6.0,0.0),
+								complex(-2.0,2.0),
+								complex(-2.0,0.0),
+								complex(-2.0,-2.0)})
+		<< QVector<double>({0.0, 1.0, 2.0, 3.0}
+	);
+
+	QTest::newRow("data.size() = 5") << QVector<complex>(
+		{complex(17.0, 0.0),
+		 complex(-3.4270509831248424,0.3102707008666963),
+		 complex(-0.07294901687515476,-9.008536623235965),
+		 complex(-0.07294901687516075,9.008536623235967),
+		 complex(-3.4270509831248375,-0.31027070086670205)})
+		<< QVector<double>({2.0, 5.0, 1.0, 8.0, 1.0}
+	);
+}
+
+void TestWavFourier::testIDFT_real()
+{
+	QFETCH(QVector<complex>, dft);
+	QFETCH(QVector<double>, data);
+
+	QVector<double> idft = wavfourier.IDFT_real(dft);
+
+	QCOMPARE(idft.size(), data.size());
+	for (int i=0, j=0; i<idft.size() && j<data.size(); ) {
+		QVERIFY(qFuzzyCompare(idft[i], data[j]));
 		i++; j++;
 	}
 }
