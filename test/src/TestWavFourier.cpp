@@ -25,6 +25,9 @@ private slots:
 	void testDFT_data();
 	void testDFT();
 
+	void test_abs_DFT_data();
+	void test_abs_DFT();
+
 	void testIDFT();
 };
 
@@ -103,7 +106,69 @@ void TestWavFourier::testFreq()
 void TestWavFourier::testDFT_data()
 {
 	QTest::addColumn<QVector<double>>("data");
-	QTest::addColumn<QVector<double>>("dft");
+	QTest::addColumn<QVector<complex>>("dft");
+
+	QTest::newRow("empty data") << QVector<double>({}) << QVector<complex>({});
+
+	QTest::newRow("data.size() = 4") << QVector<double>({0.0, 1.0, 2.0, 3.0}) << QVector<complex>(
+		{complex(6.0,0.0), complex(-2.0,2.0), complex(-2.0,0.0), complex(-2.0,-2.0)}
+	);
+
+	QTest::newRow("data.size() = 5") << QVector<double>({2.0, 5.0, 1.0, 8.0, 1.0}) << QVector<complex>(
+		{complex(17.0, 0.0), complex(-3.4270509831248424,0.3102707008666963),
+		 complex(-0.07294901687515476,-9.008536623235965), complex(-0.07294901687516075,9.008536623235967),
+		 complex(-3.4270509831248375,-0.31027070086670205)}
+	);
+}
+
+#include <iomanip>
+
+void TestWavFourier::testDFT()
+{
+	QFETCH(QVector<double>, data);
+	QFETCH(QVector<complex>, dft);
+
+	/*std::cout << "fourier.size(): " << fourier.size() << '\n';
+	std::for_each(fourier.begin(), fourier.end(), [](complex d){ std::cout << std::setprecision(20) << d << '\n'; });
+	std::cout << "-----" << '\n';
+	std::cout << "dft.size(): " << dft.size() << '\n';
+	std::for_each(dft.begin(), dft.end(), [](complex d){ std::cout << std::setprecision(20) << d << '\n'; });
+	for (int i=0, j=0; i<fourier.size() || j<dft.size(); ) {
+		if (fourier[i] != dft[j]) {
+			std::cout << i << "," << j << ": " << std::setprecision(20) << fourier[i] << " != "<< dft[j] << '\t'
+				<< "|" << fourier[i] - dft[j] << "| = "
+				<< std::abs(fourier[i] - dft[j]) << " < "
+				<< qMin(qAbs(fourier[i].imag()), qAbs(dft[j].imag())) << " ? "
+				<< (std::abs(fourier[i] - dft[j]) < qMin(qAbs(fourier[i].imag()), qAbs(dft[j].imag())))
+				<< '\n';
+		} else {
+			std::cout << i << "," << j << ": " << fourier[i] << " == " << dft[j] << '\n';
+		}
+		i++; j++;
+	}*/
+
+	QVector<complex> fourier = wavfourier.DFT(data);
+	QCOMPARE(fourier.size(), dft.size());
+	for (int i=0, j=0; i<fourier.size() && j<dft.size(); ) {
+		// qFuzzyCompare doesn't work for complex numbers, so compare real and imaginary part
+		/*
+		 * qFuzzyCompare fails when one of number is 0.0
+		 * https://doc.qt.io/qt-5/qtglobal.html#qFuzzyCompare recommends
+		 * if one number is likely ot be 0.0, then add 1 to both numbers
+		 * which doesn't effect equality but solves the issue of the way
+		 * qFuzzyCompare is implemented
+		*/
+		QVERIFY(qFuzzyCompare(fourier[i].real()+1, dft[j].real()+1));
+		QVERIFY(qFuzzyCompare(fourier[i].imag()+1, dft[j].imag()+1));
+		i++; j++;
+	}
+}
+
+
+void TestWavFourier::test_abs_DFT_data()
+{
+	QTest::addColumn<QVector<double>>("data");
+	QTest::addColumn<QVector<double>>("abs_dft");
 
 	QTest::newRow("empty data") << QVector<double>({}) << QVector<double>({});
 
@@ -116,15 +181,17 @@ void TestWavFourier::testDFT_data()
 	);
 }
 
-void TestWavFourier::testDFT()
+void TestWavFourier::test_abs_DFT()
 {
 	QFETCH(QVector<double>, data);
-	QFETCH(QVector<double>, dft);
+	QFETCH(QVector<double>, abs_dft);
 
-	QVector<double> fourier = wavfourier.DFT(data);
-	QCOMPARE(fourier.size(), dft.size());
-	for (int i=0, j=0; i<fourier.size() && j<dft.size(); ) {
-		QVERIFY(qFuzzyCompare(fourier[i], dft[j]));
+	QVector<complex> fourier = wavfourier.DFT(data);
+	QVector<double> abs_fourier = wavfourier.abs(fourier);
+
+	QCOMPARE(abs_fourier.size(), abs_dft.size());
+	for (int i=0, j=0; i<abs_fourier.size() && j<abs_dft.size(); ) {
+		QVERIFY(qFuzzyCompare(abs_fourier[i], abs_dft[j]));
 		i++; j++;
 	}
 }
