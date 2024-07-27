@@ -158,7 +158,12 @@ QVector<complex> WavFourier::IDFT(const QVector<complex>& vec)
  * real (not complex) to begin with */
 QVector<double> WavFourier::IDFT_real(const QVector<complex>& vec)
 {
-	return {};
+	QVector<complex> idft = IDFT(vec);
+	QVector<double> idft_real(idft.size());
+	for (int i=0; i<idft.size(); i++) {
+		idft_real[i] = idft[i].real();
+	}
+	return idft_real;
 }
 
 
