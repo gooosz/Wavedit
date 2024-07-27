@@ -59,7 +59,10 @@ public:	QVector<double> getStuetzstellen(int size);	// returns stuetzstelle x_k 
 	QVector<double> Freq(int size, double sample_rate=1.0);		// returns the DFT sample frequency bin centers
 	QVector<complex> DFT(const QVector<double>& vec);		// Discrete-Fourier-Transform on data
 	QVector<double> abs(const QVector<complex>& vec);		// absolute value of every element of vec
-	QVector<double> IDFT(const QVector<complex>& vec);		// Inverse Discrete-Fourier-Transform on DFT(data)
+	QVector<complex> IDFT(const QVector<complex>& vec);		// Inverse Discrete-Fourier-Transform on DFT(data), returns complex numbers
+	QVector<double> IDFT_real(const QVector<complex>& vec);	// returns real values of IDFT,
+								// use only if you know data was
+								// real (not complex) to begin with
 
 	// returns data as QList from WAV file
 	bool populateData(QString wav_filename);

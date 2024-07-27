@@ -91,6 +91,8 @@ QVector<double> WavFourier::Freq(int size, double sample_rate)
 	// or https://stackoverflow.com/questions/4364823/how-to-get-frequency-from-fft-result/4371627#4371627
 	// only adds to < size/2 because of Nyquist-frequency (rest is symmetric) => small perfomance boost
 	// Nyquist frequency at size/2
+	// TODO: but DFT, IDFT uses full spectrum (I want it like that to visualize symmetry)
+	//	 so return the full freq spectrum until size as well, update Test
 	for (int i=0; i<size/2; i++) {	// last index is size/2 - 1
 		freq[i] = i * sample_rate / size;
 	}
@@ -111,6 +113,11 @@ QVector<complex> WavFourier::DFT(const QVector<double>& vec)
 	}
 
 	//beta.resizebeta.size() / 2);	// maximum frequency <= 2 * sample rate, so only keep half the size (rest is symmetric)
+	// keep all the values because else IDFT would need to create half of the values out of
+	// fourier coefficients, which is not a problem but I don't like
+	// => return the all frequency bins as well
+	// TODO: the diagramm shows symmetry => in Präsentation erwähnen warum DFT symmetrisch dlistel
+	//	 weil die Werte i > Nyquist-Frequest nur die komplex konjugierten sind
 	return beta;
 }
 
@@ -125,13 +132,34 @@ QVector<double> WavFourier::abs(const QVector<complex>& vec)
 }
 
 
-// Inverse Discrete-Fourier-Transform on DFT(data)
-QVector<double> WavFourier::IDFT(const QVector<complex>& vec)
+// Inverse Discrete-Fourier-Transform on DFT(data), vec specifies the whole
+QVector<complex> WavFourier::IDFT(const QVector<complex>& vec)
 {
-
+	QVector<complex> beta_inv(vec.size());
+	for (int k=0; k<vec.size(); k++) {
+		complex sum = 0.0;
+		for (int j=0; j<vec.size(); j++) {
+			// DFT was e^(-2 * pi * i * j * k / vec.size())
+			// 	rotates on complex plane unit circle counterclockwise
+			// IDFT is e^(-2 * pi * i * j * k / vec.size())
+			//	rotates on complex plane unit circle clockwise
+			// which
+			sum += vec[j] * std::exp(2.0 * M_PI * complex(0.0, 1.0) * (double) j * (double) k / (double)vec.size());
+		}
+		// normalization factor 1/n because as matrices: DFT*IDFT soll Einheitsmatrix E_n
+		// but DFT*IDFT = n*E_n => hence we do DFT * 1/n*IDFT = E_n
+		beta_inv[k] = sum / (double)vec.size();
+	}
+	return beta_inv;
 }
 
-
+/* returns real values of IDFT,
+ * use only if you know data was
+ * real (not complex) to begin with */
+QVector<double> WavFourier::IDFT_real(const QVector<complex>& vec)
+{
+	return {};
+}
 
 
 
