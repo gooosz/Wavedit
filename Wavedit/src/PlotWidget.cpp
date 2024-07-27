@@ -49,10 +49,22 @@ void PlotWidget::makePlot(const QVector<double> &x, const QVector<double> &y, in
 		plot->graph(graphNr)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, color, color, 1));
 	}
 	plot->setBackground(QBrush(Qt::NoBrush));
-	plot->xAxis->setLabel("x");
+	plot->xAxis->setLabel("Hz");
 	plot->yAxis->setLabel("y");
 	if (rescale) {
 		plot->graph(graphNr)->rescaleAxes();
 	}
 	plot->replot();
+}
+
+// draws a vertical line where the Nyquist frequency is
+void PlotWidget::markNyquistFreq(double nyquist, QColor color)
+{
+	    QCPItemLine *line = new QCPItemLine(plot);
+	    line->setPen(QPen(color));
+	    double ymin = plot->yAxis->range().lower;
+	    double ymax = plot->yAxis->range().upper;
+	    line->start->setCoords(nyquist, ymin);
+	    line->end->setCoords(nyquist, ymax);
+	    plot->replot();
 }

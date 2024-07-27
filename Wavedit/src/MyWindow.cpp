@@ -94,12 +94,12 @@ void MyWindow::plotFourierTransform()
 	//QVector<double> &y = wavfourier->getData();
 
 	//std::iota(std::begin(x), std::end(x), double_iota(.1));
-	CREATE_AND_FILL_QVEC(x, double, 10, 0.001);
+	CREATE_AND_FILL_QVEC(x, double, 10, 0.01);
 	QVector<double> y(x.size());
 	for (int i=0; i<y.size(); i++) {
-		y[i] = std::sin(1.0*2.0*M_PI*x[i]);
+		y[i] = std::sin(1.0*2.0*M_PI*x[i]) + std::sin(17.0*2*M_PI*x[i]);
 	}
-	QVector<double> freq = wavfourier->Freq(y.size(), 0.001);
+	QVector<double> freq = wavfourier->Freq(y.size(), 100);
 	std::cout << "freq.size(): " << freq.size() << '\n';
 	QVector<double> dft = wavfourier->abs(wavfourier->DFT(y));
 	std::cout << "dft.size(): " << dft.size() << '\n';
@@ -109,5 +109,11 @@ void MyWindow::plotFourierTransform()
 
 	std::cout << y.size() << " samples in QVector\n";
 	//plot->makePlot(x, y, 0, true, SCATTER, Qt::white);
-	plot->makePlot(freq, dft, 0, true, PLOT, Qt::magenta);
+	plot->makePlot(freq, dft, 0, true, PLOT, Qt::yellow);
+	plot->markNyquistFreq(freq[freq.size()/2]);
+
+	std::cout << "=========\n";
+	for (int i=0; i<freq.size(); i++) {
+		std::cout << "( " << freq[i] << ", " << dft[i] << ")\n";
+	}
 }
