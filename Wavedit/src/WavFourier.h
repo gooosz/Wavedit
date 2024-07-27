@@ -77,6 +77,7 @@ public:
 	QList<quint16>& getDataList(QTime startTime=QTime(), QTime endTime=QTime());
 	QVector<double>& getData(QTime startTime=QTime(), QTime endTime=QTime());
 	QList<double>& getFourierTransform();	// calculates fourier transform of given WAV file
+	double getSampleRate();
 
 signals:
 	void gotData();	// data read from wav file

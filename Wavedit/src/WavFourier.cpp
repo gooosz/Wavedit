@@ -24,7 +24,8 @@ bool WavFourier::populateData(QString wav_filename)
 	}
 	// fill double QVector data as well
 	for (int i=0; i<data_uint16.size(); i++) {
-		double dlistel = static_cast<double>(data_uint16[i]);	// double list element (dlistel)
+		// double list element (dlistel)
+		double dlistel = static_cast<double>(data_uint16[i]);
 		data.push_back(dlistel);
 	}
 	std::reverse(data.begin(), data.end());
@@ -80,6 +81,11 @@ QVector<double> WavFourier::getStuetzstellen(int size)
 		x_k[k] = 2.0 * M_PI * k / size;
 	}
 	return x_k;
+}
+
+double WavFourier::getSampleRate()
+{
+	return static_cast<double>(wavfile.getSampleRate());
 }
 
 // returns the DFT sample frequency bin centers
