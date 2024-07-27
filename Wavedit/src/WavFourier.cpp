@@ -122,7 +122,7 @@ QVector<complex> WavFourier::DFT(const QVector<double>& vec)
 	// keep all the values because else IDFT would need to create half of the values out of
 	// fourier coefficients, which is not a problem but I don't like
 	// => return the all frequency bins as well
-	// TODO: the diagramm shows symmetry => in Präsentation erwähnen warum DFT symmetrisch dlistel
+	// the diagramm shows symmetry => in Präsentation erwähnen warum DFT symmetrisch dlistel
 	//	 weil die Werte i > Nyquist-Frequest nur die komplex konjugierten sind
 	return beta;
 }

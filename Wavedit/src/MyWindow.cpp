@@ -82,22 +82,40 @@ void MyWindow::handleFileDialog()
 				std::iota(std::begin(_name), std::end(_name), double_iota(_step))
 
 
+//#define PLOT_TEST
+
 void MyWindow::plotFourierTransform()
 {
-	//QVector<double> x(wavfourier->getDataSize());
+#ifndef PLOT_TEST
+	QVector<double> x(wavfourier->getDataSize());
+	QVector<double> data = wavfourier->getData();
+	std::cout << "getData() done\n";
+	QVector<double> freq = wavfourier->Freq(data.size(), wavfourier->getSampleRate());
+	std::cout << "Freq() done\n";
+	QVector<complex> dft = wavfourier->DFT(data);
+	std::cout << "DFT() done\n";
+	QVector<double> abs_dft = wavfourier->abs(dft);
+	std::cout << "abs() done\n";
+
+	std::cout << "data.size(): "	<< data.size()	<< '\n'
+		  << "freq.size(): "	<< freq.size()	<< '\n'
+		  << "dft.size(): "	<< dft.size() 	<< '\n';
+
+	plot->makePlot(freq, abs_dft, 0, true, PLOT, Qt::darkYellow);
+	std::cout << "makePlot() done\n";
+	plot->markNyquistFreq(freq[freq.size()/2], Qt::darkMagenta);
+	std::cout << "markNyquistFreq() done\n";
+
 	// the x values in x = [0, getDataSize) are ok
 	// because the y values are of importance are they oscillate, so
 	// just use 1 as distance between every sample point
 	// but in real life the distance between sample points is 1/sampleRate
 	//std::iota(std::begin(x), std::end(x), 0);
-
-	//QVector<double> &y = wavfourier->getData();
-
-	//std::iota(std::begin(x), std::end(x), double_iota(.1));
+#else
 	CREATE_AND_FILL_QVEC(x, double, 10, 0.01);
 	QVector<double> y(x.size());
 	for (int i=0; i<y.size(); i++) {
-		y[i] = std::sin(1.0*2.0*M_PI*x[i]) + std::sin(17.0*2*M_PI*x[i]);
+		y[i] = std::sin(1.0*2.0*M_PI*x[i]) + 1.0/2.0*std::sin(17.0*2*M_PI*x[i]);
 	}
 	QVector<double> freq = wavfourier->Freq(y.size(), 100);
 	std::cout << "freq.size(): " << freq.size() << '\n';
@@ -112,8 +130,9 @@ void MyWindow::plotFourierTransform()
 	plot->makePlot(freq, dft, 0, true, PLOT, Qt::yellow);
 	plot->markNyquistFreq(freq[freq.size()/2]);
 
-	std::cout << "=========\n";
+	/*std::cout << "=========\n";
 	for (int i=0; i<freq.size(); i++) {
 		std::cout << "( " << freq[i] << ", " << dft[i] << ")\n";
-	}
+	}*/
+#endif // PLOT_TEST
 }
