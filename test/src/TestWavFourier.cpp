@@ -33,6 +33,12 @@ private slots:
 
 	void testIDFT_real_data();
 	void testIDFT_real();
+
+	void testFFT_data();
+	void testFFT();
+
+	void testNextPowOf2_data();
+	void testNextPowOf2();
 };
 
 void TestWavFourier::helloWorld()
@@ -312,6 +318,118 @@ void TestWavFourier::testIDFT_real()
 		i++; j++;
 	}
 }
+
+
+void TestWavFourier::testFFT_data()
+{
+	QTest::addColumn<QVector<double>>("data");
+	QTest::addColumn<QVector<complex>>("fft");
+
+	QTest::newRow("empty data") << QVector<double>({}) << QVector<complex>({});
+
+	QTest::newRow("data.size() = 4") << QVector<double>({0.0, 1.0, 2.0, 3.0}) << QVector<complex>(
+		{complex(6.0,0.0), complex(-2.0,2.0), complex(-2.0,0.0), complex(-2.0,-2.0)}
+	);
+
+	QTest::newRow("data.size() = 5") << QVector<double>({2.0, 5.0, 1.0, 8.0, 1.0}) <<
+	/*QVector<complex>(
+		{complex(17.0, 0.0),
+		 complex(-3.4270509831248424,0.3102707008666963),
+		 complex(-0.07294901687515476,-9.008536623235965), complex(-0.07294901687516075,9.008536623235967),
+		 complex(-3.4270509831248375,-0.31027070086670205)}
+	);*/
+	QVector<complex>(
+		{complex(17.000000,0.000000),
+		 complex(-1.121320,-10.192388),
+		 complex(2.0000000,3.0000000),
+		 complex(3.1213200,-8.192388),
+		 complex(-9.000000,0.0000000),
+		 complex(3.1213200,8.1923880),
+		 complex(2.0000000,-3.000000),
+		 complex(-1.121320,10.192388)}
+	);
+}
+
+void TestWavFourier::testFFT()
+{
+	QFETCH(QVector<double>, data);
+	QFETCH(QVector<complex>, fft);
+
+	/*QVector<complex> fourier = wavfourier.FFT(data);
+	std::cout << "fourier.size(): " << fourier.size() << '\n';
+	std::for_each(fourier.begin(), fourier.end(), [](complex d){
+		std::cout << std::setprecision(20) << d << '\n';
+
+	});
+	std::cout << "-----" << '\n';
+	std::cout << "dft.size(): " << fft.size() << '\n';
+	std::for_each(fft.begin(), fft.end(), [](complex d){ std::cout << std::setprecision(20) << d << '\n'; });
+	for (int i=0, j=0; i<fourier.size() || j<fft.size(); ) {
+		if (fourier[i] != fft[j]) {
+			std::cout << i << "," << j << ": " << std::setprecision(20) << fourier[i] << " != "<< fft[j] << '\t'
+				<< "|" << fourier[i] - fft[j] << "| = "
+				<< std::abs(fourier[i] - fft[j]) << " < "
+				<< qMin(qAbs(fourier[i].imag()), qAbs(fft[j].imag())) << " ? "
+				<< (std::abs(fourier[i] - fft[j]) < qMin(qAbs(fourier[i].imag()), qAbs(fft[j].imag())))
+				<< '\n';
+		} else {
+			std::cout << i << "," << j << ": " << fourier[i] << " == " << fft[j] << '\n';
+		}
+		i++; j++;
+	}
+	for (int i=0,j=0; i<fourier.size() && j<fft.size(); ) {
+		if (!qFuzzyCompare((float)fourier[i].real()+1, (float)fft[j].real()+1))
+			std::cout << "qFuzzyCompare failed for real for (" << i << ", " << j << ")\n";
+		if (!qFuzzyCompare((float)fourier[i].imag()+1, (float)fft[j].imag()+1))
+			std::cout << "qFuzzyCompare failed for imag for (" << i << ", " << j << ")\n";
+		i++; j++;
+	}*/
+
+	QVector<complex> fourier = wavfourier.FFT(data);
+	QCOMPARE(fourier.size(), fft.size());
+	for (int i=0, j=0; i<fourier.size() && j<fft.size(); ) {
+		// qFuzzyCompare doesn't work for complex numbers, so compare real and imaginary part
+		/*
+		 * qFuzzyCompare fails when one of number is 0.0
+		 * https://doc.qt.io/qt-5/qtglobal.html#qFuzzyCompare recommends
+		 * if one number is likely ot be 0.0, then add 1 to both numbers
+		 * which doesn't effect equality but solves the issue of the way
+		 * qFuzzyCompare is implemented
+		 *
+		 * https://scistatcalc.blogspot.com/2013/12/fft-calculator.html calculated the
+		 * correct result of FFT, however they only returned floats, so cast my result to float
+		 * or else the different precisions make qFuzzyCompare fail
+		*/
+		QVERIFY(qFuzzyCompare((float)fourier[i].real()+1, (float)fft[j].real()+1));
+		QVERIFY(qFuzzyCompare((float)fourier[i].imag()+1, (float)fft[j].imag()+1));
+		i++; j++;
+	}
+}
+
+
+void TestWavFourier::testNextPowOf2_data()
+{
+	QTest::addColumn<int>("n");
+	QTest::addColumn<int>("nextPow2");
+
+	QTest::addRow("n = 0") << 0 << 0;	// special case 0
+	QTest::addRow("n not power of 2") << 11 << 16;
+	QTest::addRow("n already power of 2") << 8 << 8;
+}
+
+void TestWavFourier::testNextPowOf2()
+{
+	QFETCH(int, n);
+	QFETCH(int, nextPow2);
+
+	QCOMPARE(nextPowOf2(n), nextPow2);
+}
+
+
+
+
+
+
 
 
 QTEST_MAIN(TestWavFourier)
