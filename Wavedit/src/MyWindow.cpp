@@ -82,7 +82,7 @@ void MyWindow::handleFileDialog()
 				std::iota(std::begin(_name), std::end(_name), double_iota(_step))
 
 
-//#define PLOT_TEST
+#define PLOT_TEST
 
 void MyWindow::plotFourierTransform()
 {
@@ -92,7 +92,7 @@ void MyWindow::plotFourierTransform()
 	std::cout << "getData() done\n";
 	QVector<double> freq = wavfourier->Freq(data.size(), wavfourier->getSampleRate());
 	std::cout << "Freq() done\n";
-	QVector<complex> dft = wavfourier->DFT(data);
+	QVector<complex> dft = wavfourier->FFT(data);
 	std::cout << "DFT() done\n";
 	QVector<double> abs_dft = wavfourier->abs(dft);
 	std::cout << "abs() done\n";
@@ -119,7 +119,7 @@ void MyWindow::plotFourierTransform()
 	}
 	QVector<double> freq = wavfourier->Freq(y.size(), 100);
 	std::cout << "freq.size(): " << freq.size() << '\n';
-	QVector<double> dft = wavfourier->abs(wavfourier->DFT(y));
+	QVector<double> dft = wavfourier->abs(wavfourier->FFT(y));
 	std::cout << "dft.size(): " << dft.size() << '\n';
 
 	// Frequencies: 10 Hz
