@@ -52,14 +52,16 @@ OBJECTS_DIR   = build/
 
 ####### Files
 
-SOURCES       = src/WavFourier.cpp \
+SOURCES       = src/fft.cpp \
+		src/WavFourier.cpp \
 		src/qcustomplot.cpp \
 		src/PlotWidget.cpp \
 		src/MyWindow.cpp \
 		src/main.cpp build/moc_WavFourier.cpp \
 		build/moc_qcustomplot.cpp \
 		build/moc_MyWindow.cpp
-OBJECTS       = build/WavFourier.o \
+OBJECTS       = build/fft.o \
+		build/WavFourier.o \
 		build/qcustomplot.o \
 		build/PlotWidget.o \
 		build/MyWindow.o \
@@ -267,10 +269,12 @@ DIST          = /usr/lib/qt/mkspecs/features/spec_pre.prf \
 		/usr/lib/qt/mkspecs/features/exceptions.prf \
 		/usr/lib/qt/mkspecs/features/yacc.prf \
 		/usr/lib/qt/mkspecs/features/lex.prf \
-		Wavedit.pro src/WavFourier.h \
+		Wavedit.pro src/fft.h \
+		src/WavFourier.h \
 		src/qcustomplot.h \
 		src/PlotWidget.h \
-		src/MyWindow.h src/WavFourier.cpp \
+		src/MyWindow.h src/fft.cpp \
+		src/WavFourier.cpp \
 		src/qcustomplot.cpp \
 		src/PlotWidget.cpp \
 		src/MyWindow.cpp \
@@ -705,8 +709,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/WavFourier.h src/qcustomplot.h src/PlotWidget.h src/MyWindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/WavFourier.cpp src/qcustomplot.cpp src/PlotWidget.cpp src/MyWindow.cpp src/main.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents src/fft.h src/WavFourier.h src/qcustomplot.h src/PlotWidget.h src/MyWindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/fft.cpp src/WavFourier.cpp src/qcustomplot.cpp src/PlotWidget.cpp src/MyWindow.cpp src/main.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -742,6 +746,7 @@ compiler_moc_header_clean:
 	-$(DEL_FILE) build/moc_WavFourier.cpp build/moc_qcustomplot.cpp build/moc_MyWindow.cpp
 build/moc_WavFourier.cpp: src/WavFourier.h \
 		src/AudioFile.h \
+		src/fft.h \
 		build/moc_predefs.h \
 		/usr/bin/moc
 	/usr/bin/moc $(DEFINES) --include /home/rattich/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit/build/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/rattich/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit -I/usr/include/qt -I/usr/include/qt/QtPrintSupport -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/14.1.1 -I/usr/include/c++/14.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/14.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include-fixed -I/usr/include src/WavFourier.h -o build/moc_WavFourier.cpp
@@ -756,6 +761,7 @@ build/moc_MyWindow.cpp: src/MyWindow.h \
 		src/qcustomplot.h \
 		src/WavFourier.h \
 		src/AudioFile.h \
+		src/fft.h \
 		build/moc_predefs.h \
 		/usr/bin/moc
 	/usr/bin/moc $(DEFINES) --include /home/rattich/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit/build/moc_predefs.h -I/usr/lib/qt/mkspecs/linux-g++ -I/home/rattich/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/Wavedit -I/usr/include/qt -I/usr/include/qt/QtPrintSupport -I/usr/include/qt/QtWidgets -I/usr/include/qt/QtGui -I/usr/include/qt/QtCore -I/usr/include/c++/14.1.1 -I/usr/include/c++/14.1.1/x86_64-pc-linux-gnu -I/usr/include/c++/14.1.1/backward -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include -I/usr/local/include -I/usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include-fixed -I/usr/include src/MyWindow.h -o build/moc_MyWindow.cpp
@@ -776,8 +782,12 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 
 ####### Compile
 
+build/fft.o: src/fft.cpp src/fft.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/fft.o src/fft.cpp
+
 build/WavFourier.o: src/WavFourier.cpp src/WavFourier.h \
-		src/AudioFile.h
+		src/AudioFile.h \
+		src/fft.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/WavFourier.o src/WavFourier.cpp
 
 build/qcustomplot.o: src/qcustomplot.cpp src/qcustomplot.h
@@ -791,14 +801,16 @@ build/MyWindow.o: src/MyWindow.cpp src/MyWindow.h \
 		src/PlotWidget.h \
 		src/qcustomplot.h \
 		src/WavFourier.h \
-		src/AudioFile.h
+		src/AudioFile.h \
+		src/fft.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/MyWindow.o src/MyWindow.cpp
 
 build/main.o: src/main.cpp src/MyWindow.h \
 		src/PlotWidget.h \
 		src/qcustomplot.h \
 		src/WavFourier.h \
-		src/AudioFile.h
+		src/AudioFile.h \
+		src/fft.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o build/main.o src/main.cpp
 
 build/moc_WavFourier.o: build/moc_WavFourier.cpp 

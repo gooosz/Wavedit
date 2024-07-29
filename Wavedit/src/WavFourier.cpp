@@ -114,6 +114,7 @@ QVector<complex> WavFourier::DFT(const QVector<double>& vec)
 		complex sum = 0.0;
 		for (int j=0; j<vec.size(); j++) {
 			sum += vec[j] * std::exp(-2.0 * M_PI * complex(0.0, 1.0) * (double) j * (double) k / (double)vec.size());
+			//std::cout << "(k, j): (" << k << ", " << j << ")\n";
 		}
 		beta[k] = sum;
 	}
@@ -170,6 +171,63 @@ QVector<double> WavFourier::IDFT_real(const QVector<complex>& vec)
 		idft_real[i] = idft[i].real();
 	}
 	return idft_real;
+}
+
+// returns the next power of 2 >= n
+// from https://stackoverflow.com/questions/1322510/given-an-integer-how-do-i-find-the-next-largest-power-of-two-using-bit-twiddlin/1322548#1322548
+int nextPowOf2(int n)
+{
+	if (n == 0) return 0;	// n=0 should return 0
+	// if n is already power of 2 return n
+	if (n>0 && ((n & (n-1)) == 0))
+		return n;
+
+	n |= n >> 1;   // Divide by 2^k for consecutive doublings of k up to 32,
+	n |= n >> 2;   // and then or the results.
+	n |= n >> 4;
+	n |= n >> 8;
+	n |= n >> 16;
+	n++;
+	return n;
+}
+
+
+// returns the FFT of sample
+QVector<complex> WavFourier::FFT(const QVector<double>& vec)
+{
+	/*
+	 * if vec.size() is not a power of 2, split the data into 2 vectors
+	 * where vec1 has size power of 2 and vec2 has size vec.size - vec1.size (remaining data)
+	 * then calculate FFT on vec1 and DFT on vec2
+	 * TODO: check if this is improvement in time complexity than DFT
+	 * also time complexity > DFT && <= FFT
+	 * TODO: auf papier nachrechnen ob das aufsplitten geht
+	 * a_k = \sum_{j=0}^{n-1} e^{-2*pi*i*jk / n}
+	 * = \sum_{j=0}^{2^m} e^{-2*pi*i*jk / n} + \sum_{j=2^m + 1}^{n-1} e^{-2*pi*i*jk / n}
+	 * = abgewandelte FFT + \sum_{j=0}^{n-1-2^m+1} e^{-2*pi*i*(j-2^m+1)k / n}
+	 *
+	 *
+	 * mit 2^m <= n und 2^{m-1} > n
+	 * =================================================================================
+	 * other idea:
+	 * if vec.size() is not a power of 2, fill vec with 0 until size is power of 2
+	 * and calculate FFT, IMPORTANT: keep the original size saved and only return original FFT values
+	*/
+
+	// vec2 will have size power of 2
+	QVector<complex> vec2(nextPowOf2(vec.size()));
+	for (int i=0; i<vec.size(); i++) {
+		vec2[i] = vec[i];
+	}
+
+	// library fft.cpp uses std::valarray<complex> and calculates fft in-place
+	// TODO: update fft to use Qvector so these extensive copies don't need to be made
+	fft::fft(vec2);
+	std::cout << "fft done\n";
+	// all elements that were appended to have a power of 2 size are still 0
+	// remove them to get the original length back
+	//vec2.resize(vec.size());
+	return vec2;
 }
 
 

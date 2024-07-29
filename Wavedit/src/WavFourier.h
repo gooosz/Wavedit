@@ -10,6 +10,7 @@
 #include <cmath>
 
 #include "AudioFile.h"
+#include "fft.h"
 
 /* Class takes in a WAV File, analyzes it's Bytes
  * and then returns values of the Fourier Transform of the file (or between 2 Timestampts)
@@ -63,6 +64,7 @@ public:	QVector<double> getStuetzstellen(int size);	// returns stuetzstelle x_k 
 	QVector<double> IDFT_real(const QVector<complex>& vec);	// returns real values of IDFT,
 								// use only if you know data was
 								// real (not complex) to begin with
+	QVector<complex> FFT(const QVector<double>& vec);	// returns the FFT of sample
 
 	// returns data as QList from WAV file
 	bool populateData(QString wav_filename);
@@ -85,5 +87,7 @@ signals:
 public slots:
 };
 
+// returns next power of 2 >= n
+int nextPowOf2(int n);
 
 #endif // WAVFOURIER_H
