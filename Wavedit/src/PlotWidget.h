@@ -29,10 +29,9 @@ enum PlotType {
 };
 
 /* A widget containing QCustomPlot */
-class PlotWidget : public QWidget {
+class PlotWidget : public QCustomPlot {
 private:
-	QHBoxLayout *layout;
-	QCustomPlot *plot;
+
 public:
 	PlotWidget(QWidget *parent = 0);
 

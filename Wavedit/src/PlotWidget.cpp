@@ -7,12 +7,11 @@
 
 
 PlotWidget::PlotWidget(QWidget *parent)
-	: layout(new QHBoxLayout), plot(new QCustomPlot(this))
 {
 	setParent(parent);
-	layout->addWidget(plot);
-	layout->setSizeConstraint(QLayout::SetMaximumSize);
-	plot->setMinimumSize(size());
+	//layout->addWidget(plot);
+	//layout->setSizeConstraint(QLayout::SetMaximumSize);
+	//plot->setFixedSize(parent->size());
 
 	QVector<double> x(100);
 	std::iota(std::begin(x), std::end(x), double_iota(0.1/x.size()));
@@ -40,31 +39,40 @@ void PlotWidget::makePlot(const QVector<double> &x, std::function<double(double)
 */
 void PlotWidget::makePlot(const QVector<double> &x, const QVector<double> &y, int graphNr, bool rescale, PlotType plotType, QColor color)
 {
-	plot->addGraph();
-	plot->graph(graphNr)->setData(x, y);
+	addGraph();
+	graph(graphNr)->setData(x, y);
 
-	plot->graph(graphNr)->setPen(QPen(color));
+	graph(graphNr)->setPen(QPen(color));
 	if (plotType == SCATTER) {
-		plot->graph(graphNr)->setLineStyle(QCPGraph::lsNone);
-		plot->graph(graphNr)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, color, color, 1));
+		graph(graphNr)->setLineStyle(QCPGraph::lsNone);
+		graph(graphNr)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, color, color, 1));
 	}
-	plot->setBackground(QBrush(Qt::NoBrush));
-	plot->xAxis->setLabel("Hz");
-	plot->yAxis->setLabel("y");
+	setBackground(QBrush(Qt::NoBrush));
+	xAxis->setLabel("Hz");
+	yAxis->setLabel("y");
+
+	if (x.size() > 50000) {
+		QSharedPointer<QCPAxisTickerFixed> xticks(new QCPAxisTickerFixed);
+		xticks->setTickStep(5000);	// display tick label every 5000 Hz
+		xticks->setScaleStrategy(QCPAxisTickerFixed::ssNone);	// tick distance/step is fix
+		xAxis->setTicker(xticks);
+	}
+
 	if (rescale) {
-		plot->graph(graphNr)->rescaleAxes();
+		graph(graphNr)->rescaleAxes();
 	}
-	plot->replot();
+	replot();
 }
 
 // draws a vertical line where the Nyquist frequency is
 void PlotWidget::markNyquistFreq(double nyquist, QColor color)
 {
-	    QCPItemLine *line = new QCPItemLine(plot);
+	    QCPItemLine *line = new QCPItemLine(this);
 	    line->setPen(QPen(color));
-	    double ymin = plot->yAxis->range().lower;
-	    double ymax = plot->yAxis->range().upper;
+	    double ymin = yAxis->range().lower;
+	    double ymax = yAxis->range().upper;
 	    line->start->setCoords(nyquist, ymin);
 	    line->end->setCoords(nyquist, ymax);
-	    plot->replot();
+	    replot();
 }
+
