@@ -38,6 +38,9 @@ private:
 	QTextEdit *text;
 	PlotWidget *plot;
 
+	QLineEdit *mouseCoords; // for displaying mouse coords
+
+
 	// Calculate Fourier stuff of WAV file
 	WavFourier *wavfourier;
 
@@ -49,12 +52,15 @@ private:
 
 	void setDefaultLayout();
 
+	void setConnects();	// set all signal/slot connects
+
 public:
 	explicit MyWindow(QWidget *parent = 0);
 
 public slots:
 	void handleFileDialog();
 	void plotFourierTransform();	// gets the data from WavFourier::getData(...)
+	void onMouseMove(QMouseEvent *ev);	// triggered when mouse moves, then update mouse coords
 };
 
 
