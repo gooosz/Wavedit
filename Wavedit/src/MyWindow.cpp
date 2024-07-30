@@ -116,14 +116,13 @@ void MyWindow::handleFileDialog()
 				std::iota(std::begin(_name), std::end(_name), double_iota(_step))
 
 
-//#define PLOT_TEST
+#define PLOT_TEST
 
 void MyWindow::plotFourierTransform()
 {
 #ifndef PLOT_TEST
 	QVector<double> x(wavfourier->getDataSize());
 	QVector<double> data = wavfourier->getData();
-	wavfourier->applyWindowFunction(data, WindowFunction::hamming); // reduce leakage effect
 	std::cout << "getData() done\n";
 	QVector<double> freq = wavfourier->Freq(nextPowOf2(data.size()), wavfourier->getSampleRate());
 	std::cout << "Freq() done\n";
@@ -147,12 +146,12 @@ void MyWindow::plotFourierTransform()
 	// but in real life the distance between sample points is 1/sampleRate
 	//std::iota(std::begin(x), std::end(x), 0);
 #else
-	CREATE_AND_FILL_QVEC(x, double, 10.24, 0.01);
+	CREATE_AND_FILL_QVEC(x, double, 15, 0.01);
 	QVector<double> y(x.size());
 	for (int i=0; i<y.size(); i++) {
 		y[i] = std::sin(1.0*2.0*M_PI*x[i]) + 1.0/2.0*std::sin(17.0*2*M_PI*x[i]);
 	}
-	QVector<double> freq = wavfourier->Freq(y.size(), 100);
+	QVector<double> freq = wavfourier->Freq(nextPowOf2(y.size()), 100);
 	std::cout << "freq.size(): " << freq.size() << '\n';
 	QVector<double> dft = wavfourier->abs(wavfourier->FFT(y));
 	std::cout << "dft.size(): " << dft.size() << '\n';
