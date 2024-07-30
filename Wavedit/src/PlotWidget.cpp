@@ -13,11 +13,14 @@ PlotWidget::PlotWidget(QWidget *parent)
 	//layout->setSizeConstraint(QLayout::SetMaximumSize);
 	//plot->setFixedSize(parent->size());
 
-	QVector<double> x(100);
+	/*QVector<double> x(0);
 	std::iota(std::begin(x), std::end(x), double_iota(0.1/x.size()));
 	// makePlot(x, [&](double x1){ return exp(-x1/x.size()*3)*cos(x1/x.size()*20); });
 	// Frequencies: 10 Hz
-	makePlot(x, [&](double x1){ return sin(10*2*M_PI*x1); }, 0, true);
+	makePlot(x, [&](double x1){ return sin(10*2*M_PI*x1); }, 0, true);*/
+	QVector<double> x(0);
+	QVector<double> y(0);
+	makePlot(x, y, 0, true);
 }
 
 /*
@@ -51,7 +54,7 @@ void PlotWidget::makePlot(const QVector<double> &x, const QVector<double> &y, in
 	}
 	setBackground(QBrush(Qt::NoBrush));
 	xAxis->setLabel("Hz");
-	yAxis->setLabel("y");
+	yAxis->setLabel("Amplitude");
 
 	if (x.size() > 50000) {
 		QSharedPointer<QCPAxisTickerFixed> xticks(new QCPAxisTickerFixed);
