@@ -62,6 +62,7 @@ public slots:
 	void plotFourierTransform();	// gets the data from WavFourier::getData(...)
 	void onMouseMove(QMouseEvent *ev);	// triggered when mouse moves, then update mouse coords
 	void onFrequencyEdit();	// triggered when QLineEdit text changes, move cursor to that input value
+	void onMouseClick(QMouseEvent *ev);	// filters the clicked frequency from data
 };
 
 

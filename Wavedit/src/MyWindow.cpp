@@ -84,6 +84,9 @@ void MyWindow::setConnects()
 	// when a frequency is written into mouseCoords QLineEdit, move the cursor to that position
 	// for more accurate clicking when filtering frequency
 	connect(mouseCoords, &QLineEdit::editingFinished, this, &MyWindow::onFrequencyEdit);
+	// when mouse clicked on frequency amplitude in diagram, filter/remove that frequency from data
+	connect(plot, &QCustomPlot::mouseRelease, this, &MyWindow::onMouseClick);
+
 }
 
 
@@ -120,6 +123,7 @@ void MyWindow::plotFourierTransform()
 #ifndef PLOT_TEST
 	QVector<double> x(wavfourier->getDataSize());
 	QVector<double> data = wavfourier->getData();
+	wavfourier->applyWindowFunction(data, WindowFunction::hamming); // reduce leakage effect
 	std::cout << "getData() done\n";
 	QVector<double> freq = wavfourier->Freq(nextPowOf2(data.size()), wavfourier->getSampleRate());
 	std::cout << "Freq() done\n";
@@ -207,4 +211,19 @@ void MyWindow::onFrequencyEdit()
 	// TODO: get value of FFT in qcustomplot at freq/xcoord and plot
 
 	QCursor::setPos(globalcoords);
+}
+
+// filters the clicked frequency from data
+void MyWindow::onMouseClick(QMouseEvent *ev)
+{
+	// if not left button clicked do nothing
+	if (ev->button() != Qt::LeftButton) {
+		return;
+	}
+	// clicked on frequency freq
+	double freq = plot->xAxis->pixelToCoord(ev->pos().x());
+	/*
+	 *
+	*/
+	std::cout << "mouse click on " << freq << " Hz\n";
 }

@@ -37,7 +37,6 @@ bool WavFourier::populateData(QString wav_filename)
 	}
 	std::reverse(data.begin(), data.end());
 
-
 	std::cout << "ChunkID: " 	<< '-' << '\n'
 		  << "ChunkSize: " 	<< '-' << '\n'
 		  << "Format: " 	<< '-' << '\n'
@@ -235,8 +234,47 @@ QVector<complex>& WavFourier::FFT(const QVector<double>& vec)
 }
 
 
+/*
+ * apply (multiply) a specified window function to vec
+*/
+void WavFourier::applyWindowFunction(QVector<double> &vec, std::function<double(double,double)> window)
+{
+	int N = vec.size();
+	for (int i=0; i<vec.size(); i++) {
+		vec[i] = vec[i] * window(i, N);
+	}
+}
 
+// -------Window functions-------
+// rectangular window: w(n) = 1
+double WindowFunction::rect(double n, double M)
+{
+	return 1.0;
+}
 
+// von-hann window: w(n) = w(n) = 0.5 - 0.5 * cos((2*pi*n)/(size-1))
+double WindowFunction::vonhann(double n, double M)
+{
+	return 0.5 - 0.5 * std::cos((2.0*M_PI*n) / (M-1.0));
+}
+
+// hamming window: w(n) = 0.54 - 0.46 * cos((2*pi*n)/(size-1))
+double WindowFunction::hamming(double n, double M)
+{
+	return 0.54 - 0.46 * std::cos((2.0*M_PI*n) / (M-1.0));
+}
+
+// blackman window: w(n) = a0 - a1 * cos((2*pi*n)/(size-1)) + a2 * cos((4*pi*n)/(size-1))
+// a0 = (1-0.16)/2.0
+// a1 = 1.0/2.0
+// a2 = 0.16/2.0
+double WindowFunction::blackman(double n, double M)
+{
+	double a0 = (1-0.16) / 2.0;
+	double a1 = 1.0 / 2.0;
+	double a2 = 0.16 / 2.0;
+	return a0 - a1 * std::cos((2.0*M_PI*n) / (M-1.0)) + a2 * std::cos((4.0*M_PI*n) / (M-1.0));
+}
 
 
 

@@ -42,6 +42,14 @@
 using complex = std::complex<double>;
 Q_DECLARE_METATYPE(complex);
 
+// Some different window functions to reduce the leackage effect
+struct WindowFunction {
+	// M = window width = data.size()
+	static double rect(double n, double M);
+	static double vonhann(double n, double M);
+	static double hamming(double n, double M);
+	static double blackman(double n, double M);
+};
 
 class WavFourier : public QObject {
 	Q_OBJECT
@@ -61,7 +69,12 @@ private:
 
 	QVector<double> freq;
 
-public:	QVector<double> getStuetzstellen(int size);	// returns stuetzstelle x_k of data point x using (2*M_PI*k)/n
+public:
+	// apply (multiply) window function to data to reduce leackage effect
+	// hamming window should be overall the best one to use
+	void applyWindowFunction(QVector<double> &vec, std::function<double(double,double)> window = WindowFunction::hamming);
+
+	QVector<double> getStuetzstellen(int size);	// returns stuetzstelle x_k of data point x using (2*M_PI*k)/n
 	QVector<double>& Freq(int size, double sample_rate=1.0);		// returns the DFT sample frequency bin centers
 	QVector<complex>& DFT(const QVector<double>& vec);		// Discrete-Fourier-Transform on data
 	QVector<double> abs(const QVector<complex>& vec);		// absolute value of every element of vec
