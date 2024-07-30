@@ -67,22 +67,21 @@ private:
 	QVector<complex> dft;
 	QVector<complex> fft;
 
-	QVector<double> freq;
-
 public:
 	// apply (multiply) window function to data to reduce leackage effect
 	// hamming window should be overall the best one to use
 	void applyWindowFunction(QVector<double> &vec, std::function<double(double,double)> window = WindowFunction::hamming);
 
 	QVector<double> getStuetzstellen(int size);	// returns stuetzstelle x_k of data point x using (2*M_PI*k)/n
-	QVector<double>& Freq(int size, double sample_rate=1.0);		// returns the DFT sample frequency bin centers
-	QVector<complex>& DFT(const QVector<double>& vec);		// Discrete-Fourier-Transform on data
+	QVector<double> Freq(int size, double sample_rate=1.0);		// returns the DFT sample frequency bin centers
+	QVector<complex>& DFT(QVector<double>& vec);		// Discrete-Fourier-Transform on data
 	QVector<double> abs(const QVector<complex>& vec);		// absolute value of every element of vec
 	QVector<complex> IDFT(const QVector<complex>& vec);		// Inverse Discrete-Fourier-Transform on DFT(data), returns complex numbers
 	QVector<double> IDFT_real(const QVector<complex>& vec);	// returns real values of IDFT,
 								// use only if you know data was
 								// real (not complex) to begin with
-	QVector<complex>& FFT(const QVector<double>& vec);	// returns the FFT of sample
+	// not const because applies a window function to vec
+	QVector<complex>& FFT(QVector<double>& vec);	// returns the FFT of sample
 
 	// returns data as QList from WAV file
 	bool populateData(QString wav_filename);

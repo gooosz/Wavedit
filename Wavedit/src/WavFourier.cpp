@@ -19,7 +19,6 @@ bool WavFourier::populateData(QString wav_filename)
 	// clear old DFT, FFT vectors
 	data_uint16.clear();
 	data.clear();
-	freq.clear();
 	dft.clear();
 	fft.clear();
 
@@ -95,13 +94,9 @@ double WavFourier::getSampleRate()
 }
 
 // returns the DFT sample frequency bin centers
-QVector<double>& WavFourier::Freq(int size, double sample_rate)
+QVector<double> WavFourier::Freq(int size, double sample_rate)
 {
-	if (freq.size() > 0) {
-		return freq;	// freq already calculated
-	}
-
-	freq.resize(size);
+	QVector<double> freq(size);
 	if (size == 0)	return freq;	// empty size means no frequency bins
 	// see https://numpy.org/doc/stable/reference/generated/numpy.fft.fftfreq.html+
 	// or https://stackoverflow.com/questions/4364823/how-to-get-frequency-from-fft-result/4371627#4371627
@@ -117,7 +112,7 @@ QVector<double>& WavFourier::Freq(int size, double sample_rate)
 
 // calculates Discrete-Fourier-Transform of data
 // @returns fourier coefficients (beta_j)
-QVector<complex>& WavFourier::DFT(const QVector<double>& vec)
+QVector<complex>& WavFourier::DFT(QVector<double>& vec)
 {
 	if (dft.size() > 0) {
 		// dft already calculated, return
@@ -125,11 +120,12 @@ QVector<complex>& WavFourier::DFT(const QVector<double>& vec)
 	}
 	// dft not calculated yet
 	dft.resize(vec.size());
+	// apply window function to vec
+	applyWindowFunction(vec, WindowFunction::hamming);
 	for (int k=0; k<vec.size(); k++) {
 		complex sum = 0.0;
 		for (int j=0; j<vec.size(); j++) {
 			sum += vec[j] * std::exp(-2.0 * M_PI * complex(0.0, 1.0) * (double) j * (double) k / (double)vec.size());
-			//std::cout << "(k, j): (" << k << ", " << j << ")\n";
 		}
 		dft[k] = sum;
 	}
@@ -208,13 +204,17 @@ int nextPowOf2(int n)
 
 
 // returns the FFT of sample
-QVector<complex>& WavFourier::FFT(const QVector<double>& vec)
+QVector<complex>& WavFourier::FFT(QVector<double>& vec)
 {
 	if (fft.size() > 0) {
 		// fft already calculated, return
 		return fft;
 	}
 	// fft not calculated yet
+
+	// apply window function before zero padding
+	// according to https://dsp.stackexchange.com/a/8796
+	applyWindowFunction(vec, WindowFunction::hamming);
 
 	/*
 	 * if vec.size() is not a power of 2, fill vec with 0 until size is power of 2
@@ -226,8 +226,6 @@ QVector<complex>& WavFourier::FFT(const QVector<double>& vec)
 	for (int i=0; i<vec.size(); i++) {
 		fft[i] = vec[i];
 	}
-	// library fft.cpp uses std::valarray<complex> and calculates fft in-place
-	// TODO: update fft to use Qvector so these extensive copies don't need to be made
 	fft::fft(fft);
 	std::cout << "fft done\n";
 	return fft;
