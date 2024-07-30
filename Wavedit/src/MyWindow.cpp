@@ -10,26 +10,6 @@ MyWindow::MyWindow(QWidget *parent)
 	setConnects();
 }
 
-// triggered when mouse moves, then update mouse coords
-void MyWindow::onMouseMove(QMouseEvent *ev)
-{
-	double x = plot->xAxis->pixelToCoord(ev->pos().x());
-	mouseCoords->setText(QString("%1 Hz").arg(x));
-}
-
-// triggered when QLineEdit text changes, move cursor to that input value
-void MyWindow::onFrequencyEdit()
-{
-	// get double value from mouseCoords field (without the _Hz suffix)
-	double freq = mouseCoords->text().remove(" Hz").toDouble();
-	double xcoord = plot->xAxis->coordToPixel(freq);
-	// TODO: get value of FFT in qcustomplot at freq/xcoord and plot
-
-	QCursor::setPos(xcoord, 0);
-}
-
-
-
 
 void MyWindow::setDefaultLayout()
 {
@@ -186,4 +166,45 @@ void MyWindow::plotFourierTransform()
 		std::cout << "( " << freq[i] << ", " << dft[i] << ")\n";
 	}*/
 #endif // PLOT_TEST
+}
+
+
+// triggered when mouse moves, then update mouse coords
+void MyWindow::onMouseMove(QMouseEvent *ev)
+{
+	double x = plot->xAxis->pixelToCoord(ev->pos().x());
+	mouseCoords->setText(QString("%1 Hz").arg(x));
+}
+
+
+// triggered when QLineEdit text changes, move cursor to that input value
+void MyWindow::onFrequencyEdit()
+{
+	QVector<double> freq = wavfourier->Freq(nextPowOf2(wavfourier->getDataSize()),
+						wavfourier->getSampleRate());
+	QVector<complex> fft = wavfourier->FFT(wavfourier->getData());
+	// get double value from mouseCoords field (without the _Hz suffix)
+	double freqValue = mouseCoords->text().remove(" Hz").toDouble();
+	if (freqValue < 0 || freqValue > freq.size())
+		return;	// do nothing, freqValue is out of bounds
+
+	// xcoord of freqValue
+	double xCoordInPlot = plot->xAxis->coordToPixel(freqValue);
+
+	// index in vector where (xcoord, ycoord) is bzw. where closes value to xcoord is
+	auto const it = std::lower_bound(freq.begin(), freq.end(), freqValue);
+	if (it == freq.end()) return;	// no closest value match, do nothing
+	int index = *it;	// index of closest values for (freqValue, ycoord)
+
+	// ycoord of freqValue
+	double abs_val = std::abs(fft[index]);
+	double yCoordInPlot = plot->yAxis->coordToPixel(abs_val);
+	QPoint localcoords = QPoint(xCoordInPlot, yCoordInPlot);
+
+	QPoint globalcoords = mapToGlobal(localcoords);
+
+	//QPoint coordsGlobal = plotBox->mapToGlobal(QPoint(xcoordInPlot, yCoordInPlot));
+	// TODO: get value of FFT in qcustomplot at freq/xcoord and plot
+
+	QCursor::setPos(globalcoords);
 }

@@ -79,12 +79,6 @@ void PlotWidget::markNyquistFreq(double nyquist, int graphNr, QColor color)
 	QVector<double> y = {yAxis->range().lower, yAxis->range().upper};
 	graph(graphNr)->setData(x, y);
 	setBackground(QBrush(Qt::NoBrush));
-	/*QCPItemLine *line = new QCPItemLine(this);
-	line->setPen(QPen(color));
-	double ymin = yAxis->range().lower;
-	double ymax = yAxis->range().upper;
-	line->start->setCoords(nyquist, ymin);
-	line->end->setCoords(nyquist, ymax);*/
 	replot();
 }
 

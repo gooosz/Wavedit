@@ -59,8 +59,10 @@ private:
 	QVector<complex> dft;
 	QVector<complex> fft;
 
+	QVector<double> freq;
+
 public:	QVector<double> getStuetzstellen(int size);	// returns stuetzstelle x_k of data point x using (2*M_PI*k)/n
-	QVector<double> Freq(int size, double sample_rate=1.0);		// returns the DFT sample frequency bin centers
+	QVector<double>& Freq(int size, double sample_rate=1.0);		// returns the DFT sample frequency bin centers
 	QVector<complex>& DFT(const QVector<double>& vec);		// Discrete-Fourier-Transform on data
 	QVector<double> abs(const QVector<complex>& vec);		// absolute value of every element of vec
 	QVector<complex> IDFT(const QVector<complex>& vec);		// Inverse Discrete-Fourier-Transform on DFT(data), returns complex numbers

@@ -19,6 +19,7 @@ bool WavFourier::populateData(QString wav_filename)
 	// clear old DFT, FFT vectors
 	data_uint16.clear();
 	data.clear();
+	freq.clear();
 	dft.clear();
 	fft.clear();
 
@@ -95,9 +96,13 @@ double WavFourier::getSampleRate()
 }
 
 // returns the DFT sample frequency bin centers
-QVector<double> WavFourier::Freq(int size, double sample_rate)
+QVector<double>& WavFourier::Freq(int size, double sample_rate)
 {
-	QVector<double> freq(size);
+	if (freq.size() > 0) {
+		return freq;	// freq already calculated
+	}
+
+	freq.resize(size);
 	if (size == 0)	return freq;	// empty size means no frequency bins
 	// see https://numpy.org/doc/stable/reference/generated/numpy.fft.fftfreq.html+
 	// or https://stackoverflow.com/questions/4364823/how-to-get-frequency-from-fft-result/4371627#4371627
