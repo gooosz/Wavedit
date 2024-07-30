@@ -39,7 +39,9 @@ void PlotWidget::makePlot(const QVector<double> &x, std::function<double(double)
 */
 void PlotWidget::makePlot(const QVector<double> &x, const QVector<double> &y, int graphNr, bool rescale, PlotType plotType, QColor color)
 {
-	addGraph();
+	if (graphCount() == 0) {
+		addGraph();
+	}
 	graph(graphNr)->setData(x, y);
 
 	graph(graphNr)->setPen(QPen(color));
@@ -65,14 +67,24 @@ void PlotWidget::makePlot(const QVector<double> &x, const QVector<double> &y, in
 }
 
 // draws a vertical line where the Nyquist frequency is
-void PlotWidget::markNyquistFreq(double nyquist, QColor color)
+void PlotWidget::markNyquistFreq(double nyquist, int graphNr, QColor color)
 {
-	    QCPItemLine *line = new QCPItemLine(this);
-	    line->setPen(QPen(color));
-	    double ymin = yAxis->range().lower;
-	    double ymax = yAxis->range().upper;
-	    line->start->setCoords(nyquist, ymin);
-	    line->end->setCoords(nyquist, ymax);
-	    replot();
+	if (graphCount() <= 1) {
+		addGraph();
+	}
+	graph(graphNr)->setPen(QPen(color));
+	double ymin = yAxis->range().lower;
+	double ymax = yAxis->range().upper;
+	QVector<double> x = {nyquist, nyquist};
+	QVector<double> y = {yAxis->range().lower, yAxis->range().upper};
+	graph(graphNr)->setData(x, y);
+	setBackground(QBrush(Qt::NoBrush));
+	/*QCPItemLine *line = new QCPItemLine(this);
+	line->setPen(QPen(color));
+	double ymin = yAxis->range().lower;
+	double ymax = yAxis->range().upper;
+	line->start->setCoords(nyquist, ymin);
+	line->end->setCoords(nyquist, ymax);*/
+	replot();
 }
 

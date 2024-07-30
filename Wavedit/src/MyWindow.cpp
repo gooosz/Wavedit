@@ -13,9 +13,22 @@ MyWindow::MyWindow(QWidget *parent)
 // triggered when mouse moves, then update mouse coords
 void MyWindow::onMouseMove(QMouseEvent *ev)
 {
-	double x = plot->/*getPlot()->*/xAxis->pixelToCoord(ev->pos().x());
+	double x = plot->xAxis->pixelToCoord(ev->pos().x());
 	mouseCoords->setText(QString("%1 Hz").arg(x));
 }
+
+// triggered when QLineEdit text changes, move cursor to that input value
+void MyWindow::onFrequencyEdit()
+{
+	// get double value from mouseCoords field (without the _Hz suffix)
+	double freq = mouseCoords->text().remove(" Hz").toDouble();
+	double xcoord = plot->xAxis->coordToPixel(freq);
+	// TODO: get value of FFT in qcustomplot at freq/xcoord and plot
+
+	QCursor::setPos(xcoord, 0);
+}
+
+
 
 
 void MyWindow::setDefaultLayout()
@@ -49,7 +62,10 @@ void MyWindow::createFileChooserBox()
 	mouseCoords = new QLineEdit("Hz");
 	mouseCoords->setFixedWidth(width);
 	mouseCoords->setAlignment(Qt::AlignCenter);
-	mouseCoords->setReadOnly(true);
+	// double value with precision max 12 digits and optionally " Hz" at end
+	QRegularExpression freqRegex("^(\\d)*\\.?(\\d){0,12}( Hz)?$");
+	QRegularExpressionValidator *freqValid = new QRegularExpressionValidator(freqRegex, this);
+	mouseCoords->setValidator(freqValid);
 
 	// add button to layout
 	layout->addWidget(openFileDialogButton);
@@ -85,6 +101,9 @@ void MyWindow::setConnects()
 
 	// show mouse x and y coordinates on hover like in matplotlib
 	connect(plot, &QCustomPlot::mouseMove, this, &MyWindow::onMouseMove);
+	// when a frequency is written into mouseCoords QLineEdit, move the cursor to that position
+	// for more accurate clicking when filtering frequency
+	connect(mouseCoords, &QLineEdit::editingFinished, this, &MyWindow::onFrequencyEdit);
 }
 
 
@@ -114,7 +133,7 @@ void MyWindow::handleFileDialog()
 				std::iota(std::begin(_name), std::end(_name), double_iota(_step))
 
 
-#define PLOT_TEST
+//#define PLOT_TEST
 
 void MyWindow::plotFourierTransform()
 {
@@ -135,7 +154,7 @@ void MyWindow::plotFourierTransform()
 
 	plot->makePlot(freq, abs_dft, 0, true, PLOT, Qt::darkYellow);
 	std::cout << "makePlot() done\n";
-	plot->markNyquistFreq(freq[freq.size()/2], Qt::darkMagenta);
+	plot->markNyquistFreq(freq[freq.size()/2], 1, Qt::darkMagenta);
 	std::cout << "markNyquistFreq() done\n";
 
 	// the x values in x = [0, getDataSize) are ok
@@ -160,7 +179,7 @@ void MyWindow::plotFourierTransform()
 	std::cout << y.size() << " samples in QVector\n";
 	//plot->makePlot(x, y, 0, true, SCATTER, Qt::white);
 	plot->makePlot(freq, dft, 0, true, PLOT, Qt::yellow);
-	plot->markNyquistFreq(freq[freq.size()/2]);
+	plot->markNyquistFreq(freq[freq.size()/2], 1);
 
 	/*std::cout << "=========\n";
 	for (int i=0; i<freq.size(); i++) {

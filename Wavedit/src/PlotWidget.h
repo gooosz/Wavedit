@@ -37,7 +37,7 @@ public:
 
 	void makePlot(const QVector<double> &x, std::function<double(double)> f, int graphNr=0, bool rescale=true, PlotType plotType=PLOT, QColor color=Qt::green);
 	void makePlot(const QVector<double> &x, const QVector<double> &y, int graphNr=0, bool rescale=true, PlotType plotType=PLOT, QColor color=Qt::green);
-	void markNyquistFreq(double nyquist, QColor color=Qt::red);	// draws a vertical line where the Nyquist frequency is
+	void markNyquistFreq(double nyquist, int graphNr=1, QColor color=Qt::red);	// draws a vertical line where the Nyquist frequency is
 };
 
 #endif // PLOTWIDGET_H
