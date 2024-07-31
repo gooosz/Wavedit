@@ -100,7 +100,8 @@ void MyWindow::showErrorDialogOpenFile()
 
 void MyWindow::handleFileDialog()
 {
-	QString filename = QFileDialog::getOpenFileName(nullptr, "Open WAV File", "/home", "(*.wav)");
+	QString dir = "/home/rattich/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/test";
+	QString filename = QFileDialog::getOpenFileName(nullptr, "Open WAV File", dir, "(*.wav)");
 	wavfourier->populateData(filename);
 }
 
@@ -116,7 +117,8 @@ void MyWindow::handleFileDialog()
 				std::iota(std::begin(_name), std::end(_name), double_iota(_step))
 
 
-#define PLOT_TEST
+//#define PLOT_TEST
+//#define USE_DFT
 
 void MyWindow::plotFourierTransform()
 {
@@ -124,10 +126,19 @@ void MyWindow::plotFourierTransform()
 	QVector<double> x(wavfourier->getDataSize());
 	QVector<double> data = wavfourier->getData();
 	std::cout << "getData() done\n";
+
+#ifdef USE_DFT
+	QVector<double> freq = wavfourier->Freq(data.size(), wavfourier->getSampleRate());
+	std::cout << "Freq() done\n";
+	QVector<complex> dft = wavfourier->DFT(data);
+	std::cout << "DFT() done\n";
+#else
 	QVector<double> freq = wavfourier->Freq(nextPowOf2(data.size()), wavfourier->getSampleRate());
 	std::cout << "Freq() done\n";
 	QVector<complex> dft = wavfourier->FFT(data);
-	std::cout << "DFT() done\n";
+	std::cout << "FFT() done\n";
+#endif // USE_DFT
+
 	QVector<double> abs_dft = wavfourier->abs(dft);
 	std::cout << "abs() done\n";
 
@@ -135,10 +146,20 @@ void MyWindow::plotFourierTransform()
 		  << "freq.size(): "	<< freq.size()	<< '\n'
 		  << "dft.size(): "	<< dft.size() 	<< '\n';
 
+	std::cout << "-----------\n";
+	QVector<double> oldFreq = wavfourier->Freq(data.size(), wavfourier->getSampleRate());
+	double freqRes = wavfourier->getSampleRate() / (double) oldFreq.size();
+	std::cout << "frequency resolution: " << freqRes << '\n';
+	std::cout << "window frequency resolution: " << wavfourier->getSampleRate()/(double)freq.size() << '\n';
+	std::cout << "vonhann frequency resolution: " << 1.5 * freqRes << '\n';
+	std::cout << "flattop frequency resolution: " << 3.77025 * freqRes << '\n';
+	std::cout << "-----------\n";
+
 	plot->makePlot(freq, abs_dft, 0, true, PLOT, Qt::darkYellow);
 	std::cout << "makePlot() done\n";
 	plot->markNyquistFreq(freq[freq.size()/2], 1, Qt::darkMagenta);
 	std::cout << "markNyquistFreq() done\n";
+
 
 	// the x values in x = [0, getDataSize) are ok
 	// because the y values are of importance are they oscillate, so
@@ -146,20 +167,29 @@ void MyWindow::plotFourierTransform()
 	// but in real life the distance between sample points is 1/sampleRate
 	//std::iota(std::begin(x), std::end(x), 0);
 #else
-	CREATE_AND_FILL_QVEC(x, double, 15, 0.01);
+	double n = 1;
+	double frequeny_rate = 44100.0;//n / steps;
+	double steps = n / frequeny_rate;
+
+	CREATE_AND_FILL_QVEC(x, double, n, steps);
 	QVector<double> y(x.size());
+
 	for (int i=0; i<y.size(); i++) {
-		y[i] = std::sin(1.0*2.0*M_PI*x[i]) + 1.0/2.0*std::sin(17.0*2*M_PI*x[i]);
+		// 1 Hz, 17 Hz, 90 Hz, 200 Hz
+		y[i] = std::sin(1000.0*2.0*M_PI*x[i])
+			+ 1.0/2.0*std::sin(1700.0*2*M_PI*x[i])
+			+ 5.0/7.0*std::sin(9000.0*2*M_PI*x[i])
+			+ 1.0/10.0*std::sin(20000.0*2*M_PI*x[i]);
 	}
-	QVector<double> freq = wavfourier->Freq(nextPowOf2(y.size()), 100);
+	QVector<double> freq = wavfourier->Freq(nextPowOf2(y.size()), frequeny_rate);
+	std::for_each(freq.rbegin(), freq.rend(), [](double f) {
+		std::cout << f << '\n';
+	});
 	std::cout << "freq.size(): " << freq.size() << '\n';
-	QVector<double> dft = wavfourier->abs(wavfourier->FFT(y));
+	QVector<double> dft = wavfourier->abs(wavfourier->FFT(y, true));
 	std::cout << "dft.size(): " << dft.size() << '\n';
-
-	// Frequencies: 10 Hz
-	//std::for_each(y.begin(), y.end(), [](double &x1){ return sin(10*2*M_PI*x1); });
-
 	std::cout << y.size() << " samples in QVector\n";
+
 	//plot->makePlot(x, y, 0, true, SCATTER, Qt::white);
 	plot->makePlot(freq, dft, 0, true, PLOT, Qt::yellow);
 	plot->markNyquistFreq(freq[freq.size()/2], 1);
@@ -222,7 +252,7 @@ void MyWindow::onMouseClick(QMouseEvent *ev)
 	// clicked on frequency freq
 	double freq = plot->xAxis->pixelToCoord(ev->pos().x());
 	/*
-	 *
+	 * TODO: remove the clicked frequency, do IFFT and write back to file (or backup file)
 	*/
 	std::cout << "mouse click on " << freq << " Hz\n";
 }
