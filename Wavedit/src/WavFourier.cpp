@@ -17,7 +17,7 @@ bool WavFourier::populateData(QString wav_filename)
 	}
 
 	// clear old DFT, FFT vectors
-	data_uint16.clear();
+	data_int16.clear();
 	data.clear();
 	dft.clear();
 	fft.clear();
@@ -25,13 +25,13 @@ bool WavFourier::populateData(QString wav_filename)
 	// wavfile contains all needed infos about WAV file, so get the data from file
 	for (int i=0; i<wavfile.getNumSamplesPerChannel(); i++) {
 		for (int channel=0; channel<wavfile.getNumChannels(); channel++) {
-			data_uint16.push_back(wavfile.samples[channel][i]);
+			data_int16.push_back(wavfile.samples[channel][i]);
 		}
 	}
 	// fill double QVector data as well
-	for (int i=0; i<data_uint16.size(); i++) {
+	for (int i=0; i<data_int16.size(); i++) {
 		// double list element (dlistel)
-		double dlistel = static_cast<double>(data_uint16[i]);
+		double dlistel = static_cast<double>(data_int16[i]);
 		data.push_back(dlistel);
 	}
 	std::reverse(data.begin(), data.end());
@@ -68,9 +68,9 @@ qint64 WavFourier::getDataSize()
  * if startTime==0 && endTime==0 (default constructed)
  * then set endTime to endTime of file, so analyze the whole WAV file
 */
-QList<quint16>& WavFourier::getDataList(QTime startTime, QTime endTime)
+QList<qint16>& WavFourier::getDataList(QTime startTime, QTime endTime)
 {
-	return data_uint16;
+	return data_int16;
 }
 
 QVector<double>& WavFourier::getData(QTime startTime, QTime endTime)
@@ -112,16 +112,16 @@ QVector<double> WavFourier::Freq(int size, double sample_rate)
 
 // calculates Discrete-Fourier-Transform of data
 // @returns fourier coefficients (beta_j)
-QVector<complex>& WavFourier::DFT(QVector<double>& vec)
+QVector<complex>& WavFourier::DFT(QVector<double>& vec, bool calculate)
 {
-	if (dft.size() > 0) {
+	if (dft.size() > 0 && vec.size() == dft.size() && !calculate) {
 		// dft already calculated, return
 		return dft;
 	}
 	// dft not calculated yet
 	dft.resize(vec.size());
 	// apply window function to vec
-	applyWindowFunction(vec, WindowFunction::hamming);
+	applyWindowFunction(vec, WindowFunction::vonhann);
 	for (int k=0; k<vec.size(); k++) {
 		complex sum = 0.0;
 		for (int j=0; j<vec.size(); j++) {
@@ -204,9 +204,9 @@ int nextPowOf2(int n)
 
 
 // returns the FFT of sample
-QVector<complex>& WavFourier::FFT(QVector<double>& vec)
+QVector<complex>& WavFourier::FFT(QVector<double>& vec, bool calculate)
 {
-	if (fft.size() > 0) {
+	if (fft.size() > 0 && vec.size() == fft.size() && !calculate) {
 		// fft already calculated, return
 		return fft;
 	}
@@ -214,7 +214,7 @@ QVector<complex>& WavFourier::FFT(QVector<double>& vec)
 
 	// apply window function before zero padding
 	// according to https://dsp.stackexchange.com/a/8796
-	applyWindowFunction(vec, WindowFunction::hamming);
+	applyWindowFunction(vec, WindowFunction::vonhann);
 
 	/*
 	 * if vec.size() is not a power of 2, fill vec with 0 until size is power of 2
@@ -226,6 +226,14 @@ QVector<complex>& WavFourier::FFT(QVector<double>& vec)
 	for (int i=0; i<vec.size(); i++) {
 		fft[i] = vec[i];
 	}
+	std::cout << "==== fft ====\n";
+	std::cout << "data.size(): " << vec.size() << '\n';
+	std::cout << "zero padding: " << nextPowOf2(vec.size()) - vec.size() << '\n';
+	std::cout << "Verhältnis data zu zero padded: "
+			<< vec.size() / (double) nextPowOf2(vec.size()) << '\n';
+	std::cout << "Verhältnis zeros zu zero padded: "
+			<< (nextPowOf2(vec.size())-vec.size()) /(double)nextPowOf2(vec.size()) << '\n';
+	std::cout << "============\n";
 	fft::fft(fft);
 	std::cout << "fft done\n";
 	return fft;
@@ -274,8 +282,36 @@ double WindowFunction::blackman(double n, double M)
 	return a0 - a1 * std::cos((2.0*M_PI*n) / (M-1.0)) + a2 * std::cos((4.0*M_PI*n) / (M-1.0));
 }
 
+// flattop window: w(n) = a0 - a1 * cos((2*pi*n)/(size-1)) + a2 * cos((4*pi*n)/(size-1))
+//			    - a3 * cos((6*pi*n)/(size-1)) + a4 * cos((8*pi*n)/(size-1))
+// a0 = 1.0
+// a1 = 1.93
+// a2 = 1.29
+// a3 = 0.388
+// a4 = 0.028
+double WindowFunction::flattop(double n, double M)
+{
+	double a[] = {1.0, 1.93, 1.29, 0.388, 0.028};
+	double w = 0.0;
+	for (int i=0; i<=4; i++) {
+		w += std::pow(-1, i) * a[i] * std::cos((2.0*i*M_PI*n) / (M-1));
+	}
+	return w;
+}
 
-
+// 0 <= |n| <= size/4: 1-6(n/(size/2))^2*(1-|n|/(size/2))
+// size/4 < |n| <= size/2: 2(1-|n|/(size/2))^3
+double WindowFunction::parzen(double n, double M)
+{
+	double abs = std::abs(n);
+	if (0 <= abs && abs <= M/4.0) {
+		return 1.0 - 6.0*std::pow(n/(M/2.0),2) * (1.0 - abs/(M/2.0));
+	}
+	if (M/4.0 < abs && abs <= M/2.0) {
+		return 2.0 * std::pow((1.0 - abs/(M/2.0)), 3);
+	}
+	return 0;	// 0 everywhere else
+}
 
 
 

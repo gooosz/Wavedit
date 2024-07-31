@@ -49,6 +49,8 @@ struct WindowFunction {
 	static double vonhann(double n, double M);
 	static double hamming(double n, double M);
 	static double blackman(double n, double M);
+	static double flattop(double n, double M);
+	static double parzen(double n, double M);
 };
 
 class WavFourier : public QObject {
@@ -61,7 +63,7 @@ private:
 	QTime startTime;
 	QTime endTime;
 
-	QList<quint16> data_uint16;	// QList of samples (1 sample has size byteRate, so 2 Bytes)
+	QList<qint16> data_int16;	// QList of samples (1 sample has size byteRate, so 2 Bytes)
 	QVector<double> data;
 
 	QVector<complex> dft;
@@ -74,14 +76,16 @@ public:
 
 	QVector<double> getStuetzstellen(int size);	// returns stuetzstelle x_k of data point x using (2*M_PI*k)/n
 	QVector<double> Freq(int size, double sample_rate=1.0);		// returns the DFT sample frequency bin centers
-	QVector<complex>& DFT(QVector<double>& vec);		// Discrete-Fourier-Transform on data
+	// calculate flag specifies if you want to calculate the DFT again
+	QVector<complex>& DFT(QVector<double>& vec, bool calculate=false);		// Discrete-Fourier-Transform on data
 	QVector<double> abs(const QVector<complex>& vec);		// absolute value of every element of vec
 	QVector<complex> IDFT(const QVector<complex>& vec);		// Inverse Discrete-Fourier-Transform on DFT(data), returns complex numbers
 	QVector<double> IDFT_real(const QVector<complex>& vec);	// returns real values of IDFT,
 								// use only if you know data was
 								// real (not complex) to begin with
 	// not const because applies a window function to vec
-	QVector<complex>& FFT(QVector<double>& vec);	// returns the FFT of sample
+	// calculate flag specifies if you want to calculate the FFT again
+	QVector<complex>& FFT(QVector<double>& vec, bool calculate=false);	// returns the FFT of sample
 
 	// returns data as QList from WAV file
 	bool populateData(QString wav_filename);
@@ -93,7 +97,7 @@ public:
 	// WavFourier(QString wav_filename, QTime startTime=QTime(), QTime endTime=QTime());
 
 	qint64 getDataSize();	// size of data in bytes
-	QList<quint16>& getDataList(QTime startTime=QTime(), QTime endTime=QTime());
+	QList<qint16>& getDataList(QTime startTime=QTime(), QTime endTime=QTime());
 	QVector<double>& getData(QTime startTime=QTime(), QTime endTime=QTime());
 	QList<double>& getFourierTransform();	// calculates fourier transform of given WAV file
 	double getSampleRate();
