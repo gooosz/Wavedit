@@ -42,7 +42,7 @@ void PlotWidget::makePlot(const QVector<double> &x, std::function<double(double)
 */
 void PlotWidget::makePlot(const QVector<double> &x, const QVector<double> &y, int graphNr, bool rescale, PlotType plotType, QColor color)
 {
-	if (graphCount() == 0) {
+	if (graphCount() <= graphNr) {
 		addGraph();
 	}
 	graph(graphNr)->setData(x, y);
@@ -72,7 +72,7 @@ void PlotWidget::makePlot(const QVector<double> &x, const QVector<double> &y, in
 // draws a vertical line where the Nyquist frequency is
 void PlotWidget::markNyquistFreq(double nyquist, int graphNr, QColor color)
 {
-	if (graphCount() <= 1) {
+	if (graphCount() <= graphNr) {
 		addGraph();
 	}
 	graph(graphNr)->setPen(QPen(color));
