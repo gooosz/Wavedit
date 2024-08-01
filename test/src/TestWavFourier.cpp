@@ -39,6 +39,9 @@ private slots:
 
 	void testNextPowOf2_data();
 	void testNextPowOf2();
+
+	void testGetBinOfFreq_data();
+	void testGetBinOfFreq();
 };
 
 void TestWavFourier::helloWorld()
@@ -327,6 +330,8 @@ void TestWavFourier::testFFT_data()
 
 	QTest::newRow("empty data") << QVector<double>({}) << QVector<complex>({});
 
+	// TODO: DFT, FFT fails because of window function, calculate the correct result here again
+
 	QTest::newRow("data.size() = 4") << QVector<double>({0.0, 1.0, 2.0, 3.0}) << QVector<complex>(
 		{complex(6.0,0.0), complex(-2.0,2.0), complex(-2.0,0.0), complex(-2.0,-2.0)}
 	);
@@ -426,6 +431,41 @@ void TestWavFourier::testNextPowOf2()
 }
 
 
+void TestWavFourier::testGetBinOfFreq_data()
+{
+	QTest::addColumn<QVector<double>>("freqBins");
+	QTest::addColumn<double>("frequency");
+	QTest::addColumn<int>("index_of_bin");
+
+	QTest::addRow("0 frequency bins")
+		<< QVector<double>({})
+		<< 2.3
+		<< -1;
+
+	QTest::addRow("6 frequency bins, frequency in vec")
+		<< QVector<double>({0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0})
+		<< 2.3
+		<< 5;
+
+	QTest::addRow("6 frequency bins, frequency before vec")
+		<< QVector<double>({0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0})
+		<< -1.8
+		<< 0;
+
+	QTest::addRow("6 frequency bins, frequency after vec")
+		<< QVector<double>({0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0})
+		<< 6.4
+		<< -1;
+}
+
+void TestWavFourier::testGetBinOfFreq()
+{
+	QFETCH(QVector<double>, freqBins);
+	QFETCH(double, frequency);
+	QFETCH(int, index_of_bin);
+
+	QCOMPARE(wavfourier.getBinOfFreq(freqBins, frequency), index_of_bin);
+}
 
 
 
