@@ -103,6 +103,7 @@ public:
 	double getSampleRate();
 
 	int getBinOfFreq(const QVector<double>& freq, double f);	// returns the index of the bin that frequency f belongs to, -1 if none
+	QVector<int> getPeakNear(const QVector<double>& freqBins, int idx);	// returns indices of the peak next to frequency bin with index idx
 
 signals:
 	void gotData();	// data read from wav file

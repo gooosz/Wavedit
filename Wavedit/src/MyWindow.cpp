@@ -86,7 +86,6 @@ void MyWindow::setConnects()
 	connect(mouseCoords, &QLineEdit::editingFinished, this, &MyWindow::onFrequencyEdit);
 	// when mouse clicked on frequency amplitude in diagram, filter/remove that frequency from data
 	connect(plot, &QCustomPlot::mouseRelease, this, &MyWindow::onMouseClick);
-
 }
 
 
@@ -146,20 +145,24 @@ void MyWindow::plotFourierTransform()
 		  << "freq.size(): "	<< freq.size()	<< '\n'
 		  << "dft.size(): "	<< dft.size() 	<< '\n';
 
-	std::cout << "-----------\n";
+	/*std::cout << "-----------\n";
 	QVector<double> oldFreq = wavfourier->Freq(data.size(), wavfourier->getSampleRate());
 	double freqRes = wavfourier->getSampleRate() / (double) oldFreq.size();
 	std::cout << "frequency resolution: " << freqRes << '\n';
 	std::cout << "window frequency resolution: " << wavfourier->getSampleRate()/(double)freq.size() << '\n';
 	std::cout << "vonhann frequency resolution: " << 1.5 * freqRes << '\n';
 	std::cout << "flattop frequency resolution: " << 3.77025 * freqRes << '\n';
-	std::cout << "-----------\n";
+	std::cout << "-----------\n";*/
 
 	plot->makePlot(freq, abs_dft, 0, true, PLOT, Qt::darkYellow);
 	std::cout << "makePlot() done\n";
 	plot->markNyquistFreq(freq[freq.size()/2], 1, Qt::darkMagenta);
 	std::cout << "markNyquistFreq() done\n";
 
+	/*std::for_each(freq.rbegin(), freq.rend(), [](double d){
+		std::cout << d << '\n';
+	});
+	std::cout << "freq size: " << freq.size() << '\n';*/
 
 	// the x values in x = [0, getDataSize) are ok
 	// because the y values are of importance are they oscillate, so
@@ -194,6 +197,10 @@ void MyWindow::plotFourierTransform()
 	plot->makePlot(freq, dft, 0, true, PLOT, Qt::yellow);
 	plot->markNyquistFreq(freq[freq.size()/2], 1);
 
+	std::for_each(freq.rbegin(), freq.rend(), [](double d){
+		std::cout << d << '\n';
+	});
+
 	/*std::cout << "=========\n";
 	for (int i=0; i<freq.size(); i++) {
 		std::cout << "( " << freq[i] << ", " << dft[i] << ")\n";
@@ -207,14 +214,37 @@ void MyWindow::onMouseMove(QMouseEvent *ev)
 {
 	double x = plot->xAxis->pixelToCoord(ev->pos().x());
 	mouseCoords->setText(QString("%1 Hz").arg(x));
+
+	// visualize the hovered peak with another color
+	// color the interval [x - 1, x + 1], so 3 frequency bins will get colored
+	QVector<double> data = wavfourier->getData();
+	QVector<double> freqBins = wavfourier->Freq(nextPowOf2(data.size()),
+						    wavfourier->getSampleRate());
+	if (freqBins.size() == 0)
+		return;	// no fft calculated yet
+
+	QVector<double> fft = wavfourier->abs((wavfourier->FFT(data)));
+	// nearest frequency bin of the hovered frequency
+	int idx = wavfourier->getBinOfFreq(freqBins, x);
+	// indices of frequency bins that have the nearest peak to frequency bin idx
+	QVector<int> idxOfPeak = wavfourier->getPeakNear(freqBins, idx);
+	QVector<double> peakFreq(idxOfPeak.size());
+	QVector<double> peakFFT(idxOfPeak.size());
+	for (int i=0; i<idxOfPeak.size(); i++) {
+		peakFreq[i] = freqBins[idxOfPeak[i]];
+		peakFFT[i] = fft[idxOfPeak[i]];
+	}
+	std::cout << "data.size(): " << data.size();
+
+	plot->makePlot(peakFreq, peakFFT, 2, false, SCATTER, Qt::cyan);
 }
 
 
 // triggered when QLineEdit text changes, move cursor to that input value
 void MyWindow::onFrequencyEdit()
 {
-	QVector<double> freq = wavfourier->Freq(nextPowOf2(wavfourier->getDataSize()),
-						wavfourier->getSampleRate());
+	QVector<double> data = wavfourier->getData();
+	QVector<double> freq = wavfourier->Freq(nextPowOf2(data.size()), wavfourier->getSampleRate());
 	QVector<complex> fft = wavfourier->FFT(wavfourier->getData());
 	// get double value from mouseCoords field (without the _Hz suffix)
 	double freqValue = mouseCoords->text().remove(" Hz").toDouble();

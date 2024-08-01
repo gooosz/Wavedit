@@ -103,12 +103,55 @@ int WavFourier::getBinOfFreq(const QVector<double>& freq, double f)
 	if (lb == freq.end())
 		return -1;
 	int idx = std::distance(freq.begin(), lb);
-	if (lb != freq.begin()) {
+	if (idx > 0) {
 		if (std::abs(freq[idx] - f) > std::abs(freq[idx-1] - f))
 			idx -= 1;
 	}
 	return idx;
 }
+
+// returns indices of the peak next to frequency bin with index idx
+QVector<int> WavFourier::getPeakNear(const QVector<double>& freqBins, int idx)
+{
+	if (freqBins.size() == 0 || fft.size() == 0 || idx == -1)
+		return {};	// no fft calculated yet, or no nearest frequency bin found
+
+	QVector<double> abs_fft = abs(fft);
+	Q_ASSERT(freqBins.size() == abs_fft.size());	// must be the same size else nothing (including drawing) makes sense
+
+	// amount of frequency bins right and left of hovered bin that will get marked aswell
+	const int amountOfNext = (data.size()/1e3 > 0) ? data.size()/1e3 : 50;	// depends on size of data, if data is too small (less than 1000 samples) use 50 as a default value
+	int leftBinIdx = (idx >= amountOfNext) ? idx-amountOfNext : 0;	// index of most left bin that gets marked
+	int rightBinIdx = (idx < freqBins.size()-amountOfNext) ? idx+amountOfNext : freqBins.size()-1; // index of most right bin that gets marked
+
+	/*
+	 * Idea:
+	 * the peak is a normal distribution around the max elements
+	 * so the idx of peak is max_element-12 to max_element+12
+	 * TODO: in Präsentation rein tun:
+	 * 	=> would filter around 3-20Hz of peak, je nach Datengröße, also je mehr Daten desto genauer wird peak bestimmt
+	 * 	   weil die frequency bins auch kleiner werden,
+	 *	   which is accurate enough for me
+	 * 		Look at sqr_500hz.wav (20Hz would get filtered), vs sin_1000hz.wav (4Hz would get filtered)
+	 * 	=> that means can't filter frequencies that are within 3Hz of each other
+	*/
+	const int stddev = 12;	// 12 bins left and right of max bin
+	// search max element (peak) in interval [leftBin, rightBin]
+	// so in interval [idx-50, idx+50] where idx is the currently hovered frequency bin of cursor
+	auto it_max = std::max_element(abs_fft.begin()+leftBinIdx, abs_fft.begin()+rightBinIdx+1);
+	if (it_max == abs_fft.end()) return {};	// no nearest peak
+
+	int idx_max = std::distance(abs_fft.begin(), it_max);
+	int leftOfMax = (idx_max >= stddev) ? idx_max-stddev : 0; // index of most left bin that is still a peak
+	int rightOfMax = (idx_max < freqBins.size()-stddev) ? idx_max+stddev : freqBins.size()-1;
+	// Now the bins [leftOfMax, rightOfMax] hold the hovered peak
+	QVector<int> idxOfPeak;
+	for (int i=leftOfMax; i<=rightOfMax; i++) {
+		idxOfPeak.push_back(i);
+	}
+	return idxOfPeak;
+}
+
 
 
 // returns the DFT sample frequency bin centers
@@ -244,14 +287,6 @@ QVector<complex>& WavFourier::FFT(QVector<double>& vec, bool calculate)
 	for (int i=0; i<vec.size(); i++) {
 		fft[i] = vec[i];
 	}
-	std::cout << "==== fft ====\n";
-	std::cout << "data.size(): " << vec.size() << '\n';
-	std::cout << "zero padding: " << nextPowOf2(vec.size()) - vec.size() << '\n';
-	std::cout << "Verhältnis data zu zero padded: "
-			<< vec.size() / (double) nextPowOf2(vec.size()) << '\n';
-	std::cout << "Verhältnis zeros zu zero padded: "
-			<< (nextPowOf2(vec.size())-vec.size()) /(double)nextPowOf2(vec.size()) << '\n';
-	std::cout << "============\n";
 	fft::fft(fft);
 	std::cout << "fft done\n";
 	return fft;
