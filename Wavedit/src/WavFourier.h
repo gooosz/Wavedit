@@ -102,6 +102,8 @@ public:
 	QList<double>& getFourierTransform();	// calculates fourier transform of given WAV file
 	double getSampleRate();
 
+	int getBinOfFreq(const QVector<double>& freq, double f);	// returns the index of the bin that frequency f belongs to, -1 if none
+
 signals:
 	void gotData();	// data read from wav file
 	void failedToGetData();	// error when trying to read data

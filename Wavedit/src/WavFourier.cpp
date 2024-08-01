@@ -93,6 +93,24 @@ double WavFourier::getSampleRate()
 	return static_cast<double>(wavfile.getSampleRate());
 }
 
+// returns the index of the bin that frequency f belongs to, -1 if none
+int WavFourier::getBinOfFreq(const QVector<double>& freq, double f)
+{
+	if (freq.size() <= 0)
+		return -1;
+
+	auto lb = std::lower_bound(freq.begin(), freq.end(), f);
+	if (lb == freq.end())
+		return -1;
+	int idx = std::distance(freq.begin(), lb);
+	if (lb != freq.begin()) {
+		if (std::abs(freq[idx] - f) > std::abs(freq[idx-1] - f))
+			idx -= 1;
+	}
+	return idx;
+}
+
+
 // returns the DFT sample frequency bin centers
 QVector<double> WavFourier::Freq(int size, double sample_rate)
 {
@@ -114,7 +132,7 @@ QVector<double> WavFourier::Freq(int size, double sample_rate)
 // @returns fourier coefficients (beta_j)
 QVector<complex>& WavFourier::DFT(QVector<double>& vec, bool calculate)
 {
-	if (dft.size() > 0 && vec.size() == dft.size() && !calculate) {
+	if (dft.size() > 0 && !calculate) {
 		// dft already calculated, return
 		return dft;
 	}
@@ -206,7 +224,7 @@ int nextPowOf2(int n)
 // returns the FFT of sample
 QVector<complex>& WavFourier::FFT(QVector<double>& vec, bool calculate)
 {
-	if (fft.size() > 0 && vec.size() == fft.size() && !calculate) {
+	if (fft.size() > 0 && !calculate) {
 		// fft already calculated, return
 		return fft;
 	}
