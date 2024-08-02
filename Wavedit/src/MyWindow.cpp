@@ -218,8 +218,7 @@ void MyWindow::onMouseMove(QMouseEvent *ev)
 	// visualize the hovered peak with another color
 	// color the interval [x - 1, x + 1], so 3 frequency bins will get colored
 	QVector<double> data = wavfourier->getData();
-	QVector<double> freqBins = wavfourier->Freq(nextPowOf2(data.size()),
-						    wavfourier->getSampleRate());
+	QVector<double> freqBins = wavfourier->Freq(nextPowOf2(data.size()), wavfourier->getSampleRate());
 	if (freqBins.size() == 0)
 		return;	// no fft calculated yet
 
@@ -234,9 +233,7 @@ void MyWindow::onMouseMove(QMouseEvent *ev)
 		peakFreq[i] = freqBins[idxOfPeak[i]];
 		peakFFT[i] = fft[idxOfPeak[i]];
 	}
-	std::cout << "data.size(): " << data.size();
-
-	plot->makePlot(peakFreq, peakFFT, 2, false, SCATTER, Qt::cyan);
+	plot->makePlot(peakFreq, peakFFT, 2, false, PLOT, Qt::cyan);
 }
 
 
@@ -276,13 +273,39 @@ void MyWindow::onFrequencyEdit()
 void MyWindow::onMouseClick(QMouseEvent *ev)
 {
 	// if not left button clicked do nothing
-	if (ev->button() != Qt::LeftButton) {
+	if (ev->button() != Qt::LeftButton)
 		return;
-	}
+
 	// clicked on frequency freq
 	double freq = plot->xAxis->pixelToCoord(ev->pos().x());
 	/*
 	 * TODO: remove the clicked frequency, do IFFT and write back to file (or backup file)
 	*/
 	std::cout << "mouse click on " << freq << " Hz\n";
+
+	// get the indices belonging to the peak clicked on
+	QVector<double> data = wavfourier->getData();
+	QVector<double> freqBins = wavfourier->Freq(nextPowOf2(data.size()), wavfourier->getSampleRate());
+	if (freqBins.size() == 0)
+		return;	// no fft calculated yet
+	QVector<complex> fft = wavfourier->FFT(data);
+	QVector<double> abs_fft = wavfourier->abs(fft);
+	// nearest frequency bin of the hovered frequency
+	int idx = wavfourier->getBinOfFreq(freqBins, freq);
+	// indices of frequency bins that have the nearest peak to frequency bin idx
+	QVector<int> idxOfPeak = wavfourier->getPeakNear(freqBins, idx);
+	/*
+	 * TODO: filter the values of at indices idxOfPeak
+	 * Don't use 0 as values instead as this would result in ripples due to added Sinc function
+	 * Instead use windowing function to filter the specific frequency out
+	*/
+	wavfourier->filter(fft, idxOfPeak);
+	// do ifft
+	QVector<double> filteredData = wavfourier->real(wavfourier->IFFT(fft));
+	QVector<double> filteredFreq = wavfourier->Freq(nextPowOf2(filteredData.size()), wavfourier->getSampleRate());
+	// draw fft again
+	QVector<double> filteredFFT = wavfourier->abs(wavfourier->FFT(filteredData, true));
+	plot->makePlot(filteredFreq, filteredFFT, 0, false, PLOT, Qt::red);
+
+
 }
