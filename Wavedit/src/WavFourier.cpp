@@ -235,14 +235,13 @@ QVector<complex> WavFourier::IDFT(const QVector<complex>& vec)
 /* returns real values of IDFT,
  * use only if you know data was
  * real (not complex) to begin with */
-QVector<double> WavFourier::IDFT_real(const QVector<complex>& vec)
+QVector<double> WavFourier::real(const QVector<complex>& vec)
 {
-	QVector<complex> idft = IDFT(vec);
-	QVector<double> idft_real(idft.size());
-	for (int i=0; i<idft.size(); i++) {
-		idft_real[i] = idft[i].real();
+	QVector<double> real(vec.size());
+	for (int i=0; i<vec.size(); i++) {
+		real[i] = vec[i].real();
 	}
-	return idft_real;
+	return real;
 }
 
 // returns the next power of 2 >= n
@@ -275,7 +274,7 @@ QVector<complex>& WavFourier::FFT(QVector<double>& vec, bool calculate)
 
 	// apply window function before zero padding
 	// according to https://dsp.stackexchange.com/a/8796
-	applyWindowFunction(vec, WindowFunction::vonhann);
+	//applyWindowFunction(vec, WindowFunction::vonhann);
 
 	/*
 	 * if vec.size() is not a power of 2, fill vec with 0 until size is power of 2
@@ -290,6 +289,48 @@ QVector<complex>& WavFourier::FFT(QVector<double>& vec, bool calculate)
 	fft::fft(fft);
 	std::cout << "fft done\n";
 	return fft;
+}
+
+// Inverse Fast Fourier Transform
+QVector<complex> WavFourier::IFFT(const QVector<complex>& vec)
+{
+	QVector<complex> ifft(vec.size());
+	// library ifft works in place
+	for (int i=0; i<vec.size(); i++) {
+		ifft[i] = vec[i];
+	}
+	fft::ifft(ifft);
+	std::cout << "ifft done\n";
+	return ifft;
+}
+
+// filter the frequency bins given by indices in idxOfPeak
+void WavFourier::filter(QVector<complex>& fourier, QVector<int> idxOfPeak)
+{
+	// primitive approach: zero the frequency bins
+	// TODO: find better ways to filter
+	for (int idx : idxOfPeak) {
+		fourier[idx] = complex(0.0, 0.0);
+	}
+
+	/*
+	 * FIR design https://www.mikroe.com/ebooks/digital-filter-design/window-functions
+	 * sampling frequency fs
+	 * lower cut_off frequency: f1 = freqBins[idxOfPeak.first()]
+	 * upper cut_off frequency: f2 = freqBins[idxOfPeak.last()]
+	 *
+	 * Normalize cut_off frequencies:
+	 * fn1 = f1 / (fs/2.0) * pi
+	 * fn2 = f2 / (fs/2.0) * pi
+	 * transition region: fn2 - fn1
+	 *
+	 * filter: multiply with the peak with 1-sinc(x) = 1-(sin(pi*x)/(pi*x))
+	*/
+	/*for (int i=0; i<fourier.size(); i++) {
+		if (idxOfPeak.contains(i)) {
+			fourier[i] *= (std::sin(M_PI*i) / (M_PI*i));
+		}
+	}*/
 }
 
 

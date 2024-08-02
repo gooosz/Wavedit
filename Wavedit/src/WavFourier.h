@@ -80,12 +80,16 @@ public:
 	QVector<complex>& DFT(QVector<double>& vec, bool calculate=false);		// Discrete-Fourier-Transform on data
 	QVector<double> abs(const QVector<complex>& vec);		// absolute value of every element of vec
 	QVector<complex> IDFT(const QVector<complex>& vec);		// Inverse Discrete-Fourier-Transform on DFT(data), returns complex numbers
-	QVector<double> IDFT_real(const QVector<complex>& vec);	// returns real values of IDFT,
+	QVector<double> real(const QVector<complex>& vec);	// returns real values of vec,
 								// use only if you know data was
 								// real (not complex) to begin with
 	// not const because applies a window function to vec
 	// calculate flag specifies if you want to calculate the FFT again
 	QVector<complex>& FFT(QVector<double>& vec, bool calculate=false);	// returns the FFT of sample
+
+	QVector<complex> IFFT(const QVector<complex>& vec);	// Inverse Fast Fourier Transform
+
+	void filter(QVector<complex>& fourier, QVector<int> idxOfPeak);
 
 	// returns data as QList from WAV file
 	bool populateData(QString wav_filename);
