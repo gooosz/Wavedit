@@ -31,8 +31,8 @@ private slots:
 	void testIDFT_data();
 	void testIDFT();
 
-	void testIDFT_real_data();
-	void testIDFT_real();
+	void testReal_data();
+	void testReal();
 
 	void testFFT_data();
 	void testFFT();
@@ -284,7 +284,7 @@ void TestWavFourier::testIDFT()
 }
 
 
-void TestWavFourier::testIDFT_real_data()
+void TestWavFourier::testReal_data()
 {
 	QTest::addColumn<QVector<complex>>("dft");
 	QTest::addColumn<QVector<double>>("data");
@@ -295,7 +295,7 @@ void TestWavFourier::testIDFT_real_data()
 								complex(-2.0,2.0),
 								complex(-2.0,0.0),
 								complex(-2.0,-2.0)})
-		<< QVector<double>({0.0, 1.0, 2.0, 3.0}
+		<< QVector<double>({6.0, -2.0, -2.0, -2.0}
 	);
 
 	QTest::newRow("data.size() = 5") << QVector<complex>(
@@ -303,17 +303,22 @@ void TestWavFourier::testIDFT_real_data()
 		 complex(-3.4270509831248424,0.3102707008666963),
 		 complex(-0.07294901687515476,-9.008536623235965),
 		 complex(-0.07294901687516075,9.008536623235967),
-		 complex(-3.4270509831248375,-0.31027070086670205)})
-		<< QVector<double>({2.0, 5.0, 1.0, 8.0, 1.0}
+		 complex(-3.4270509831248375,-0.31027070086670205)
+		})
+		<< QVector<double>({17.0,
+				    -3.4270509831248424,
+				    -0.07294901687515476,
+				    -0.07294901687516075,
+				    -3.4270509831248375}
 	);
 }
 
-void TestWavFourier::testIDFT_real()
+void TestWavFourier::testReal()
 {
 	QFETCH(QVector<complex>, dft);
 	QFETCH(QVector<double>, data);
 
-	QVector<double> idft = wavfourier.IDFT_real(dft);
+	QVector<double> idft = wavfourier.real(dft);
 
 	QCOMPARE(idft.size(), data.size());
 	for (int i=0, j=0; i<idft.size() && j<data.size(); ) {

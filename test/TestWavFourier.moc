@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_TestWavFourier_t {
     QByteArrayData data[22];
-    char stringdata0[305];
+    char stringdata0[295];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -45,14 +45,14 @@ QT_MOC_LITERAL(10, 123, 17), // "test_abs_DFT_data"
 QT_MOC_LITERAL(11, 141, 12), // "test_abs_DFT"
 QT_MOC_LITERAL(12, 154, 13), // "testIDFT_data"
 QT_MOC_LITERAL(13, 168, 8), // "testIDFT"
-QT_MOC_LITERAL(14, 177, 18), // "testIDFT_real_data"
-QT_MOC_LITERAL(15, 196, 13), // "testIDFT_real"
-QT_MOC_LITERAL(16, 210, 12), // "testFFT_data"
-QT_MOC_LITERAL(17, 223, 7), // "testFFT"
-QT_MOC_LITERAL(18, 231, 19), // "testNextPowOf2_data"
-QT_MOC_LITERAL(19, 251, 14), // "testNextPowOf2"
-QT_MOC_LITERAL(20, 266, 21), // "testGetBinOfFreq_data"
-QT_MOC_LITERAL(21, 288, 16) // "testGetBinOfFreq"
+QT_MOC_LITERAL(14, 177, 13), // "testReal_data"
+QT_MOC_LITERAL(15, 191, 8), // "testReal"
+QT_MOC_LITERAL(16, 200, 12), // "testFFT_data"
+QT_MOC_LITERAL(17, 213, 7), // "testFFT"
+QT_MOC_LITERAL(18, 221, 19), // "testNextPowOf2_data"
+QT_MOC_LITERAL(19, 241, 14), // "testNextPowOf2"
+QT_MOC_LITERAL(20, 256, 21), // "testGetBinOfFreq_data"
+QT_MOC_LITERAL(21, 278, 16) // "testGetBinOfFreq"
 
     },
     "TestWavFourier\0init\0\0helloWorld\0"
@@ -60,8 +60,8 @@ QT_MOC_LITERAL(21, 288, 16) // "testGetBinOfFreq"
     "testGetStuetzstellen\0testFreq_data\0"
     "testFreq\0testDFT_data\0testDFT\0"
     "test_abs_DFT_data\0test_abs_DFT\0"
-    "testIDFT_data\0testIDFT\0testIDFT_real_data\0"
-    "testIDFT_real\0testFFT_data\0testFFT\0"
+    "testIDFT_data\0testIDFT\0testReal_data\0"
+    "testReal\0testFFT_data\0testFFT\0"
     "testNextPowOf2_data\0testNextPowOf2\0"
     "testGetBinOfFreq_data\0testGetBinOfFreq"
 };
@@ -145,8 +145,8 @@ void TestWavFourier::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 9: _t->test_abs_DFT(); break;
         case 10: _t->testIDFT_data(); break;
         case 11: _t->testIDFT(); break;
-        case 12: _t->testIDFT_real_data(); break;
-        case 13: _t->testIDFT_real(); break;
+        case 12: _t->testReal_data(); break;
+        case 13: _t->testReal(); break;
         case 14: _t->testFFT_data(); break;
         case 15: _t->testFFT(); break;
         case 16: _t->testNextPowOf2_data(); break;
