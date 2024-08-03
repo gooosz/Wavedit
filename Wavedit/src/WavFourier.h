@@ -73,6 +73,8 @@ public:
 	// apply (multiply) window function to data to reduce leackage effect
 	// hamming window should be overall the best one to use
 	void applyWindowFunction(QVector<double> &vec, std::function<double(double,double)> window = WindowFunction::hamming);
+	// undo a previous apply of window function
+	void undoWindowFunction(QVector<complex> &vec, std::function<double(double,double)> window = WindowFunction::hamming);
 
 	QVector<double> getStuetzstellen(int size);	// returns stuetzstelle x_k of data point x using (2*M_PI*k)/n
 	QVector<double> Freq(int size, double sample_rate=1.0);		// returns the DFT sample frequency bin centers
@@ -90,6 +92,8 @@ public:
 	QVector<complex> IFFT(const QVector<complex>& vec);	// Inverse Fast Fourier Transform
 
 	void filter(QVector<complex>& fourier, QVector<int> idxOfPeak);
+
+	QVector<double> toDecibel(QVector<double>& fourier);	// convert magnitude of fft to decibel (dB)
 
 	// returns data as QList from WAV file
 	bool populateData(QString wav_filename);

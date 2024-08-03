@@ -274,7 +274,7 @@ QVector<complex>& WavFourier::FFT(QVector<double>& vec, bool calculate)
 
 	// apply window function before zero padding
 	// according to https://dsp.stackexchange.com/a/8796
-	//applyWindowFunction(vec, WindowFunction::vonhann);
+	applyWindowFunction(vec, WindowFunction::vonhann);
 
 	/*
 	 * if vec.size() is not a power of 2, fill vec with 0 until size is power of 2
@@ -299,6 +299,10 @@ QVector<complex> WavFourier::IFFT(const QVector<complex>& vec)
 	for (int i=0; i<vec.size(); i++) {
 		ifft[i] = vec[i];
 	}
+	// undo apply of window function before ifft, so original data except filtered is recovered
+	//undoWindowFunction(ifft, WindowFunction::vonhann);
+
+
 	fft::ifft(ifft);
 	std::cout << "ifft done\n";
 	return ifft;
@@ -307,7 +311,7 @@ QVector<complex> WavFourier::IFFT(const QVector<complex>& vec)
 // filter the frequency bins given by indices in idxOfPeak
 void WavFourier::filter(QVector<complex>& fourier, QVector<int> idxOfPeak)
 {
-	// primitive approach: zero the frequency bins
+	// primitive approach: zero the frequency bins given by idxOfPeak
 	// TODO: find better ways to filter
 	for (int idx : idxOfPeak) {
 		fourier[idx] = complex(0.0, 0.0);
@@ -334,6 +338,18 @@ void WavFourier::filter(QVector<complex>& fourier, QVector<int> idxOfPeak)
 }
 
 
+// convert magnitude of fft to decibel (dB)
+QVector<double> WavFourier::toDecibel(QVector<double>& fourier)
+{
+	// dB = 20 * log10(magnitude)
+	QVector<double> decibel(fourier.size());
+	for (int i=0; i<fourier.size(); i++) {
+		decibel[i] = 20.0 * std::log10(fourier[i]);
+	}
+	return decibel;
+}
+
+
 /*
  * apply (multiply) a specified window function to vec
 */
@@ -344,6 +360,17 @@ void WavFourier::applyWindowFunction(QVector<double> &vec, std::function<double(
 		vec[i] = vec[i] * window(i, N);
 	}
 }
+
+
+// undo a previous apply of window function
+void WavFourier::undoWindowFunction(QVector<complex> &vec, std::function<double(double,double)> window)
+{
+	int N = vec.size();
+	for (int i=0; i<vec.size(); i++) {
+		vec[i] = vec[i] / window(i, N);
+	}
+}
+
 
 // -------Window functions-------
 // rectangular window: w(n) = 1
