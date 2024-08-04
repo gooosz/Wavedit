@@ -2,3 +2,5 @@
 build/
 test/no-permission.wav
 kissfft
+DspFilters
+output.txt
