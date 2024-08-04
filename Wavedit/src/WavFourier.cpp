@@ -299,11 +299,10 @@ QVector<complex> WavFourier::IFFT(const QVector<complex>& vec)
 	for (int i=0; i<vec.size(); i++) {
 		ifft[i] = vec[i];
 	}
-	// undo apply of window function before ifft, so original data except filtered is recovered
-	//undoWindowFunction(ifft, WindowFunction::vonhann);
-
 
 	fft::ifft(ifft);
+	// undo apply of window function before ifft, so original data except filtered is recovered
+	//undoWindowFunction(ifft, WindowFunction::vonhann);
 	std::cout << "ifft done\n";
 	return ifft;
 }
@@ -313,28 +312,40 @@ void WavFourier::filter(QVector<complex>& fourier, QVector<int> idxOfPeak)
 {
 	// primitive approach: zero the frequency bins given by idxOfPeak
 	// TODO: find better ways to filter
-	for (int idx : idxOfPeak) {
+	/*for (int idx : idxOfPeak) {
 		fourier[idx] = complex(0.0, 0.0);
-	}
-
-	/*
-	 * FIR design https://www.mikroe.com/ebooks/digital-filter-design/window-functions
-	 * sampling frequency fs
-	 * lower cut_off frequency: f1 = freqBins[idxOfPeak.first()]
-	 * upper cut_off frequency: f2 = freqBins[idxOfPeak.last()]
-	 *
-	 * Normalize cut_off frequencies:
-	 * fn1 = f1 / (fs/2.0) * pi
-	 * fn2 = f2 / (fs/2.0) * pi
-	 * transition region: fn2 - fn1
-	 *
-	 * filter: multiply with the peak with 1-sinc(x) = 1-(sin(pi*x)/(pi*x))
-	*/
-	/*for (int i=0; i<fourier.size(); i++) {
-		if (idxOfPeak.contains(i)) {
-			fourier[i] *= (std::sin(M_PI*i) / (M_PI*i));
-		}
 	}*/
+
+	// Create Bandstop filter in frequency domain
+	QVector<complex> filter(fourier.size());
+	for (int i=0; i<filter.size(); i++) {
+		filter[i] = complex(1.0, 0.0);
+		if (idxOfPeak.contains(i)) {
+			// filter frequency bins given by indices in idxOfPeak
+			filter[i] = complex(0.0, 0.0);
+		}
+	}
+	// inverse fft the filter into time domain
+	QVector<complex> filter_time = IFFT(filter);
+	// window the filter
+	applyWindowFunction(filter_time, WindowFunction::vonhann);
+	// now filter_time holds the filter_coefficients in the time domain
+	std::cout << "========= filter coefficients =========\n";
+	for (auto& i: filter_time)
+		std::cout << i << '\n';
+	std::cout << "====================================\n";
+
+	// apply FIR (finite impulse response) filter twice to vector
+	// 1. on vector
+	// 2. on reversed vector after 1.
+	for (int i=0; i<fourier.size(); i++) {
+		fourier[i] *= filter[i];
+	}
+	std::reverse(fourier.begin(), fourier.end());
+	for (int i=0; i<fourier.size(); i++) {
+		fourier[i] *= filter[i];
+	}
+	std::reverse(fourier.begin(), fourier.end());
 }
 
 
@@ -354,6 +365,17 @@ QVector<double> WavFourier::toDecibel(QVector<double>& fourier)
  * apply (multiply) a specified window function to vec
 */
 void WavFourier::applyWindowFunction(QVector<double> &vec, std::function<double(double,double)> window)
+{
+	int N = vec.size();
+	for (int i=0; i<vec.size(); i++) {
+		vec[i] = vec[i] * window(i, N);
+	}
+}
+
+/*
+ * Overload applyWindowFunction for complex vector
+*/
+void WavFourier::applyWindowFunction(QVector<complex> &vec, std::function<double(double,double)> window)
 {
 	int N = vec.size();
 	for (int i=0; i<vec.size(); i++) {

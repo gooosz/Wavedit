@@ -73,6 +73,7 @@ public:
 	// apply (multiply) window function to data to reduce leackage effect
 	// hamming window should be overall the best one to use
 	void applyWindowFunction(QVector<double> &vec, std::function<double(double,double)> window = WindowFunction::hamming);
+	void applyWindowFunction(QVector<complex> &vec, std::function<double(double,double)> window = WindowFunction::hamming);
 	// undo a previous apply of window function
 	void undoWindowFunction(QVector<complex> &vec, std::function<double(double,double)> window = WindowFunction::hamming);
 

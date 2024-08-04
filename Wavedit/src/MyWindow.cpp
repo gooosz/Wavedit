@@ -144,31 +144,14 @@ void MyWindow::plotFourierTransform()
 	std::cout << "data.size(): "	<< data.size()	<< '\n'
 		  << "freq.size(): "	<< freq.size()	<< '\n'
 		  << "dft.size(): "	<< dft.size() 	<< '\n';
-
-	/*std::cout << "-----------\n";
-	QVector<double> oldFreq = wavfourier->Freq(data.size(), wavfourier->getSampleRate());
-	double freqRes = wavfourier->getSampleRate() / (double) oldFreq.size();
-	std::cout << "frequency resolution: " << freqRes << '\n';
-	std::cout << "window frequency resolution: " << wavfourier->getSampleRate()/(double)freq.size() << '\n';
-	std::cout << "vonhann frequency resolution: " << 1.5 * freqRes << '\n';
-	std::cout << "flattop frequency resolution: " << 3.77025 * freqRes << '\n';
-	std::cout << "-----------\n";*/
-
+	std::cout << "-----------\n";
+	// convert magnitude of fft to decibel
+	//QVector<double> decibel = wavfourier->toDecibel(abs_dft);
 	plot->makePlot(freq, abs_dft, 0, true, PLOT, Qt::darkYellow);
 	std::cout << "makePlot() done\n";
 	plot->markNyquistFreq(freq[freq.size()/2], 1, Qt::darkMagenta);
 	std::cout << "markNyquistFreq() done\n";
 
-	/*std::for_each(freq.rbegin(), freq.rend(), [](double d){
-		std::cout << d << '\n';
-	});
-	std::cout << "freq size: " << freq.size() << '\n';*/
-
-	// the x values in x = [0, getDataSize) are ok
-	// because the y values are of importance are they oscillate, so
-	// just use 1 as distance between every sample point
-	// but in real life the distance between sample points is 1/sampleRate
-	//std::iota(std::begin(x), std::end(x), 0);
 #else
 	double n = 1;
 	double frequeny_rate = 44100.0;//n / steps;
@@ -295,7 +278,6 @@ void MyWindow::onMouseClick(QMouseEvent *ev)
 	// indices of frequency bins that have the nearest peak to frequency bin idx
 	QVector<int> idxOfPeak = wavfourier->getPeakNear(freqBins, idx);
 	/*
-	 * TODO: filter the values of at indices idxOfPeak
 	 * Don't use 0 as values instead as this would result in ripples due to added Sinc function
 	 * Instead use windowing function to filter the specific frequency out
 	*/
@@ -305,7 +287,5 @@ void MyWindow::onMouseClick(QMouseEvent *ev)
 	QVector<double> filteredFreq = wavfourier->Freq(nextPowOf2(filteredData.size()), wavfourier->getSampleRate());
 	// draw fft again
 	QVector<double> filteredFFT = wavfourier->abs(wavfourier->FFT(filteredData, true));
-	plot->makePlot(filteredFreq, filteredFFT, 0, false, PLOT, Qt::red);
-
-
+	plot->makePlot(filteredFreq, filteredFFT, 0, true, PLOT, Qt::red);
 }
