@@ -100,8 +100,8 @@ void MyWindow::showErrorDialogOpenFile()
 void MyWindow::handleFileDialog()
 {
 	QString dir = "/home/rattich/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/test";
-	QString filename = QFileDialog::getOpenFileName(nullptr, "Open WAV File", dir, "(*.wav)");
-	wavfourier->populateData(filename);
+	wav_filename = QFileDialog::getOpenFileName(nullptr, "Open WAV File", dir, "(*.wav)");
+	wavfourier->populateData(wav_filename);
 }
 
 
@@ -273,7 +273,7 @@ void MyWindow::onMouseClick(QMouseEvent *ev)
 		return;	// no fft calculated yet
 	QVector<complex> fft = wavfourier->FFT(data);
 	QVector<double> abs_fft = wavfourier->abs(fft);
-	// nearest frequency bin of the hovered frequency
+	// frequency bin of the hovered frequency
 	int idx = wavfourier->getBinOfFreq(freqBins, freq);
 	// indices of frequency bins that have the nearest peak to frequency bin idx
 	QVector<int> idxOfPeak = wavfourier->getPeakNear(freqBins, idx);
@@ -284,8 +284,22 @@ void MyWindow::onMouseClick(QMouseEvent *ev)
 	wavfourier->filter(fft, idxOfPeak);
 	// do ifft
 	QVector<double> filteredData = wavfourier->real(wavfourier->IFFT(fft));
+
+	// Plot the filtered FFT (to see the changed spectral components)
 	QVector<double> filteredFreq = wavfourier->Freq(nextPowOf2(filteredData.size()), wavfourier->getSampleRate());
 	// draw fft again
 	QVector<double> filteredFFT = wavfourier->abs(wavfourier->FFT(filteredData, true));
 	plot->makePlot(filteredFreq, filteredFFT, 0, true, PLOT, Qt::red);
+
+	// filteredData contains the padded zeros aswell, remove them before writing to file
+	filteredData.resize(wavfourier->getOriginalDataSize());
+
+	// write back to new file with name file_filtered<freq>Hz.wav, freq only with 2 decimal places
+	QString filename = QString("%1_filtered%2Hz.wav").arg(wav_filename).arg(freq, 0, 'f', 2);
+	bool writeSuccess = wavfourier->writeDataToFile(filteredData, filename);
+	if (!writeSuccess) {
+		std::cout << "Couldn't write to file " << filename.toStdString() << '\n';
+	} else {
+		std::cout << "Writing to file " << filename.toStdString() << " successful\n";
+	}
 }
