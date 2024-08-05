@@ -31,10 +31,12 @@ bool WavFourier::populateData(QString wav_filename)
 	// fill double QVector data as well
 	for (int i=0; i<data_int16.size(); i++) {
 		// double list element (dlistel)
-		double dlistel = static_cast<double>(data_int16[i]);
+		// data_int16 has value in range [-32768, 32767], but floats,doubles must be in [-1.0, 1.0]
+		// according to https://github.com/adamstark/AudioFile/blob/master/README.md
+		// so divide the int_16 value by 32767 (2^15-1)
+		double dlistel = static_cast<double>(data_int16[i] / (double) ((1<<15)-1));
 		data.push_back(dlistel);
 	}
-	std::reverse(data.begin(), data.end());
 
 	std::cout << "ChunkID: " 	<< '-' << '\n'
 		  << "ChunkSize: " 	<< '-' << '\n'
@@ -52,6 +54,8 @@ bool WavFourier::populateData(QString wav_filename)
 	std::cout << "Length in secs: " << wavfile.getLengthInSeconds() << '\n';
 	std::cout << "Date size in bytes: " << getDataSize() << '\n';
 	std::cout << "getNumSamplesPerChannel(): " << wavfile.getNumSamplesPerChannel() << '\n';
+
+	originalDataSize = data.size();
 
 	emit gotData();	// success
 	return true;
@@ -92,6 +96,12 @@ double WavFourier::getSampleRate()
 {
 	return static_cast<double>(wavfile.getSampleRate());
 }
+
+size_t WavFourier::getOriginalDataSize()
+{
+	return originalDataSize;
+}
+
 
 // returns the index of the bin that frequency f belongs to, -1 if none
 int WavFourier::getBinOfFreq(const QVector<double>& freq, double f)
@@ -150,6 +160,44 @@ QVector<int> WavFourier::getPeakNear(const QVector<double>& freqBins, int idx)
 		idxOfPeak.push_back(i);
 	}
 	return idxOfPeak;
+}
+
+// writes the data given by vec to a file called filename
+bool WavFourier::writeDataToFile(QVector<double>& vec, QString filename)
+{
+	// TODO: something here is wrong
+	AudioFile<qint16>::AudioBuffer filteredBuf;
+	filteredBuf.resize(wavfile.getNumChannels());	// set number of channels
+	// set number of samples per channel
+	for (int channel=0; channel<filteredBuf.size(); channel++) {
+		filteredBuf[channel].resize(vec.size());
+	}
+	std::cout << "vec.size: " << vec.size() << '\n';
+	int count=0;
+	// fill the buffer with values from vec
+	for (int i=0; i<vec.size(); i++) {
+		// set samples for all channels
+		for (int channel=0; channel<filteredBuf.size(); channel++) {
+			// convert float pcm in range [-1.0, 1.0]
+			// to int16 pcm in range [-32767, 32767]
+			float tmp = static_cast<float>(vec[i]);
+			if (tmp < -1.f || tmp > 1.f)	count++;
+			float val = std::clamp(tmp, -1.f, 1.f);	// clip the vec[i] value in range [-1.0,1.0]
+			// by multiplying with 32767 (2^15 - 1)
+			filteredBuf[channel][i] = val * ((1 << 15) - 1);
+			/*std::cout << "vec[" << i << "]: " << vec[i] << '\t'
+				  << "clipped: " << val << '\t'
+				  << "* " << (1<<15) << " = " << filteredBuf[channel][i] << '\n';*/
+		}
+	}
+	// set all metadata for the new wav file (mostly given by unfiltered wavfile)
+	AudioFile<qint16> filteredWav;
+	//filteredWav.setAudioBufferSize(filteredBuf.size(), vec.size());
+	filteredWav.setAudioBuffer(filteredBuf);
+	filteredWav.setBitDepth(wavfile.getBitDepth());
+	filteredWav.setSampleRate(wavfile.getSampleRate());
+	// save to disk
+	return filteredWav.save(filename.toStdString());
 }
 
 
@@ -225,14 +273,14 @@ QVector<complex> WavFourier::IDFT(const QVector<complex>& vec)
 			// which
 			sum += vec[j] * std::exp(2.0 * M_PI * complex(0.0, 1.0) * (double) j * (double) k / (double)vec.size());
 		}
-		// normalization factor 1/n because as matrices: DFT*IDFT soll Einheitsmatrix E_n
+		// normalization factor 1/n because as matrices: DFT*IDFT should equal identity matrix E_n
 		// but DFT*IDFT = n*E_n => hence we do DFT * 1/n*IDFT = E_n
 		beta_inv[k] = sum / (double)vec.size();
 	}
 	return beta_inv;
 }
 
-/* returns real values of IDFT,
+/* returns real values of vec,
  * use only if you know data was
  * real (not complex) to begin with */
 QVector<double> WavFourier::real(const QVector<complex>& vec)
@@ -303,6 +351,8 @@ QVector<complex> WavFourier::IFFT(const QVector<complex>& vec)
 	fft::ifft(ifft);
 	// undo apply of window function before ifft, so original data except filtered is recovered
 	//undoWindowFunction(ifft, WindowFunction::vonhann);
+	// undo the zero padding in FFT by cutting the zero padded values (should be 0 bearing rounding errors)
+	//ifft.resize(originalDataSize);
 	std::cout << "ifft done\n";
 	return ifft;
 }
@@ -311,7 +361,7 @@ QVector<complex> WavFourier::IFFT(const QVector<complex>& vec)
 void WavFourier::filter(QVector<complex>& fourier, QVector<int> idxOfPeak)
 {
 	// primitive approach: zero the frequency bins given by idxOfPeak
-	// TODO: find better ways to filter
+	// find better ways to filter than simple zeroing
 	/*for (int idx : idxOfPeak) {
 		fourier[idx] = complex(0.0, 0.0);
 	}*/
@@ -330,14 +380,12 @@ void WavFourier::filter(QVector<complex>& fourier, QVector<int> idxOfPeak)
 	// window the filter
 	applyWindowFunction(filter_time, WindowFunction::vonhann);
 	// now filter_time holds the filter_coefficients in the time domain
-	std::cout << "========= filter coefficients =========\n";
-	for (auto& i: filter_time)
-		std::cout << i << '\n';
-	std::cout << "====================================\n";
 
-	// apply FIR (finite impulse response) filter twice to vector
+	// apply FIR (finite impulse response) filter to vector twice,
 	// 1. on vector
 	// 2. on reversed vector after 1.
+	// https://dsp.stackexchange.com/questions/18225/appying-a-filter-several-times-on-data
+	// https://tomroelandts.com/articles/apply-a-filter-twice-for-greatly-improved-performance
 	for (int i=0; i<fourier.size(); i++) {
 		fourier[i] *= filter[i];
 	}

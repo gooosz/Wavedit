@@ -65,6 +65,7 @@ private:
 
 	QList<qint16> data_int16;	// QList of samples (1 sample has size byteRate, so 2 Bytes)
 	QVector<double> data;
+	size_t originalDataSize;	// size of data (no zero padding)
 
 	QVector<complex> dft;
 	QVector<complex> fft;
@@ -110,10 +111,12 @@ public:
 	QVector<double>& getData(QTime startTime=QTime(), QTime endTime=QTime());
 	QList<double>& getFourierTransform();	// calculates fourier transform of given WAV file
 	double getSampleRate();
+	size_t getOriginalDataSize();
 
 	int getBinOfFreq(const QVector<double>& freq, double f);	// returns the index of the bin that frequency f belongs to, -1 if none
 	QVector<int> getPeakNear(const QVector<double>& freqBins, int idx);	// returns indices of the peak next to frequency bin with index idx
-
+	// writes the data given by vec to a file called filename, return true on success else false
+	bool writeDataToFile(QVector<double>& vec, QString filename);
 signals:
 	void gotData();	// data read from wav file
 	void failedToGetData();	// error when trying to read data
