@@ -1,0 +1,88 @@
+\documentclass{beamer}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{scalerel}
+\usepackage{nameref}
+\usepackage{siunitx}
+\usepackage[justification=raggedright, font=scriptsize, skip=0pt, belowskip=0pt]{caption}
+\usepackage[bottom]{footmisc}
+\usepackage[backend=biber, style=verbose]{biblatex}
+\usepackage{csquotes}
+
+%\usepackage{footbib}
+
+\addbibresource{bibliography.bib}
+
+\renewcommand{\thefootnote}{\arabic{footnote}}
+\renewcommand{\thempfootnote}{\arabic{mpfootnote}}
+% \footnote[frame] glues the footnote to the bottom of the frame even in minipage/column environments
+\newcommand{\myfootcite}[1]{\footnote[frame]{\cite{#1}}}
+% make footnotes smaller size else to much text in each frame
+\let\oldfootnotesize\footnotesize
+\renewcommand*{\footnotesize}{\oldfootnotesize\scriptsize}
+
+
+\usetheme[width=1.9cm]{Hannover}
+\usecolortheme{seagull}
+
+%opening
+\title{Fourier Transformation \\ anhand WAV-Audio Dateien}
+\author{Len-Marvin Adler}
+\institute{Hochschule Bonn-Rhein-Sieg}
+\date{\today}
+\titlegraphic{\includegraphics[height=0.4\textheight]{images/rectFilter\_impulseresponse.png}}
+
+\setbeamercolor{itemize item}{fg=lightgray}
+\setbeamertemplate{itemize item}[triangle]
+
+\setbeamertemplate{section in toc}[square]
+\setbeamertemplate{subsection in toc}{\hspace{2em}{\color{lightgray}\rule[0.3ex]{3pt}{3pt}}~\inserttocsubsection\par}
+
+\def\smarginleft{1.9cm}
+\setbeamertemplate{sidebar left}
+{
+  {\usebeamerfont{title in sidebar}
+    \vskip1.5em
+    \usebeamercolor[fg]{title in sidebar}
+    \insertshorttitle[width=\smarginleft,center,respectlinebreaks]\par
+    \vskip1.25em
+  }
+  \hbox to2cm{\hss\insertlogo\hss}
+  \vskip1.25em
+  \insertverticalnavigation{\smarginleft}
+  \vfill
+  \hbox to2cm{\hskip0.8cm\usebeamerfont{subsection in
+      sidebar}\strut\usebeamercolor[fg]{subsection in
+      sidebar}\insertframenumber-\inserttotalframenumber\hfill}
+  \vskip3pt
+}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section*{Inhaltsverzeichnis}
+\begin{frame}{Inhaltsverzeichnis}
+	\tableofcontents
+\end{frame}
+
+%% 1.
+\input{frames/1-DSP.tex}
+
+%% 2.
+\input{frames/2-WAV.tex}
+
+%% 3.
+\input{frames/3-Fourier_Transformation.tex}
+
+%% 4.
+\input{frames/4-Interessantes.tex}
+
+%% 5.
+\input{frames/5-Fazit.tex}
+
+%\printbibliography
+
+\end{document}

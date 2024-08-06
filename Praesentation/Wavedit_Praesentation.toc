@@ -1,0 +1,8 @@
+\babel@toc {ngerman}{}\relax 
+\beamer@sectionintoc {2}{Begriffe der Digitalen Signalverarbeitung}{3}{0}{1}
+\beamer@sectionintoc {3}{WAV Datei}{4}{0}{2}
+\beamer@sectionintoc {4}{Fourier Transformation}{6}{0}{3}
+\beamer@subsectionintoc {4}{1}{Schaltplan}{6}{0}{3}
+\beamer@subsectionintoc {4}{2}{Code}{7}{0}{3}
+\beamer@sectionintoc {5}{Interessantes}{8}{0}{4}
+\beamer@sectionintoc {6}{Fazit}{9}{0}{5}
