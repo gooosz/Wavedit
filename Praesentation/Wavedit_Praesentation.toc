@@ -1,8 +1,14 @@
 \babel@toc {ngerman}{}\relax 
 \beamer@sectionintoc {2}{Begriffe der Digitalen Signalverarbeitung}{3}{0}{1}
-\beamer@sectionintoc {3}{WAV Datei}{4}{0}{2}
+\beamer@sectionintoc {3}{Aufbau einer WAV Datei}{4}{0}{2}
 \beamer@sectionintoc {4}{Fourier Transformation}{6}{0}{3}
-\beamer@subsectionintoc {4}{1}{Schaltplan}{6}{0}{3}
-\beamer@subsectionintoc {4}{2}{Code}{7}{0}{3}
-\beamer@sectionintoc {5}{Interessantes}{8}{0}{4}
-\beamer@sectionintoc {6}{Fazit}{9}{0}{5}
+\beamer@subsectionintoc {4}{1}{DFT, FFT}{6}{0}{3}
+\beamer@subsectionintoc {4}{2}{Performance}{7}{0}{3}
+\beamer@subsectionintoc {4}{3}{IDFT}{8}{0}{3}
+\beamer@subsectionintoc {4}{4}{Konvergenzverhalten, Fehleranalyse}{9}{0}{3}
+\beamer@subsectionintoc {4}{5}{Leck-Effekt, Fensterfunktionen}{10}{0}{3}
+\beamer@sectionintoc {5}{Frequenzen filtern}{12}{0}{4}
+\beamer@subsectionintoc {5}{1}{Vorgehensweise}{12}{0}{4}
+\beamer@subsectionintoc {5}{2}{Was kann schon schief gehen?}{13}{0}{4}
+\beamer@sectionintoc {6}{Demonstration des Programms}{14}{0}{5}
+\beamer@sectionintoc {7}{Fazit}{15}{0}{6}

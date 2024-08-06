@@ -1,4 +1,4 @@
-\section{WAV Datei}
+\section{Aufbau einer WAV Datei}
 \begin{frame}{\insertsection}
 	%Nur wichtigste Punkte als Auflistung
 	\begin{columns}[T]
@@ -28,12 +28,14 @@
 
 \begin{frame}{\insertsection}
 	\begin{figure}
-		\includegraphics[scale=0.15]{images/wav_hex.png}
+		\includegraphics[scale=0.125]{images/wav_hex.png}
 		\caption{\centering Ausschnitt einer WAV Datei mit markierten Subchunks,\\dargestellt in einem Hex-Editor}
 	\end{figure}
 	\begin{itemize}
 		\item Abtastrate ist oft $\SI{44.1}{\kilo\hertz}$ \myfootcite{44100Hz},
 		\\  Menschen hören Töne im Bereich $\SI{20}{\hertz}-\SI{20}{\kilo\hertz}$ \myfootcite{MenschlicheHoerfrequenz}
 		\item Analoges Signal wird durch lineare Pulse Code Modulation (PCM)  in ein digitales Signal umgewandelt (verlustfrei)
+		\item PCM kodiert Daten oft als $\SI{16}{\bit}$ signed integer,
+		\\ jeder Datenwert liegt im Bereich $[-32767, 32767]$
 	\end{itemize}
 \end{frame}

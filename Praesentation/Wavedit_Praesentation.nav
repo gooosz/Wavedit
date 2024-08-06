@@ -12,7 +12,7 @@
 \headcommand {\beamer@framepages {3}{3}}
 \headcommand {\beamer@sectionpages {3}{3}}
 \headcommand {\beamer@subsectionpages {3}{3}}
-\headcommand {\sectionentry {3}{WAV Datei}{4}{WAV Datei}{0}}
+\headcommand {\sectionentry {3}{Aufbau einer WAV Datei}{4}{Aufbau einer WAV Datei}{0}}
 \headcommand {\slideentry {3}{0}{1}{4/4}{}{0}}
 \headcommand {\beamer@framepages {4}{4}}
 \headcommand {\slideentry {3}{0}{2}{5/5}{}{0}}
@@ -21,25 +21,50 @@
 \headcommand {\beamer@subsectionpages {4}{5}}
 \headcommand {\sectionentry {4}{Fourier Transformation}{6}{Fourier Transformation}{0}}
 \headcommand {\beamer@subsectionpages {6}{5}}
-\headcommand {\beamer@subsectionentry {0}{4}{1}{6}{Schaltplan}}
-\headcommand {\slideentry {4}{1}{0}{6/6}{}{0}}
+\headcommand {\beamer@subsectionentry {0}{4}{1}{6}{DFT, FFT}}
+\headcommand {\slideentry {4}{1}{1}{6/6}{DFT, FFT}{0}}
 \headcommand {\beamer@framepages {6}{6}}
 \headcommand {\beamer@subsectionpages {6}{6}}
-\headcommand {\beamer@subsectionentry {0}{4}{2}{7}{Code}}
-\headcommand {\slideentry {4}{2}{0}{7/7}{}{0}}
+\headcommand {\beamer@subsectionentry {0}{4}{2}{7}{Performance}}
+\headcommand {\slideentry {4}{2}{1}{7/7}{Performance}{0}}
 \headcommand {\beamer@framepages {7}{7}}
-\headcommand {\beamer@sectionpages {6}{7}}
-\headcommand {\beamer@subsectionpages {6}{7}}
-\headcommand {\sectionentry {5}{Interessantes}{8}{Interessantes}{0}}
-\headcommand {\slideentry {5}{0}{1}{8/8}{}{0}}
+\headcommand {\beamer@subsectionpages {7}{7}}
+\headcommand {\beamer@subsectionentry {0}{4}{3}{8}{IDFT}}
+\headcommand {\slideentry {4}{3}{1}{8/8}{IDFT}{0}}
 \headcommand {\beamer@framepages {8}{8}}
-\headcommand {\beamer@sectionpages {8}{8}}
 \headcommand {\beamer@subsectionpages {8}{8}}
-\headcommand {\sectionentry {6}{Fazit}{9}{Fazit}{0}}
-\headcommand {\slideentry {6}{0}{1}{9/9}{}{0}}
+\headcommand {\beamer@subsectionentry {0}{4}{4}{9}{Konvergenzverhalten, Fehleranalyse}}
+\headcommand {\slideentry {4}{4}{1}{9/9}{Konvergenzverhalten, Fehleranalyse}{0}}
 \headcommand {\beamer@framepages {9}{9}}
-\headcommand {\beamer@partpages {1}{9}}
 \headcommand {\beamer@subsectionpages {9}{9}}
-\headcommand {\beamer@sectionpages {9}{9}}
-\headcommand {\beamer@documentpages {9}}
-\headcommand {\gdef \inserttotalframenumber {9}}
+\headcommand {\beamer@subsectionentry {0}{4}{5}{10}{Leck-Effekt, Fensterfunktionen}}
+\headcommand {\slideentry {4}{5}{1}{10/10}{Leck-Effekt, Fensterfunktionen}{0}}
+\headcommand {\beamer@framepages {10}{10}}
+\headcommand {\slideentry {4}{5}{2}{11/11}{Leck-Effekt, Fensterfunktionen}{0}}
+\headcommand {\beamer@framepages {11}{11}}
+\headcommand {\beamer@sectionpages {6}{11}}
+\headcommand {\beamer@subsectionpages {10}{11}}
+\headcommand {\sectionentry {5}{Frequenzen filtern}{12}{Frequenzen filtern}{0}}
+\headcommand {\beamer@subsectionpages {12}{11}}
+\headcommand {\beamer@subsectionentry {0}{5}{1}{12}{Vorgehensweise}}
+\headcommand {\slideentry {5}{1}{1}{12/12}{Vorgehensweise}{0}}
+\headcommand {\beamer@framepages {12}{12}}
+\headcommand {\beamer@subsectionpages {12}{12}}
+\headcommand {\beamer@subsectionentry {0}{5}{2}{13}{Was kann schon schief gehen?}}
+\headcommand {\slideentry {5}{2}{1}{13/13}{Was kann schon schief gehen?}{0}}
+\headcommand {\beamer@framepages {13}{13}}
+\headcommand {\beamer@sectionpages {12}{13}}
+\headcommand {\beamer@subsectionpages {13}{13}}
+\headcommand {\sectionentry {6}{Demonstration des Programms}{14}{Demonstration des Programms}{0}}
+\headcommand {\slideentry {6}{0}{1}{14/14}{}{0}}
+\headcommand {\beamer@framepages {14}{14}}
+\headcommand {\beamer@sectionpages {14}{14}}
+\headcommand {\beamer@subsectionpages {14}{14}}
+\headcommand {\sectionentry {7}{Fazit}{15}{Fazit}{0}}
+\headcommand {\slideentry {7}{0}{1}{15/15}{}{0}}
+\headcommand {\beamer@framepages {15}{15}}
+\headcommand {\beamer@partpages {1}{15}}
+\headcommand {\beamer@subsectionpages {15}{15}}
+\headcommand {\beamer@sectionpages {15}{15}}
+\headcommand {\beamer@documentpages {15}}
+\headcommand {\gdef \inserttotalframenumber {15}}
