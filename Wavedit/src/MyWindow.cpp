@@ -99,7 +99,7 @@ void MyWindow::showErrorDialogOpenFile()
 
 void MyWindow::handleFileDialog()
 {
-	QString dir = "/home/rattich/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/test";
+	QString dir = "/home/gooosz/Uni/4Semester/Uebungen/NumerischeDatenanalyse/Projekt/Wavedit/test";
 	wav_filename = QFileDialog::getOpenFileName(nullptr, "Open WAV File", dir, "(*.wav)");
 	wavfourier->populateData(wav_filename);
 }
@@ -289,7 +289,7 @@ void MyWindow::onMouseClick(QMouseEvent *ev)
 	QVector<double> filteredFreq = wavfourier->Freq(nextPowOf2(filteredData.size()), wavfourier->getSampleRate());
 	// draw fft again
 	QVector<double> filteredFFT = wavfourier->abs(wavfourier->FFT(filteredData, true));
-	plot->makePlot(filteredFreq, filteredFFT, 0, true, PLOT, Qt::red);
+	plot->makePlot(filteredFreq, filteredFFT, 0, true, PLOT, Qt::yellow);
 
 	// filteredData contains the padded zeros aswell, remove them before writing to file
 	filteredData.resize(wavfourier->getOriginalDataSize());

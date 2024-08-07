@@ -24,47 +24,49 @@
 \headcommand {\beamer@subsectionentry {0}{4}{1}{6}{DFT, FFT}}
 \headcommand {\slideentry {4}{1}{1}{6/6}{DFT, FFT}{0}}
 \headcommand {\beamer@framepages {6}{6}}
-\headcommand {\beamer@subsectionpages {6}{6}}
-\headcommand {\beamer@subsectionentry {0}{4}{2}{7}{Performance}}
-\headcommand {\slideentry {4}{2}{1}{7/7}{Performance}{0}}
+\headcommand {\slideentry {4}{1}{2}{7/7}{DFT, FFT}{0}}
 \headcommand {\beamer@framepages {7}{7}}
-\headcommand {\beamer@subsectionpages {7}{7}}
-\headcommand {\beamer@subsectionentry {0}{4}{3}{8}{IDFT}}
-\headcommand {\slideentry {4}{3}{1}{8/8}{IDFT}{0}}
+\headcommand {\beamer@subsectionpages {6}{7}}
+\headcommand {\beamer@subsectionentry {0}{4}{2}{8}{Performance}}
+\headcommand {\slideentry {4}{2}{1}{8/8}{Performance}{0}}
 \headcommand {\beamer@framepages {8}{8}}
 \headcommand {\beamer@subsectionpages {8}{8}}
-\headcommand {\beamer@subsectionentry {0}{4}{4}{9}{Konvergenzverhalten, Fehleranalyse}}
-\headcommand {\slideentry {4}{4}{1}{9/9}{Konvergenzverhalten, Fehleranalyse}{0}}
+\headcommand {\beamer@subsectionentry {0}{4}{3}{9}{IDFT}}
+\headcommand {\slideentry {4}{3}{1}{9/9}{IDFT}{0}}
 \headcommand {\beamer@framepages {9}{9}}
 \headcommand {\beamer@subsectionpages {9}{9}}
-\headcommand {\beamer@subsectionentry {0}{4}{5}{10}{Leck-Effekt, Fensterfunktionen}}
-\headcommand {\slideentry {4}{5}{1}{10/10}{Leck-Effekt, Fensterfunktionen}{0}}
+\headcommand {\beamer@subsectionentry {0}{4}{4}{10}{Konvergenzverhalten, Fehleranalyse}}
+\headcommand {\slideentry {4}{4}{1}{10/10}{Konvergenzverhalten, Fehleranalyse}{0}}
 \headcommand {\beamer@framepages {10}{10}}
-\headcommand {\slideentry {4}{5}{2}{11/11}{Leck-Effekt, Fensterfunktionen}{0}}
+\headcommand {\beamer@subsectionpages {10}{10}}
+\headcommand {\beamer@subsectionentry {0}{4}{5}{11}{Leck-Effekt, Fensterfunktionen}}
+\headcommand {\slideentry {4}{5}{1}{11/11}{Leck-Effekt, Fensterfunktionen}{0}}
 \headcommand {\beamer@framepages {11}{11}}
-\headcommand {\beamer@sectionpages {6}{11}}
-\headcommand {\beamer@subsectionpages {10}{11}}
-\headcommand {\sectionentry {5}{Frequenzen filtern}{12}{Frequenzen filtern}{0}}
-\headcommand {\beamer@subsectionpages {12}{11}}
-\headcommand {\beamer@subsectionentry {0}{5}{1}{12}{Vorgehensweise}}
-\headcommand {\slideentry {5}{1}{1}{12/12}{Vorgehensweise}{0}}
+\headcommand {\slideentry {4}{5}{2}{12/12}{Leck-Effekt, Fensterfunktionen}{0}}
 \headcommand {\beamer@framepages {12}{12}}
-\headcommand {\beamer@subsectionpages {12}{12}}
-\headcommand {\beamer@subsectionentry {0}{5}{2}{13}{Was kann schon schief gehen?}}
-\headcommand {\slideentry {5}{2}{1}{13/13}{Was kann schon schief gehen?}{0}}
+\headcommand {\beamer@sectionpages {6}{12}}
+\headcommand {\beamer@subsectionpages {11}{12}}
+\headcommand {\sectionentry {5}{Frequenzen filtern}{13}{Frequenzen filtern}{0}}
+\headcommand {\beamer@subsectionpages {13}{12}}
+\headcommand {\beamer@subsectionentry {0}{5}{1}{13}{Vorgehensweise}}
+\headcommand {\slideentry {5}{1}{1}{13/13}{Vorgehensweise}{0}}
 \headcommand {\beamer@framepages {13}{13}}
-\headcommand {\beamer@sectionpages {12}{13}}
 \headcommand {\beamer@subsectionpages {13}{13}}
-\headcommand {\sectionentry {6}{Demonstration des Programms}{14}{Demonstration des Programms}{0}}
-\headcommand {\slideentry {6}{0}{1}{14/14}{}{0}}
+\headcommand {\beamer@subsectionentry {0}{5}{2}{14}{Was kann schon schief gehen?}}
+\headcommand {\slideentry {5}{2}{1}{14/14}{Was kann schon schief gehen?}{0}}
 \headcommand {\beamer@framepages {14}{14}}
-\headcommand {\beamer@sectionpages {14}{14}}
+\headcommand {\beamer@sectionpages {13}{14}}
 \headcommand {\beamer@subsectionpages {14}{14}}
-\headcommand {\sectionentry {7}{Fazit}{15}{Fazit}{0}}
-\headcommand {\slideentry {7}{0}{1}{15/15}{}{0}}
+\headcommand {\sectionentry {6}{Demonstration des Programms}{15}{Demonstration des Programms}{0}}
+\headcommand {\slideentry {6}{0}{1}{15/15}{}{0}}
 \headcommand {\beamer@framepages {15}{15}}
-\headcommand {\beamer@partpages {1}{15}}
-\headcommand {\beamer@subsectionpages {15}{15}}
 \headcommand {\beamer@sectionpages {15}{15}}
-\headcommand {\beamer@documentpages {15}}
-\headcommand {\gdef \inserttotalframenumber {15}}
+\headcommand {\beamer@subsectionpages {15}{15}}
+\headcommand {\sectionentry {7}{Fazit}{16}{Fazit}{0}}
+\headcommand {\slideentry {7}{0}{1}{16/16}{}{0}}
+\headcommand {\beamer@framepages {16}{16}}
+\headcommand {\beamer@partpages {1}{16}}
+\headcommand {\beamer@subsectionpages {16}{16}}
+\headcommand {\beamer@sectionpages {16}{16}}
+\headcommand {\beamer@documentpages {16}}
+\headcommand {\gdef \inserttotalframenumber {16}}

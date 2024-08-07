@@ -80,6 +80,35 @@
       \verb https://www.hno-aerzte-im-netz.de/unsere-sinne/hoeren/hoerbahn-hoerfrequenz.html
       \endverb
     \endentry
+    \entry{Benchmark-std::exp}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=ba5c060bfaadbc823ba24096eae07320}{%
+           family={Kavolis},
+           familyi={K\bibinitperiod},
+           given={Daumantas},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{ba5c060bfaadbc823ba24096eae07320}
+      \strng{fullhash}{ba5c060bfaadbc823ba24096eae07320}
+      \strng{bibnamehash}{ba5c060bfaadbc823ba24096eae07320}
+      \strng{authorbibnamehash}{ba5c060bfaadbc823ba24096eae07320}
+      \strng{authornamehash}{ba5c060bfaadbc823ba24096eae07320}
+      \strng{authorfullhash}{ba5c060bfaadbc823ba24096eae07320}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Developer Community}
+      \field{month}{10}
+      \field{title}{Terrible std::exp performance}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://developercommunity.visualstudio.com/t/terrible-stdexp-performance/1231042
+      \endverb
+      \verb{url}
+      \verb https://developercommunity.visualstudio.com/t/terrible-stdexp-performance/1231042
+      \endverb
+    \endentry
     \entry{dspguide:3:nyquist}{book}{}
       \name{author}{1}{}{%
         {{hash=1795fe90e11d3a84947c656b94c2fd87}{%

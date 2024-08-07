@@ -42,6 +42,9 @@ private slots:
 
 	void testGetBinOfFreq_data();
 	void testGetBinOfFreq();
+
+	void testWriteDataToFile_data();
+	void testWriteDataToFile();
 };
 
 void TestWavFourier::helloWorld()
@@ -127,7 +130,8 @@ void TestWavFourier::testDFT_data()
 		{complex(6.0,0.0), complex(-2.0,2.0), complex(-2.0,0.0), complex(-2.0,-2.0)}
 	);
 
-	QTest::newRow("data.size() = 5") << QVector<double>({2.0, 5.0, 1.0, 8.0, 1.0}) << QVector<complex>(
+	QTest::newRow("data.size() = 5")
+		<< QVector<double>({2.0, 5.0, 1.0, 8.0, 1.0}) << QVector<complex>(
 		{complex(17.0, 0.0), complex(-3.4270509831248424,0.3102707008666963),
 		 complex(-0.07294901687515476,-9.008536623235965), complex(-0.07294901687516075,9.008536623235967),
 		 complex(-3.4270509831248375,-0.31027070086670205)}
@@ -473,6 +477,32 @@ void TestWavFourier::testGetBinOfFreq()
 }
 
 
+void TestWavFourier::testWriteDataToFile_data()
+{
+	QTest::addColumn<double>("vec_value");
+	QTest::addColumn<qint16>("filteredBuf_value");
+
+	QTest::addRow("negative value in range") << -0.000193851 << (qint16) -6;
+	QTest::addRow("negative value out of range") << -3.8887 << (qint16) -((1<<15)-1);
+	QTest::addRow("positive value in range") << 0.000193851 << (qint16) 6;
+	QTest::addRow("positive value out of range") << 3.8887 << (qint16) ((1<<15)-1);
+}
+
+void TestWavFourier::testWriteDataToFile()
+{
+	QFETCH(double, vec_value);
+	QFETCH(qint16, filteredBuf_value);
+
+	float tmp = static_cast<float>(vec_value);
+	//std::cout << "tmp: " << tmp << '\n';
+	float val = std::clamp(tmp, -1.f, 1.f);	// clip the vec[i] value in range [-1.0,1.0]
+	//std::cout << "val: " << val << '\n';
+	//std::cout << "(1 << 15) - 1): " << (1 << 15)-1 << '\n';
+	qint16 val16 = (val * ((1 << 15) - 1));
+	//std::cout << "val16: " << val16 << '\n';
+
+	QCOMPARE(val16, filteredBuf_value);
+}
 
 
 
