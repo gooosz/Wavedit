@@ -1,19 +1,20 @@
 [0] Config.pm:307> INFO - This is Biber 2.19
 [0] Config.pm:310> INFO - Logfile is 'Wavedit_Praesentation.blg'
-[63] biber:340> INFO - === Tue Aug  6, 2024, 20:27:20
-[75] Biber.pm:419> INFO - Reading 'Wavedit_Praesentation.bcf'
-[130] Biber.pm:979> INFO - Found 5 citekeys in bib section 0
-[144] Biber.pm:4419> INFO - Processing section 0
-[151] Biber.pm:4610> INFO - Looking for bibtex file 'bibliography.bib' for section 0
-[152] bibtex.pm:1713> INFO - LaTeX decoding ...
-[156] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliography.bib'
-[202] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[202] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
-[202] Biber.pm:4239> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'de-DE'
-[202] Biber.pm:4245> INFO - No sort tailoring available for locale 'de-DE'
-[208] bbl.pm:660> INFO - Writing 'Wavedit_Praesentation.bbl' with encoding 'UTF-8'
-[210] bbl.pm:763> INFO - Output to Wavedit_Praesentation.bbl
-[210] Biber.pm:131> WARN - legacy month field 'Jul' in entry '44100Hz' is not an integer - this will probably not sort properly.
-[210] Biber.pm:131> WARN - legacy month field 'Oct' in entry 'Benchmark-std::exp' is not an integer - this will probably not sort properly.
-[210] Biber.pm:131> WARN - BibTeX subsystem: /tmp/biber_tmp__hWg/f4d088b3f9f145b5c3058da33afd57d4_42802.utf8, line 25, warning: undefined macro "39-44"
-[210] Biber.pm:133> INFO - WARNINGS: 3
+[62] biber:340> INFO - === Thu Aug  8, 2024, 12:16:59
+[73] Biber.pm:419> INFO - Reading 'Wavedit_Praesentation.bcf'
+[123] Biber.pm:979> INFO - Found 8 citekeys in bib section 0
+[136] Biber.pm:4419> INFO - Processing section 0
+[143] Biber.pm:4610> INFO - Looking for bibtex file 'bibliography.bib' for section 0
+[143] bibtex.pm:1713> INFO - LaTeX decoding ...
+[148] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliography.bib'
+[207] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[207] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[207] Biber.pm:4239> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'de-DE'
+[207] Biber.pm:4245> INFO - No sort tailoring available for locale 'de-DE'
+[216] bbl.pm:660> INFO - Writing 'Wavedit_Praesentation.bbl' with encoding 'UTF-8'
+[218] bbl.pm:763> INFO - Output to Wavedit_Praesentation.bbl
+[219] Biber.pm:131> WARN - legacy month field 'Jul' in entry '44100Hz' is not an integer - this will probably not sort properly.
+[219] Biber.pm:131> WARN - legacy month field 'Oct' in entry 'Benchmark-std::exp' is not an integer - this will probably not sort properly.
+[219] Biber.pm:131> WARN - legacy month field 'Jan' in entry 'VandermondeCondition' is not an integer - this will probably not sort properly.
+[219] Biber.pm:131> WARN - BibTeX subsystem: /tmp/biber_tmp_zKnn/f4d088b3f9f145b5c3058da33afd57d4_96744.utf8, line 25, warning: undefined macro "39-44"
+[219] Biber.pm:133> INFO - WARNINGS: 4

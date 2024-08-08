@@ -109,6 +109,95 @@
       \verb https://developercommunity.visualstudio.com/t/terrible-stdexp-performance/1231042
       \endverb
     \endentry
+    \entry{KonvergenzFourierReihe}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=aa861e9614988f82e93c213b2b2710a8}{%
+           family={Lauterbach},
+           familyi={L\bibinitperiod},
+           given={Reiner},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{aa861e9614988f82e93c213b2b2710a8}
+      \strng{fullhash}{aa861e9614988f82e93c213b2b2710a8}
+      \strng{bibnamehash}{aa861e9614988f82e93c213b2b2710a8}
+      \strng{authorbibnamehash}{aa861e9614988f82e93c213b2b2710a8}
+      \strng{authornamehash}{aa861e9614988f82e93c213b2b2710a8}
+      \strng{authorfullhash}{aa861e9614988f82e93c213b2b2710a8}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Konvergenz der Fourierreihe}
+      \verb{urlraw}
+      \verb https://www.math.uni-hamburg.de/home/lauterbach/tuhh/komp_func/folien10.pdf
+      \endverb
+      \verb{url}
+      \verb https://www.math.uni-hamburg.de/home/lauterbach/tuhh/komp_func/folien10.pdf
+      \endverb
+    \endentry
+    \entry{conjugateSymmetry}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=fbacf84c1c114df8080fbb2784cef0f6}{%
+           family={McFee},
+           familyi={M\bibinitperiod},
+           given={Brian},
+           giveni={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{fbacf84c1c114df8080fbb2784cef0f6}
+      \strng{fullhash}{fbacf84c1c114df8080fbb2784cef0f6}
+      \strng{bibnamehash}{fbacf84c1c114df8080fbb2784cef0f6}
+      \strng{authorbibnamehash}{fbacf84c1c114df8080fbb2784cef0f6}
+      \strng{authornamehash}{fbacf84c1c114df8080fbb2784cef0f6}
+      \strng{authorfullhash}{fbacf84c1c114df8080fbb2784cef0f6}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{6.3. Conjugate Symmetry - Digital Signals Theory}
+      \field{title}{Digital Signals theory}
+      \verb{urlraw}
+      \verb https://brianmcfee.net/dstbook-site/content/ch06-dft-properties/Conjugate-Symmetry.html
+      \endverb
+      \verb{url}
+      \verb https://brianmcfee.net/dstbook-site/content/ch06-dft-properties/Conjugate-Symmetry.html
+      \endverb
+    \endentry
+    \entry{VandermondeCondition}{article}{}
+      \name{author}{1}{}{%
+        {{hash=93ef2e196964b0dc2c03401ba5e8d006}{%
+           family={Pan},
+           familyi={P\bibinitperiod},
+           given={Victor\bibnamedelima Y.},
+           giveni={V\bibinitperiod\bibinitdelim Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{93ef2e196964b0dc2c03401ba5e8d006}
+      \strng{fullhash}{93ef2e196964b0dc2c03401ba5e8d006}
+      \strng{bibnamehash}{93ef2e196964b0dc2c03401ba5e8d006}
+      \strng{authorbibnamehash}{93ef2e196964b0dc2c03401ba5e8d006}
+      \strng{authornamehash}{93ef2e196964b0dc2c03401ba5e8d006}
+      \strng{authorfullhash}{93ef2e196964b0dc2c03401ba5e8d006}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{SIAM Journal on Matrix Analysis and Applications}
+      \field{month}{1}
+      \field{number}{2}
+      \field{title}{How bad are vandermonde matrices?}
+      \field{volume}{37}
+      \field{year}{2016}
+      \field{pages}{676\bibrangedash 694}
+      \range{pages}{19}
+      \verb{doi}
+      \verb 10.1137/15m1030170
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1504.02118
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1504.02118
+      \endverb
+    \endentry
     \entry{dspguide:3:nyquist}{book}{}
       \name{author}{1}{}{%
         {{hash=1795fe90e11d3a84947c656b94c2fd87}{%

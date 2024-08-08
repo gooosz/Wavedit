@@ -19,3 +19,7 @@ To read the WAV files I use the library [AudioFile](https://github.com/adamstark
 I tried to add unit tests for some but not all methods of class _WavFourier_. <br/>
 _WavFourier_ is like the Backend as it provides all the methods for calculating etc., <br/>
 the GUI is handled by ```MyWindow.h``` explicitly. ```PlotWidget.h``` contains methods that use qcustomplot to plot the diagrams.
+
+## Demo
+
+![Demo](./Praesentation/images/GIFs/sqr1500HzFiltered.gif)

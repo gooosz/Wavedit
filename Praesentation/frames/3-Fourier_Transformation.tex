@@ -3,7 +3,7 @@
 \begin{frame}{\insertsection}
 	\framesubtitle{\insertsubsection}
 	\begin{itemize}
-		\item DFT: Fourier-Koeffizienten $\beta_j = \sum\limits_{k=0}^{n-1} x_j e^{-2\pi i \frac{jk}{n}} \enspace ; j=0,\ldots,n-1$
+		\item DFT: Fourier-Koeffizienten $\beta_j = \sum\limits_{k=0}^{n-1} x_k e^{-2\pi i \frac{jk}{n}} \enspace ; j=0,\ldots,n-1$
 		\item FFT: Voraussetzung $n = 2^\psi; \psi \in \mathbb{N}_0$ (Radix-2-FFT)
 		% Wenn Voraussetzung mit gegebenen Daten nicht erreicht, hänge soviele 0 an die Daten hinten ran
 		% bis die Anzahl eine Zweierpotenz ist, 0 fügen keinen Frequenzanteil bzw. keine Informationen hinzu
@@ -20,10 +20,10 @@
 \begin{frame}{\insertsection}
 	\framesubtitle{\insertsubsection}
 	\begin{itemize}
-		\item DFT ist konjugiert symmetrisch, \\ wenn Datenwerte $x_j \in \mathbb{R}$ sind
+		\item DFT ist konjugiert symmetrisch\myfootcite{conjugateSymmetry}, \\ wenn Datenwerte $x_j \in \mathbb{R}$ %sind
 		\begin{align*}
-			\beta_{n-k} & = \sum\limits_{j=0}^{n-1} x_j \cdot e^{-2\pi i \frac{j(N-k)}{n}} =  \sum\limits_{j=0}^{n-1} x_j \cdot \overline{e^{-2\pi i \frac{jk}{n}}} \\
-			& =  \sum\limits_{j=0}^{n-1} \overline{x_j \cdot e^{-2\pi i \frac{jk}{n}}} = \overline{\beta_k}
+			\beta_{n-j} & = \sum\limits_{k=0}^{n-1} x_k \cdot e^{-2\pi i \frac{(N-j)k}{n}} =  \sum\limits_{k=0}^{n-1} x_k \cdot \overline{e^{-2\pi i \frac{jk}{n}}} \\
+			& =  \sum\limits_{k=0}^{n-1} \overline{x_k \cdot e^{-2\pi i \frac{jk}{n}}} = \overline{\beta_j}
 			% funktioniert nur wenn x_j reell damit Im(x_j) = 0 ist und somit x_j = Conj(x_j)
 		\end{align*}
 		\\ $\Rightarrow$ es reicht DFT von Datenwerten $x_j$ \\ \hskip 1.25em mit $j \in [0,n/2]$ zu berechnen
@@ -69,7 +69,20 @@
 	\framesubtitle{\insertsubsection}
 	
 	\begin{itemize}
-		\item DFT als Matrix, IDFT als Matrix unitäre Matrix, Normalisierungfaktor
+		\item im Grunde ist IDFT nur eine DFT mit Normalisierungsfaktor
+		\\ $x_j = \frac{1}{n} \sum\limits_{k=0}^{n-1} \beta_k e^{2\pi i \frac{jk}{n}} \enspace ; j=0,\ldots,n-1$ \vspace{0.5em}
+		\item Matrix-Schreibweise: \\ %\vspace{0.25em}
+		$\begin{bmatrix}
+			\omega^{jk}
+		\end{bmatrix}
+		\begin{bmatrix}
+			\omega^{jk}
+		\end{bmatrix}^\dag
+		= n \cdot E_n
+		\enspace; j,k=0,\ldots,n-1$
+		\item[] mit $\omega = e^{-2\pi i \frac{1}{n}}$
+		%\vspace{0.5em}
+		\item auch IFFT existiert um IDFT zu berechnen
 	\end{itemize}
 \end{frame}
 
@@ -77,11 +90,36 @@
 \subsection{Konvergenzverhalten, Fehleranalyse}
 \begin{frame}{\insertsection}
 	\framesubtitle{\insertsubsection}
-	
 	\begin{itemize}
-		\item Vandermonde-Matrix
+		\vspace{1em}
+		\item Fourier-Reihe konvergiert punktweise\myfootcite{KonvergenzFourierReihe},
+		\\ gleichmäßige Konvergenz in kompakten Intervallen in denen $f(t)$ stetig ist
+		\item Gibbssches Phänomen: Überschwingung an Unstetigkeitsstellen um mind. $9\%$ bei abgebrochener Fourier-Reihe
+	\end{itemize}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.15]{images/gibbs.png}
+		\caption*{\centering Gibbsches Phänomen, \\ \href{https://resources.altium.com/de/p/how-gibbs-phenomenon-produces-measurement-artifacts}{https://resources.altium.com/de/p/how-gibbs-phenomenon-produces-measurement-artifacts}}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{\insertsection}
+	\framesubtitle{\insertsubsection}
+	\begin{itemize}
+		\item DFT als Matrix ist eine Vandermonde-Matrix: \\ \vspace{0.5em}
+		$\begin{bmatrix}
+			1 & 1 & 1 & \cdots & 1 \\
+			1 & \omega & \omega^2 & \cdots & \omega^{n-1} \\
+			1 & \omega^2 & (\omega^2)^2 & \cdots & (\omega^2)^{n-1} \\
+			\vdots & \vdots & \vdots & \ddots & \vdots \\
+			1 & \omega^{n-1} & (\omega^{n-1})^2 & \cdots & (\omega^{n-1})^{n-1} \\
+		\end{bmatrix} $ \vspace{0.5em}
+		\item Vandermonde-Matrizen sind grundsätzlich schlecht konditioniert,
+		%$det = \prod\limits_{0 \le i < j \le n} (x_j - x_i)$
+		Ausname: DFT ist gut konditioniert\myfootcite{VandermondeCondition}
 	\end{itemize}
 \end{frame}
+
 
 \subsection{Leck-Effekt, Fensterfunktionen}
 \begin{frame}{\insertsection}

@@ -7,18 +7,28 @@
 		\item Amplitude der zu filternden Frequenzen auf $0$ setzen
 		\item IDFT anwenden um das gefilterte zeitdiskrete Signal zu erhalten
 	\end{enumerate}
-	\begin{itemize}
-		\item Pitfalls: 
-	\end{itemize}
 \end{frame}
 
 \subsection{Was kann schon schief gehen?}
 \begin{frame}{\insertsection}
 	\framesubtitle{\insertsubsection}
 	\begin{itemize}
-		\item Multiplizieren der zu filternden Frequenzanteile mit $0$ ist dasselbe wie ein Rechteck-Fenster anzuwenden
-		\\ $\Rightarrow$ Faltungssatz greift erneut\\(IDFT von Rechteck-Fenster ist wieder Sinc-Funktion)
-		\\ $\Rightarrow$ Frequenzanteile die nicht gefiltert werden sollen, werden auch (leicht) beeinflusst
-		\item Lösung: Eine andere Fenster-Funktion als das Rechteck-Fenster zum Filtern verwenden
+		\vspace{1em}
+		\item Multiplizieren der zu filternden Frequenzanteile mit $0$ ist dasselbe wie Rechteck-Fenster anwenden
+		\\ $\Rightarrow$ Faltungssatz greift erneut%\\ IDFT von Rechteck-Fenster ist wieder Sinc-Funktion
+		\\ $\Rightarrow$ Frequenzanteile die nicht gefiltert werden sollen, \\ \hskip 1.25em werden auch (leicht) beeinflusst
+	\end{itemize}
+	\begin{figure}
+		\includegraphics[height=0.3\textheight]{images/rectFilter\_impulseresponse.png}
+		\caption*{\centering Idealer vs Realisierbarer Bandpass-Filter, \\ \href{https://dsp.stackexchange.com/a/37662}{https://dsp.stackexchange.com/a/37662}}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{\insertsection}
+	\framesubtitle{\insertsubsection}
+	\begin{itemize}
+		\item Lösung: Fensterfunktion wird auf Rechteck-Fenster angewendet
+		\item Frequenzen die nicht gefiltert werden sollen,\\ werden nun kaum beeinflusst
+		\item filtert Frequenzen nicht auf $0$,\\ ein kleiner Frequenzanteil bleibt 
 	\end{itemize}
 \end{frame}
