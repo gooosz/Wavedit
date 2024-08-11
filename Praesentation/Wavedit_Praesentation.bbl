@@ -64,6 +64,43 @@
       \verb https://en.wikipedia.org/wiki/44,100_Hz
       \endverb
     \endentry
+    \entry{stoerBulirsch}{book}{}
+      \name{author}{2}{}{%
+        {{hash=9649e393ce1009a37d25401efd083de3}{%
+           family={Freund},
+           familyi={F\bibinitperiod},
+           given={R.W.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=c673f45d2482afe9f1f4db1de9d8bfc2}{%
+           family={Hoppe},
+           familyi={H\bibinitperiod},
+           given={R.W.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer Berlin Heidelberg}%
+      }
+      \strng{namehash}{1a6838e6b2e13f62d9d8e32bfd4b1c5d}
+      \strng{fullhash}{1a6838e6b2e13f62d9d8e32bfd4b1c5d}
+      \strng{bibnamehash}{1a6838e6b2e13f62d9d8e32bfd4b1c5d}
+      \strng{authorbibnamehash}{1a6838e6b2e13f62d9d8e32bfd4b1c5d}
+      \strng{authornamehash}{1a6838e6b2e13f62d9d8e32bfd4b1c5d}
+      \strng{authorfullhash}{1a6838e6b2e13f62d9d8e32bfd4b1c5d}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{9783540453901}
+      \field{series}{Springer-Lehrbuch}
+      \field{title}{Stoer/Bulirsch: Numerische Mathematik 1}
+      \field{year}{2007}
+      \verb{urlraw}
+      \verb https://books.google.de/books?id=2aYfBAAAQBAJ
+      \endverb
+      \verb{url}
+      \verb https://books.google.de/books?id=2aYfBAAAQBAJ
+      \endverb
+    \endentry
     \entry{MenschlicheHoerfrequenz}{misc}{}
       \list{publisher}{1}{%
         {Deutscher Bundesverband der Hals-Nasen-Ohrenärzte e.V.}%
@@ -196,6 +233,35 @@
       \endverb
       \verb{url}
       \verb https://arxiv.org/abs/1504.02118
+      \endverb
+    \endentry
+    \entry{frequencyBins}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=c10560475134b726b4b7cb2b0647f66c}{%
+           family={R},
+           familyi={R\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{c10560475134b726b4b7cb2b0647f66c}
+      \strng{fullhash}{c10560475134b726b4b7cb2b0647f66c}
+      \strng{bibnamehash}{c10560475134b726b4b7cb2b0647f66c}
+      \strng{authorbibnamehash}{c10560475134b726b4b7cb2b0647f66c}
+      \strng{authornamehash}{c10560475134b726b4b7cb2b0647f66c}
+      \strng{authorfullhash}{c10560475134b726b4b7cb2b0647f66c}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Stack Overflow}
+      \field{month}{12}
+      \field{title}{How do I obtain the frequencies of each value in an FFT?}
+      \field{year}{2010}
+      \verb{urlraw}
+      \verb https://stackoverflow.com/a/4371627
+      \endverb
+      \verb{url}
+      \verb https://stackoverflow.com/a/4371627
       \endverb
     \endentry
     \entry{dspguide:3:nyquist}{book}{}

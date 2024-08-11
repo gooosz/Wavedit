@@ -24,6 +24,13 @@
 \let\oldfootnotesize\footnotesize
 \renewcommand*{\footnotesize}{\oldfootnotesize\scriptsize}
 
+\newcommand{\blfootnote}[1]{%
+	\begingroup
+	\renewcommand\thefootnote{}\footnote[frame]{\cite{#1}}%
+	\addtocounter{footnote}{-1}%
+	\endgroup
+}
+
 
 \usetheme[width=1.9cm]{Hannover}
 \usecolortheme{seagull}

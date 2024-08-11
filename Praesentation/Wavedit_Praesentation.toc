@@ -4,11 +4,12 @@
 \beamer@sectionintoc {4}{Fourier Transformation}{6}{0}{3}
 \beamer@subsectionintoc {4}{1}{DFT, FFT}{6}{0}{3}
 \beamer@subsectionintoc {4}{2}{Performance}{8}{0}{3}
-\beamer@subsectionintoc {4}{3}{IDFT}{9}{0}{3}
-\beamer@subsectionintoc {4}{4}{Konvergenzverhalten, Fehleranalyse}{10}{0}{3}
-\beamer@subsectionintoc {4}{5}{Leck-Effekt, Fensterfunktionen}{12}{0}{3}
-\beamer@sectionintoc {5}{Frequenzen filtern}{14}{0}{4}
-\beamer@subsectionintoc {5}{1}{Vorgehensweise}{14}{0}{4}
-\beamer@subsectionintoc {5}{2}{Was kann schon schief gehen?}{15}{0}{4}
-\beamer@sectionintoc {6}{Demonstration des Programms}{17}{0}{5}
-\beamer@sectionintoc {7}{Fazit}{20}{0}{6}
+\beamer@subsectionintoc {4}{3}{Frequency bins}{9}{0}{3}
+\beamer@subsectionintoc {4}{4}{IDFT}{10}{0}{3}
+\beamer@subsectionintoc {4}{5}{Konvergenzverhalten, Fehleranalyse}{11}{0}{3}
+\beamer@subsectionintoc {4}{6}{Leck-Effekt, Fensterfunktionen}{13}{0}{3}
+\beamer@sectionintoc {5}{Frequenzen filtern}{15}{0}{4}
+\beamer@subsectionintoc {5}{1}{Vorgehensweise}{15}{0}{4}
+\beamer@subsectionintoc {5}{2}{Was kann schon schief gehen?}{16}{0}{4}
+\beamer@sectionintoc {6}{Demonstration des Programms}{18}{0}{5}
+\beamer@sectionintoc {7}{Fazit}{21}{0}{6}
