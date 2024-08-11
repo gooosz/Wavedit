@@ -284,8 +284,6 @@ void MyWindow::onMouseClick(QMouseEvent *ev)
 	wavfourier->filter(fft, idxOfPeak);
 	// do ifft
 	QVector<double> filteredData = wavfourier->real(wavfourier->IFFT(fft));
-	// undo previous apply of window function
-	wavfourier->undoWindowFunction(filteredData);
 
 	// Plot the filtered FFT (to see the changed spectral components)
 	QVector<double> filteredFreq = wavfourier->Freq(nextPowOf2(filteredData.size()), wavfourier->getSampleRate());
@@ -295,6 +293,8 @@ void MyWindow::onMouseClick(QMouseEvent *ev)
 
 	// filteredData contains the padded zeros aswell, remove them before writing to file
 	filteredData.resize(wavfourier->getOriginalDataSize());
+	// undo previous apply of window function
+	wavfourier->undoWindowFunction(filteredData);
 
 	// write back to new file with name file_filtered<freq>Hz.wav, freq only with 2 decimal places
 	QString filename = QString("%1_filtered%2Hz.wav").arg(wav_filename).arg(freq, 0, 'f', 2);
