@@ -284,6 +284,8 @@ void MyWindow::onMouseClick(QMouseEvent *ev)
 	wavfourier->filter(fft, idxOfPeak);
 	// do ifft
 	QVector<double> filteredData = wavfourier->real(wavfourier->IFFT(fft));
+	// undo previous apply of window function
+	wavfourier->undoWindowFunction(filteredData);
 
 	// Plot the filtered FFT (to see the changed spectral components)
 	QVector<double> filteredFreq = wavfourier->Freq(nextPowOf2(filteredData.size()), wavfourier->getSampleRate());

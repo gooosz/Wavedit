@@ -437,9 +437,24 @@ void WavFourier::undoWindowFunction(QVector<complex> &vec, std::function<double(
 {
 	int N = vec.size();
 	for (int i=0; i<vec.size(); i++) {
-		vec[i] = vec[i] / window(i, N);
+		// avoid dividing by zero
+		if (window(i,N) != 0) {
+			vec[i] = vec[i] / window(i, N);
+		}
 	}
 }
+
+void WavFourier::undoWindowFunction(QVector<double> &vec, std::function<double(double,double)> window)
+{
+	int N = vec.size();
+	for (int i=0; i<vec.size(); i++) {
+		// avoid dividing by zero
+		if (window(i,N) != 0) {
+			vec[i] = vec[i] / window(i, N);
+		}
+	}
+}
+
 
 
 // -------Window functions-------

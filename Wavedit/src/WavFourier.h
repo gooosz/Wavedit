@@ -77,6 +77,7 @@ public:
 	void applyWindowFunction(QVector<complex> &vec, std::function<double(double,double)> window = WindowFunction::hamming);
 	// undo a previous apply of window function
 	void undoWindowFunction(QVector<complex> &vec, std::function<double(double,double)> window = WindowFunction::hamming);
+	void undoWindowFunction(QVector<double> &vec, std::function<double(double,double)> window = WindowFunction::hamming);
 
 	QVector<double> getStuetzstellen(int size);	// returns stuetzstelle x_k of data point x using (2*M_PI*k)/n
 	QVector<double> Freq(int size, double sample_rate=1.0);		// returns the DFT sample frequency bin centers

@@ -7,7 +7,7 @@
 		\item FFT: Voraussetzung $n = 2^\psi; \psi \in \mathbb{N}_0$ (Radix-2-FFT)
 		% Wenn Voraussetzung mit gegebenen Daten nicht erreicht, hänge soviele 0 an die Daten hinten ran
 		% bis die Anzahl eine Zweierpotenz ist, 0 fügen keinen Frequenzanteil bzw. keine Informationen hinzu
-		\\ $\Rightarrow$ Divide-and-Conquer, berechne Fourier-Koeffizienten \\ \hskip 1.25em in $2$ Hälften \\
+		\\ $\Rightarrow$ Divide-and-Conquer, berechne Fourier-Koeffizienten \\ \hskip 1.35em in $2$ Hälften \\
 		Sei $m = \frac{n}{2}; \enspace \varepsilon_\psi = e^{-\frac{2\pi i}{2^\psi}}$ \newline
 		\small{$\beta_{2\kappa} = \sum\limits_{k=0}^{m-1} (x_k+x_{k+m})\varepsilon_{\psi-1}^{\kappa k} ; \enspace \kappa = 0,\ldots,m-1$}
 		\small{$\beta_{2\kappa+1} = \sum\limits_{k=0}^{m-1} ((x_k-x_{k+m})\varepsilon_{\psi}^{\kappa k})\varepsilon_{\psi-1}^{\kappa k}$}
@@ -26,7 +26,7 @@
 			& =  \sum\limits_{k=0}^{n-1} \overline{x_k \cdot e^{-2\pi i \frac{jk}{n}}} = \overline{\beta_j}
 			% funktioniert nur wenn x_j reell damit Im(x_j) = 0 ist und somit x_j = Conj(x_j)
 		\end{align*}
-		\\ $\Rightarrow$ es reicht DFT von Datenwerten $x_j$ \\ \hskip 1.25em mit $j \in [0,n/2]$ zu berechnen
+		\\ $\Rightarrow$ es reicht DFT von Datenwerten $x_j$ \\ \hskip 1.35em mit $j \in [0,n/2]$ zu berechnen
 	\end{itemize}
 \end{frame}
 
@@ -163,12 +163,12 @@
 				  % Faltungssatz: Multiplikation im Zeitbereich ist Faltung der Fourier Transformierten und andersherum
 				  % => Frequenzspektrum ist die Faltung aus DFT(Daten), DFT(Rechteck)
 				  % wobei DFT(Rechteck) die Sinc-Funktion ist und diese hat Ripples
-		\begin{figure}
-			\centering
-			\includegraphics[scale=0.4]{images/appliedWindowFunction2.jpg}
-			\caption*{\centering Anwendung des Von-Hann-Fensters,\\ \href{https://www.modalshop.com/rental/learn/basics/how-to-choose-fft-window}{\tiny https://www.modalshop.com/rental/learn/basics/how-to-choose-fft-window}}
-		\end{figure}
 	\end{itemize}
+	\begin{figure}
+		\centering
+		\includegraphics[scale=0.4]{images/appliedWindowFunction2.jpg}
+		\caption*{\centering Anwendung des Von-Hann-Fensters,\\ \href{https://www.modalshop.com/rental/learn/basics/how-to-choose-fft-window}{\tiny https://www.modalshop.com/rental/learn/basics/how-to-choose-fft-window}}
+	\end{figure}
 \end{frame}
 
 
