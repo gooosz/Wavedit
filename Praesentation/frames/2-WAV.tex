@@ -36,6 +36,6 @@
 		\\  Menschen hören Töne im Bereich $\SI{20}{\hertz}-\SI{20}{\kilo\hertz}$ \myfootcite{MenschlicheHoerfrequenz}
 		\item Analoges Signal wird durch lineare Pulse Code Modulation (PCM)  in ein digitales Signal umgewandelt (verlustfrei)
 		\item PCM kodiert Daten oft als $\SI{16}{\bit}$ signed integer,
-		\\ jeder Datenwert liegt im Bereich $[-32767, 32767]$
+		\\ jeder Datenwert liegt im Bereich $[-32768, 32767]$ % bzw. [-32767, 32767] weil Symmetrie einfacher zu handhaben ist
 	\end{itemize}
 \end{frame}

@@ -264,6 +264,37 @@
       \verb https://stackoverflow.com/a/4371627
       \endverb
     \endentry
+    \entry{convolutionTheorem}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=1e06b0da6cd7c28b3a8acf6b5d211e67}{%
+           family={Read},
+           familyi={R\bibinitperiod},
+           given={Randy\bibnamedelima J.},
+           giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {University of Cambridge}%
+      }
+      \strng{namehash}{1e06b0da6cd7c28b3a8acf6b5d211e67}
+      \strng{fullhash}{1e06b0da6cd7c28b3a8acf6b5d211e67}
+      \strng{bibnamehash}{1e06b0da6cd7c28b3a8acf6b5d211e67}
+      \strng{authorbibnamehash}{1e06b0da6cd7c28b3a8acf6b5d211e67}
+      \strng{authornamehash}{1e06b0da6cd7c28b3a8acf6b5d211e67}
+      \strng{authorfullhash}{1e06b0da6cd7c28b3a8acf6b5d211e67}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{4}
+      \field{title}{The convolution theorem and its applications}
+      \field{year}{2009}
+      \verb{urlraw}
+      \verb https://www-structmed.cimr.cam.ac.uk/Course/Convolution/convolution.html#conv_theorem
+      \endverb
+      \verb{url}
+      \verb https://www-structmed.cimr.cam.ac.uk/Course/Convolution/convolution.html#conv_theorem
+      \endverb
+    \endentry
     \entry{dspguide:3:nyquist}{book}{}
       \name{author}{1}{}{%
         {{hash=1795fe90e11d3a84947c656b94c2fd87}{%

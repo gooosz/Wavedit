@@ -50,35 +50,41 @@
 \headcommand {\beamer@framepages {13}{13}}
 \headcommand {\slideentry {4}{6}{2}{14/14}{Leck-Effekt, Fensterfunktionen}{0}}
 \headcommand {\beamer@framepages {14}{14}}
-\headcommand {\beamer@sectionpages {6}{14}}
-\headcommand {\beamer@subsectionpages {13}{14}}
-\headcommand {\sectionentry {5}{Frequenzen filtern}{15}{Frequenzen filtern}{0}}
-\headcommand {\beamer@subsectionpages {15}{14}}
-\headcommand {\beamer@subsectionentry {0}{5}{1}{15}{Vorgehensweise}}
-\headcommand {\slideentry {5}{1}{1}{15/15}{Vorgehensweise}{0}}
+\headcommand {\slideentry {4}{6}{3}{15/15}{Leck-Effekt, Fensterfunktionen}{0}}
 \headcommand {\beamer@framepages {15}{15}}
-\headcommand {\beamer@subsectionpages {15}{15}}
-\headcommand {\beamer@subsectionentry {0}{5}{2}{16}{Was kann schon schief gehen?}}
-\headcommand {\slideentry {5}{2}{1}{16/16}{Was kann schon schief gehen?}{0}}
+\headcommand {\beamer@sectionpages {6}{15}}
+\headcommand {\beamer@subsectionpages {13}{15}}
+\headcommand {\sectionentry {5}{Frequenzen filtern}{16}{Frequenzen filtern}{0}}
+\headcommand {\beamer@subsectionpages {16}{15}}
+\headcommand {\beamer@subsectionentry {0}{5}{1}{16}{Vorgehensweise}}
+\headcommand {\slideentry {5}{1}{1}{16/16}{Vorgehensweise}{0}}
 \headcommand {\beamer@framepages {16}{16}}
-\headcommand {\slideentry {5}{2}{2}{17/17}{Was kann schon schief gehen?}{0}}
+\headcommand {\beamer@subsectionpages {16}{16}}
+\headcommand {\beamer@subsectionentry {0}{5}{2}{17}{Was kann schon schief gehen?}}
+\headcommand {\slideentry {5}{2}{1}{17/17}{Was kann schon schief gehen?}{0}}
 \headcommand {\beamer@framepages {17}{17}}
-\headcommand {\beamer@sectionpages {15}{17}}
-\headcommand {\beamer@subsectionpages {16}{17}}
-\headcommand {\sectionentry {6}{Demonstration des Programms}{18}{Demonstration des Programms}{0}}
-\headcommand {\slideentry {6}{0}{1}{18/18}{}{0}}
+\headcommand {\slideentry {5}{2}{2}{18/18}{Was kann schon schief gehen?}{0}}
 \headcommand {\beamer@framepages {18}{18}}
-\headcommand {\slideentry {6}{0}{2}{19/19}{}{0}}
+\headcommand {\beamer@sectionpages {16}{18}}
+\headcommand {\beamer@subsectionpages {17}{18}}
+\headcommand {\sectionentry {6}{Demonstration des Programms}{19}{Demonstration des Programms}{0}}
+\headcommand {\slideentry {6}{0}{1}{19/19}{}{0}}
 \headcommand {\beamer@framepages {19}{19}}
-\headcommand {\slideentry {6}{0}{3}{20/20}{}{0}}
+\headcommand {\slideentry {6}{0}{2}{20/20}{}{0}}
 \headcommand {\beamer@framepages {20}{20}}
-\headcommand {\beamer@sectionpages {18}{20}}
-\headcommand {\beamer@subsectionpages {18}{20}}
-\headcommand {\sectionentry {7}{Fazit}{21}{Fazit}{0}}
-\headcommand {\slideentry {7}{0}{1}{21/21}{}{0}}
+\headcommand {\slideentry {6}{0}{3}{21/21}{}{0}}
 \headcommand {\beamer@framepages {21}{21}}
-\headcommand {\beamer@partpages {1}{21}}
-\headcommand {\beamer@subsectionpages {21}{21}}
-\headcommand {\beamer@sectionpages {21}{21}}
-\headcommand {\beamer@documentpages {21}}
-\headcommand {\gdef \inserttotalframenumber {21}}
+\headcommand {\slideentry {6}{0}{4}{22/22}{}{0}}
+\headcommand {\beamer@framepages {22}{22}}
+\headcommand {\slideentry {6}{0}{5}{23/23}{}{0}}
+\headcommand {\beamer@framepages {23}{23}}
+\headcommand {\beamer@sectionpages {19}{23}}
+\headcommand {\beamer@subsectionpages {19}{23}}
+\headcommand {\sectionentry {7}{Fazit}{24}{Fazit}{0}}
+\headcommand {\slideentry {7}{0}{1}{24/24}{}{0}}
+\headcommand {\beamer@framepages {24}{24}}
+\headcommand {\beamer@partpages {1}{24}}
+\headcommand {\beamer@subsectionpages {24}{24}}
+\headcommand {\beamer@sectionpages {24}{24}}
+\headcommand {\beamer@documentpages {24}}
+\headcommand {\gdef \inserttotalframenumber {24}}

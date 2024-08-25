@@ -8,8 +8,8 @@
 \beamer@subsectionintoc {4}{4}{IDFT}{10}{0}{3}
 \beamer@subsectionintoc {4}{5}{Konvergenzverhalten, Fehleranalyse}{11}{0}{3}
 \beamer@subsectionintoc {4}{6}{Leck-Effekt, Fensterfunktionen}{13}{0}{3}
-\beamer@sectionintoc {5}{Frequenzen filtern}{15}{0}{4}
-\beamer@subsectionintoc {5}{1}{Vorgehensweise}{15}{0}{4}
-\beamer@subsectionintoc {5}{2}{Was kann schon schief gehen?}{16}{0}{4}
-\beamer@sectionintoc {6}{Demonstration des Programms}{18}{0}{5}
-\beamer@sectionintoc {7}{Fazit}{21}{0}{6}
+\beamer@sectionintoc {5}{Frequenzen filtern}{16}{0}{4}
+\beamer@subsectionintoc {5}{1}{Vorgehensweise}{16}{0}{4}
+\beamer@subsectionintoc {5}{2}{Was kann schon schief gehen?}{17}{0}{4}
+\beamer@sectionintoc {6}{Demonstration des Programms}{19}{0}{5}
+\beamer@sectionintoc {7}{Fazit}{24}{0}{6}

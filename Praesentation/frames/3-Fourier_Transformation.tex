@@ -77,7 +77,7 @@
 			& \ldots
 		\end{matrix}$ \vspace{0.5em}
 		\\ $\Rightarrow$ Je mehr Datenpunkte, desto schmaler \\ \hskip 1.35em werden die frequency bins
-		\item Nyquist-Frequenz gehört zu Bin $n/2$
+		\item Nyquist-Frequenz gehört zu bin $n/2$
 		\item Frequenzspektrum: Frequenz $f_i$ hat Amplitude $|\beta_i|$
 	\end{itemize}
 \end{frame}
@@ -112,7 +112,7 @@
 		\vspace{1em}
 		\item Fourier-Reihe konvergiert punktweise\myfootcite{KonvergenzFourierReihe},
 		\\ gleichmäßige Konvergenz in kompakten Intervallen in denen $f(t)$ stetig ist
-		\item Gibbssches Phänomen: Überschwingung an Unstetigkeitsstellen um mind. $9\%$ bei abgebrochener Fourier-Reihe
+		\item Gibbssches Phänomen: Überschwingung an Unstetigkeitsstellen um ca. $9\%$ bei abgebrochener Fourier-Reihe
 	\end{itemize}
 	\begin{figure}
 		\centering
@@ -134,7 +134,8 @@
 		\end{bmatrix} $ \vspace{0.5em}
 		\item Vandermonde-Matrizen sind grundsätzlich schlecht konditioniert,
 		%$det = \prod\limits_{0 \le i < j \le n} (x_j - x_i)$
-		Ausname: DFT ist gut konditioniert\myfootcite{VandermondeCondition}
+		Ausname: DFT ist gut konditioniert\myfootcite{VandermondeCondition}, \\
+		weil die Knotenpunkte zueinander äquidistant auf dem Einheitskreis liegen
 	\end{itemize}
 \end{frame}
 
@@ -166,6 +167,21 @@
 		\end{column}
 	\end{columns}
 \end{frame}
+
+\begin{frame}{Faltung}
+	\begin{itemize}
+		\item $(f * g)(x) := {\displaystyle \int} f(\tau)g(x-\tau) d\tau \quad; f,g: \mathbb{R}^n \rightarrow \mathbb{C}$ \vspace{0.5em}
+		\item $f(\tau)$ gewichtet wie sehr der um $\tau$ zurückliegende Wert in $g$, also $g(x-\tau)$, in das Ergebnis zum Zeitpunkt $x$ eingehen soll \vspace{0.5em}
+		% Man gewichtet eine zeitabhängige Funktion f um einen um tau zurückliegenden Wert g(t-tau)
+		\item Faltungstheorem: \blfootnote{convolutionTheorem} \begin{align*}
+			\mathcal{F}(f * g) & = \mathcal{F}(f) \cdot \mathcal{F}(g) \\
+			\mathcal{F}(f \cdot g) & = \mathcal{F}(f) * \mathcal{F}(g) \\
+			\mathcal{F}^{-1}(\mathcal{F}(f) \cdot \mathcal{F}(g)) & = \mathcal{F}^{-1}(\mathcal{F}(f) * \mathcal{F}(g))
+		\end{align*}
+	\end{itemize}
+	
+\end{frame}
+
 
 \begin{frame}{\insertsection}
 	\framesubtitle{\insertsubsection}
